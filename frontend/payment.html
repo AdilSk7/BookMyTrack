@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookMyTrack - Payment</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="payment.css">
+  <script src="api.js"></script>
+  <script src="auth-guard.js"></script>
+  <style>
+    /* small helpers so summary looks nice even without payment.css */
+    .fare-summary {
+      margin: 12px 0 18px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      line-height: 1.4;
+    }
+    .fare-summary h2 {
+      margin: 0 0 6px 0;
+      font-size: 18px;
+      color: #ffd166;
+    }
+    .fare-summary .line { margin: 2px 0; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">BookMyTrack</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="reservation.html">Reservation</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="fare.html">Fare</a>
+      <a href="pnr.html">PNR</a>
+      <a href="mybookings.html">My Bookings</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="buttons">
+      <a href="login.html"><button>Login</button></a>
+      <a href="registration.html"><button>Sign up</button></a>
+    </div>
+  </nav>
+
+  <!-- Payment Section -->
+  <div class="payment-container">
+    <h1>Payment</h1>
+
+    <!-- Fare Summary (fills on load) -->
+    <div id="fareSummary" class="fare-summary" hidden>
+      <h2>Fare Summary</h2>
+      <div class="line"><b>PNR:</b> <span id="sumPNR">—</span></div>
+      <div class="line"><b>Amount to Pay:</b> ₹<span id="sumAmount">0</span></div>
+    </div>
+
+    <!-- Payment Form -->
+    <form id="paymentForm" autocomplete="off">
+      <label>Cardholder Name:</label>
+      <input type="text" name="cardname" placeholder="Enter cardholder name" required>
+
+      <label>Card Number:</label>
+      <input type="text" name="cardnumber" placeholder="16-digit card number" inputmode="numeric" maxlength="16" required>
+
+      <label>Expiry Date:</label>
+      <input type="month" name="expiry" required>
+
+      <label>CVV:</label>
+      <input type="password" name="cvv" placeholder="XXX" inputmode="numeric" maxlength="3" required>
+
+      <label>Or UPI ID:</label>
+      <input type="text" name="upi" placeholder="example@upi" inputmode="email">
+
+      <button type="submit" id="payBtn">Pay Now</button>
+    </form>
+
+    <div id="message" role="status" aria-live="polite" style="margin-top:10px;"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2024 Railway Reservation Management System. All rights reserved.
+  </footer>
+
+  <!-- JS -->
+  <script>
+    const paymentForm = document.getElementById('paymentForm');
+    const messageDiv  = document.getElementById('message');
+    const payBtn      = document.getElementById('payBtn');
+
+    const fareSummary = document.getElementById('fareSummary');
+    const sumPNR      = document.getElementById('sumPNR');
+    const sumAmount   = document.getElementById('sumAmount');
+
+    function setMsg(text, color) {
+      messageDiv.style.color = color || '#ddd';
+      messageDiv.textContent = text;
+    }
+
+    // Validate either card OR UPI path
+    function validateInputs() {
+      const cardNum = paymentForm.cardnumber.value.trim();
+      const cvv     = paymentForm.cvv.value.trim();
+      const expiry  = paymentForm.expiry.value.trim();
+      const upi     = paymentForm.upi.value.trim();
+
+      // If UPI provided → skip card checks
+      if (upi) {
+        if (!/^[\w.-]+@[\w.-]+$/.test(upi)) return 'Invalid UPI ID.';
+        return null;
+      }
+
+      // Card path
+      if (!/^\d{16}$/.test(cardNum)) return 'Card number must be 16 digits.';
+      if (!/^\d{3}$/.test(cvv)) return 'CVV must be 3 digits.';
+      if (!/^\d{4}-\d{2}$/.test(expiry)) return 'Expiry must be YYYY-MM format.';
+
+      const [year, month] = expiry.split('-').map(Number);
+      const now = new Date();
+      const currentYear  = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+      if (year < currentYear || (year === currentYear && month < currentMonth)) {
+        return 'Card expired.';
+      }
+
+      return null;
+    }
+
+    // Ensure we have a payable amount; if not in localStorage, fetch by PNR
+    async function hydrateFareFromServerIfNeeded(pnr, amount) {
+      if (amount > 0) return amount;
+      if (!pnr) return 0;
+      if (typeof API_BASE === 'undefined') return 0;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/reservation/pnr/${pnr}`);
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && typeof data.fareTotal === 'number') {
+          localStorage.setItem('lastAmount', String(data.fareTotal));
+          return Number(data.fareTotal);
+        }
+      } catch (e) { /* ignore; UI will keep fallback */ }
+      return amount;
+    }
+
+    // Show PNR + amount to pay on load
+    async function renderFareSummary() {
+      const pnrLocal = localStorage.getItem('lastPNR') || '';
+      let amountLocal = Number(localStorage.getItem('lastAmount') || 0);
+
+      // Try fetch from server if missing
+      amountLocal = await hydrateFareFromServerIfNeeded(pnrLocal, amountLocal);
+
+      if (!pnrLocal || !amountLocal) {
+        // If still missing, guide user
+        setMsg('No booking found. Please book a ticket first.', 'red');
+        return;
+      }
+
+      sumPNR.textContent = pnrLocal;
+      sumAmount.textContent = amountLocal.toString();
+      fareSummary.hidden = false;
+
+      // Also mirror in the message area for clarity
+      setMsg(`Amount to Pay: ₹${amountLocal}`, '#ddd');
+    }
+
+    // ----- On submit: pay + confirm + assign seats -----
+    paymentForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Guard: API base available?
+      if (typeof API_BASE === 'undefined') {
+        return setMsg('API_BASE is not defined. Make sure api.js is loaded.', 'red');
+      }
+
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return (location.href = 'login.html');
+
+      const pnr           = localStorage.getItem('lastPNR');
+      let amount          = Number(localStorage.getItem('lastAmount') || 0);
+      const reservationId = localStorage.getItem('lastReservationId') || '';
+
+      if (!pnr) {
+        alert('No booking found. Please book a ticket first.');
+        return (location.href = 'reservation.html');
+      }
+      if (!reservationId) {
+        return setMsg('No reservation ID found. Please book again.', 'red');
+      }
+
+      // If amount missing for some reason, try to hydrate once more
+      if (!amount) {
+        amount = await hydrateFareFromServerIfNeeded(pnr, 0);
+        if (!amount) return setMsg('Fare not available. Please re-book.', 'red');
+      }
+
+      const error = validateInputs();
+      if (error) return setMsg(error, 'yellow');
+
+      const paymentData = {
+        userId: user._id,
+        reservationId,
+        pnr,
+        amount,
+        method: paymentForm.upi.value ? 'upi' : 'card',
+        cardNumber: paymentForm.cardnumber.value,
+        upi: paymentForm.upi.value
+      };
+
+      payBtn.disabled = true;
+
+      try {
+        setMsg('Processing payment…', '#aaa');
+
+        // 1) Charge/payment record
+        const payRes = await fetch(`${API_BASE}/api/payment/pay`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(paymentData)
+        });
+
+        const payData = await payRes.json().catch(() => ({}));
+        if (!payRes.ok) {
+          setMsg(payData?.error || `Payment failed (HTTP ${payRes.status}).`, 'red');
+          payBtn.disabled = false;
+          return;
+        }
+
+        // 2) Confirm reservation + assign seats at payment time
+        setMsg('Payment success. Assigning seats…', '#aaa');
+
+        const confRes = await fetch(`${API_BASE}/api/reservation/confirm-pay/${reservationId}`, {
+          method: 'POST'
+        });
+        const confData = await confRes.json().catch(() => ({}));
+
+        if (!confRes.ok) {
+          setMsg(confData?.error || `Payment ok, but seat assignment failed (HTTP ${confRes.status}). Check My Bookings later.`, 'orange');
+        } else {
+          setMsg('Payment complete! Seats assigned. Redirecting to My Bookings…', 'green');
+        }
+
+        // Clear temp state regardless of confirm result (avoid duplicate charges)
+        paymentForm.reset();
+        localStorage.removeItem('lastPNR');
+        localStorage.removeItem('lastReservationId');
+        localStorage.removeItem('lastAmount');
+
+        setTimeout(() => window.location.href = 'mybookings.html', 1200);
+      } catch (err) {
+        console.error(err);
+        setMsg(err?.message || 'Server error', 'yellow');
+        payBtn.disabled = false;
+      }
+    });
+
+    // Kick off summary on page load
+    (async function init() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return (location.href = 'login.html');
+      await renderFareSummary();
+    })();
+  </script>
+
+  <script>
+  // highlight active link
+  (function(){
+    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    document.querySelectorAll('nav .links a').forEach(a=>{
+      const href = (a.getAttribute('href')||'').toLowerCase();
+      if (href === path) a.classList.add('active');
+    });
+  })();
+
+  // shrink nav on scroll
+  (function(){
+    const nav = document.querySelector('nav');
+    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive:true });
+  })();
+</script>
+
+</body>
+</html>

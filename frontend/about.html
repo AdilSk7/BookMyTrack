@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookMyTrack - About</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="about.css">
+  <script src="auth-guard.js"></script>
+
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">BookMyTrack</div>
+     <div class="links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="reservation.html">Reservation</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="fare.html">Fare</a>
+      <a href="pnr.html">PNR</a>
+      <a href="mybookings.html">My Bookings</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="buttons">
+      <a href="login.html"><button>Login</button></a>
+      <a href="registration.html"><button>Sign up</button></a>
+    </div>
+  </nav>
+
+  <!-- About Section -->
+  <div class="about-container">
+    <h1>About Railway Reservation Management System</h1>
+    <p>
+      <strong>BookMyTrack (RRMS)</strong> is a modern Railway Reservation Management System
+      designed to make train travel in India more inclusive, comfortable, and user-friendly.
+      Our platform enhances the traditional IRCTC system by addressing long-standing challenges
+      such as gender inclusivity, seating issues, and accessibility for elderly passengers.
+    </p>
+
+    <h2>Our Purpose</h2>
+    <p>
+      The purpose of RRMS is to provide a railway booking experience that respects and accommodates
+      passengers of all gender identities, while ensuring comfort and convenience for senior citizens
+      through automatic lower berth allocation.
+    </p>
+
+    <h2>Key Features</h2>
+    <ul>
+      <li><strong>Inclusive Gender Options:</strong> Gender-neutral choices and respectful representation for all passengers.</li>
+      <li><strong>Lower Berth Allocation:</strong> Elderly passengers are automatically assigned lower berths for safety and comfort.</li>
+      <li><strong>Family & Group Bookings:</strong> Convenient seat grouping to ensure families and groups travel together.</li>
+      <li><strong>Accessible Seating:</strong> Priority seats and wheelchair-friendly booking options for those in need.</li>
+      <li><strong>User-Friendly Design:</strong> A clean, intuitive interface that makes reservations faster and easier.</li>
+    </ul>
+
+    <h2>Our Mission</h2>
+    <p>
+      Our mission is to build a railway reservation system that not only improves the passenger experience,
+      but also reflects the diversity of India’s travelers. By focusing on inclusivity, accessibility,
+      and user comfort, we aim to set a new benchmark in railway booking services.
+    </p>
+  </div>
+
+  <script>
+  // highlight active link
+  (function(){
+    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    document.querySelectorAll('nav .links a').forEach(a=>{
+      const href = (a.getAttribute('href')||'').toLowerCase();
+      if (href === path) a.classList.add('active');
+    });
+  })();
+
+  // shrink nav on scroll
+  (function(){
+    const nav = document.querySelector('nav');
+    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive:true });
+  })();
+</script>
+
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2024 Railway Reservation Management System. All rights reserved.
+  </footer>
+</body>
+</html>

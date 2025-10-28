@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookMyTrack - Homepage</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="auth-guard.js"></script>
+
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">BookMyTrack</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="reservation.html">Reservation</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="fare.html">Fare</a>
+      <a href="pnr.html">PNR</a>
+      <a href="mybookings.html">My Bookings</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="buttons">
+      <a href="login.html"><button>Login</button></a>
+      <a href="registration.html"><button>Sign up</button></a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Your Safe Travel Journey Is Our Main Goal</h1>
+      <p>India's most trusted platform for online tickets</p>
+      <button class="cta-btn" onclick="window.location.href='reservation.html'">
+        <i class="fas fa-ticket-alt"></i> Get Your Ticket
+      </button>
+    </div>
+    <div class="hero-image">
+      <img src="train.jpg" alt="Train Image">
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Why Choose RRMS?</h2>
+    <div class="feature-cards">
+      <div class="card">
+        <i class="fas fa-users"></i>
+        <h3>Inclusive Booking</h3>
+        <p>Book tickets respecting gender inclusivity and comfort for all passengers.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-chair"></i>
+        <h3>Comfortable Seating</h3>
+        <p>Elder passengers automatically get lower berths for a comfortable journey.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Secure Transactions</h3>
+        <p>Safe and secure ticket booking with encrypted data handling.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Railway Reservation Management System. All rights reserved.</p>
+  </footer>
+  
+</body>
+</html>

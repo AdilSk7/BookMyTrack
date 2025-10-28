@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile - BookMyTrack</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="profile.css" />
+  <script src="api.js"></script>
+  <script src="auth-guard.js" defer></script>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">BookMyTrack</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="reservation.html">Reservation</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="fare.html">Fare</a>
+      <a href="pnr.html">PNR</a>
+      <a href="mybookings.html">My Bookings</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="buttons" id="nav-cta">
+      <a href="login.html"><button>Login</button></a>
+      <a href="registration.html"><button>Sign up</button></a>
+    </div>
+  </nav>
+
+  <div class="profile-container">
+    <h1>My Profile</h1>
+
+    <!-- Static or Default Photo -->
+    <!-- <img id="profilePhoto" class="profile-photo" src="default-profile.png" alt="Profile Photo"> -->
+
+    <div id="msg"></div>
+
+    <!-- User Information -->
+    <div class="user-info">
+      <h3 id="userName"></h3>
+      <p id="userEmail"></p>
+      <p id="userAge"></p>
+      <p id="userGender"></p>
+    </div>
+  </div>
+
+  <footer>
+    © 2024 Railway Reservation Management System. All rights reserved.
+  </footer>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    const profilePhoto = document.getElementById('profilePhoto');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const userAge = document.getElementById('userAge');
+    const userGender = document.getElementById('userGender');
+    const msg = document.getElementById('msg');
+
+    if (!user) {
+      alert('Please log in first!');
+      window.location.href = 'login.html';
+    } else {
+      loadProfile();
+    }
+
+    async function loadProfile() {
+      try {
+        const res = await fetch(`${API_BASE}/api/profile/${user._id}`);
+        const data = await res.json();
+
+        userName.textContent = data.name || '';
+        userEmail.textContent = data.email || '';
+        userAge.textContent = data.age ? `Age: ${data.age}` : '';
+        userGender.textContent = data.gender ? `Gender: ${data.gender}` : '';
+
+        if (data.photo) {
+          profilePhoto.src = `${API_BASE}${data.photo}?t=${Date.now()}`;
+        }
+      } catch (e) {
+        console.error('Profile load error:', e);
+        msg.style.color = 'crimson';
+        msg.textContent = 'Failed to load profile.';
+      }
+    }
+  </script>
+
+</body>
+</html>

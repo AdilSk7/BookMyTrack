@@ -1,0 +1,115 @@
+.pnr-container {
+  background: rgba(0,0,0,0.6);
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 10px;
+  color: white;
+  text-align: left;
+}
+
+.pnr-container h1 {
+  text-align: center;
+  color: orange;
+  margin-bottom: 20px;
+}
+
+.pnr-container label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.pnr-container input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+}
+
+.pnr-container button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 5px;
+  background: #1d9bf0;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pnr-container button:hover {
+  background: #005bb5;
+}
+
+/* .pnr-result {
+  background: rgba(0,128,0,0.7);
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 8px;
+} */
+
+
+
+.pnr-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+    }
+    .pnr-container input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      margin-top: 10px;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .pnr-container button {
+      margin-top: 16px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #1d9bf0;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .pnr-container button[disabled] { opacity: .6; cursor: not-allowed; }
+    .pnr-container button:hover { background: #005bb5; }
+    .pnr-result { margin-top: 20px; text-align: left; }
+    .pnr-card {
+      background: #111;
+      padding: 14px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      border: 1px solid #333;
+    }
+    .pnr-card h3 { margin: 0 0 6px 0; color: orange; }
+    .status-confirmed { color: limegreen; font-weight: bold; }
+    .status-cancelled { color: crimson; font-weight: bold; }
+    .status-paid { color: limegreen; font-weight: bold; }
+
+    /* Fare block */
+    .fare-block {
+      margin: 10px 0 8px;
+      padding: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #fff;
+      line-height: 1.4;
+    }
+    .fare-block b { color: #ffd166; }
+    .fare-breakdown {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }

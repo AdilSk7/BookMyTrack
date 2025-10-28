@@ -1,0 +1,97 @@
+/* ---------- Page basics ---------- */
+body {
+  background: url(pexels-dom-j-7304-297836.jpg) no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+}
+
+nav {
+  background: rgba(0, 0, 0, 0.85);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ---------- Profile card ---------- */
+.profile-container {
+  max-width: 550px;
+  margin: 70px auto;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+}
+
+.profile-container h1 {
+  color: #ffcc00;
+  font-size: 28px;
+  margin: 0 0 18px 0;
+  border-bottom: 2px solid #1d9bf0;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+
+/* ---------- Avatar ----------
+.profile-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #1d9bf0;
+  box-shadow: 0 0 15px #1d9bf0a8;
+  margin: 10px auto 16px;
+  transition: transform 0.2s ease-in-out;
+}
+.profile-photo:hover {
+  transform: scale(1.05);
+} */
+
+/* ---------- Status / messages ---------- */
+#msg {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #bbb; /* default muted */
+}
+
+/* ---------- User info ---------- */
+.user-info {
+  margin-top: 22px;
+  line-height: 1.8;
+}
+.user-info h3 {
+  margin: 5px 0 2px;
+  font-size: 22px;
+  color: #1d9bf0;
+}
+.user-info p {
+  font-size: 15px;
+  color: #ddd;
+  margin: 0;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  margin-top: 50px;
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 480px) {
+  .profile-container {
+    margin: 40px 16px;
+    padding: 22px;
+  }
+  .profile-photo {
+    width: 110px;
+    height: 110px;
+  }
+  .profile-container h1 {
+    font-size: 24px;
+  }
+}
