@@ -7,7 +7,7 @@
 
   const base = isLocal(location.hostname)
     ? 'http://localhost:5000'
-    : 'https://bookmytrack-3.onrender.com/api'; // change this when you deploy
+    : 'https://your-backend-domain.example.com'; // change this when you deploy
 
   window.API_BASE = base;
   console.log('[API_BASE]', window.API_BASE);
