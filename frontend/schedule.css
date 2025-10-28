@@ -1,0 +1,57 @@
+.schedule-container {
+  padding: 40px;
+  background-color: rgba(0,0,0,0.7);
+  border-radius: 15px;
+  margin: 40px auto;
+  max-width: 1000px;
+  color: white;
+}
+
+.schedule-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffb400;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filters input, .filters select {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+#scheduleTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+#scheduleTable th, #scheduleTable td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+#scheduleTable tr:nth-child(even) {
+  background-color: rgba(255,255,255,0.1);
+}
+
+#scheduleTable tr:hover {
+  background-color: rgba(29,155,240,0.3);
+  cursor: pointer;
+}
+
+#scheduleTable th {
+  background-color: #1d9bf0;
+  color: white;
+  cursor: pointer;
+}
+
+#scheduleTable th:hover {
+  background-color: #005bb5;
+}

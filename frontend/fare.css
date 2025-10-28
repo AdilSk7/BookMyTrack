@@ -1,0 +1,85 @@
+.fare-container {
+  background: rgba(0,0,0,0.6);
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 10px;
+  color: white;
+  text-align: left;
+}
+
+.fare-container h1 {
+  text-align: center;
+  color: orange;
+  margin-bottom: 20px;
+}
+
+.fare-container label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.fare-container input,
+.fare-container select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+}
+
+.fare-container button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  background: #1d9bf0;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.fare-container button:hover {
+  background: #005bb5;
+}
+
+
+.fare-wrap{
+      max-width: 900px; margin: 40px auto; padding: 20px;
+      background: rgba(0,0,0,.6); border-radius: 12px; color:#fff;
+    }
+    h1{ text-align:center; color:orange; margin:0 0 14px 0;}
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    label{ display:flex; flex-direction:column; gap:6px; font-weight:700; }
+    input, select{
+      height: 42px; border:1px solid #333; border-radius:8px;
+      background:#121212; color:#fff; padding:10px;
+    }
+    .note{ color:#9ad; font-size: 12px; }
+    .row{ display:flex; gap:10px; align-items:center; }
+    .btn{
+      border:none; border-radius:8px; padding:10px 14px; font-weight:700; cursor:pointer;
+    }
+    .btn-primary{ background:#1d9bf0; color:#fff; }
+    .btn-ghost{ background:transparent; color:#fff; border:1px dashed #555; }
+    .btn-danger{ background:#b00020; color:#fff; }
+    .mt-12{ margin-top:12px; }
+    .mt-16{ margin-top:16px; }
+    .card{ background:#0f0f0f; border:1px solid #222; border-radius:10px; padding:14px; }
+    .passenger-list{ display:flex; flex-direction:column; gap:10px; }
+    .pass-row{
+      display:grid; grid-template-columns: 2fr 1fr 1.4fr 1fr auto; gap:10px; align-items:center;
+    }
+    .breakdown{ margin-top: 14px; }
+    .breakdown .line{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed #2a2a2a; }
+    .breakdown .line:last-child{ border-bottom:none; }
+    .total{ font-size:18px; font-weight:800; color:#9efc9e; }
+    @media(max-width: 780px){
+      .grid{ grid-template-columns: 1fr; }
+      .pass-row{ grid-template-columns: 1fr 1fr; grid-auto-rows: minmax(42px, auto); }
+    }
+
+    

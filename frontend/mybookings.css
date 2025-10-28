@@ -1,0 +1,51 @@
+.bookings-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+    }
+    .booking-card {
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: #121212;
+    }
+    .booking-card h3 {
+      margin: 0 0 6px 0;
+      color: orange;
+    }
+    .booking-details {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .status-confirmed { color: limegreen; font-weight: bold; }
+    .status-cancelled { color: crimson; font-weight: bold; }
+    .status-paid { color: limegreen; font-weight: bold; }
+    .status-pending { color: #ffb020; font-weight: bold; } /* NEW */
+
+    .btn-cancel {
+      background: #b00020;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-cancel:hover { background: #ff0033; }
+    .muted { color: #aab; }
+
+    /* NEW: Pay Now button */
+    .btn-pay {
+      background: #1d9bf0;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 8px;
+      font-weight: 600;
+    }
+    .btn-pay:hover { background:#0b73c4; }

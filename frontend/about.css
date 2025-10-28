@@ -1,0 +1,25 @@
+.about-container {
+  padding: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: rgba(0,0,0,0.6);
+  border-radius: 10px;
+  color: white;
+  line-height: 1.8;
+}
+
+.about-container h1 {
+  color: orange;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.about-container h2 {
+  color: #1d9bf0;
+  margin-top: 25px;
+}
+
+.about-container ul {
+  margin-left: 20px;
+  list-style-type: disc;
+}

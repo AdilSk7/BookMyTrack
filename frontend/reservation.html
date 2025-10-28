@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookMyTrack - Reservation</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="reservation.css" />
+
+  <!-- Base URL + Guard -->
+  <script src="api.js"></script>
+  <script src="auth-guard.js" defer></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">BookMyTrack</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="reservation.html">Reservation</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="fare.html">Fare</a>
+      <a href="pnr.html">PNR</a>
+      <a href="mybookings.html">My Bookings</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="buttons" id="nav-cta">
+      <a href="login.html"><button>Login</button></a>
+      <a href="registration.html"><button>Sign up</button></a>
+    </div>
+  </nav>
+
+  <!-- Reservation Form -->
+  <div class="reservation-container">
+    <h1>Book Your Ticket</h1>
+
+    <form id="reservationForm" class="card" autocomplete="off">
+      <div class="grid">
+        <label>From Station
+          <input type="text" name="from" required />
+        </label>
+
+        <label>To Station
+          <input type="text" name="to" required />
+        </label>
+
+        <label>Journey Date
+          <input type="date" name="date" id="journeyDate" required>
+        </label>
+
+        <script>
+            // Set minimum date to today's date (local timezone-safe)
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('journeyDate').setAttribute('min', today);
+        </script>
+
+
+        <label>Berth Preference
+          <select name="berth">
+            <option value="">No Preference</option>
+            <option value="lower">Lower</option>
+            <option value="middle">Middle</option>
+            <option value="upper">Upper</option>
+          </select>
+        </label>
+
+        <label class="checkbox-inline" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" name="accessible"> Accessible Seating
+        </label>
+      </div>
+
+      <h3>Passengers</h3>
+      <div id="passengers" class="pax-list"></div>
+      <button class="btn btn-ghost" type="button" id="addPassenger">+ Add Passenger</button>
+
+      <div style="margin-top:16px;">
+        <button class="btn btn-primary" type="submit">Proceed to Payment</button>
+      </div>
+    </form>
+
+    <div id="message"></div>
+  </div>
+
+  <footer>
+    &copy; 2024 Railway Reservation Management System. All rights reserved.
+  </footer>
+
+  <script>
+    const form = document.getElementById('reservationForm');
+    const paxList = document.getElementById('passengers');
+    const addBtn = document.getElementById('addPassenger');
+    const msg = document.getElementById('message');
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+    // --------------------------
+    // Add passenger row (modified)
+    // --------------------------
+    function addPassengerRow() {
+      const row = document.createElement('div');
+      row.className = 'pax-row';
+      row.innerHTML = `
+        <input placeholder="Name" class="pax-name" required>
+        <input type="number" placeholder="Age" class="pax-age" min="1" required>
+        <select class="pax-gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+        <select class="pax-berth">
+          <option value="">(auto)</option>
+          <option value="lower">Lower</option>
+          <option value="middle">Middle</option>
+          <option value="upper">Upper</option>
+        </select>
+
+        <!-- ✅ New accessibility & grouping fields -->
+        <label class="mini"><input type="checkbox" class="pax-wheel"> Wheelchair</label>
+        <label class="mini"><input type="checkbox" class="pax-priority"> Priority seat</label>
+        <input placeholder="Group ID" class="pax-group" style="width:110px;">
+        <input type="number" min="0" placeholder="Companion of #index" class="pax-comp" style="width:150px" title="Enter the passenger index they accompany (0-based)">
+
+        <button type="button" class="btn btn-danger remove">×</button>
+      `;
+      row.querySelector('.remove').onclick = () => row.remove();
+      paxList.appendChild(row);
+    }
+
+    // Start with one passenger row
+    addPassengerRow();
+    addBtn.onclick = addPassengerRow;
+
+    // --------------------------
+    // Submit form (modified)
+    // --------------------------
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      if (!user) return (location.href = 'login.html');
+
+      // Collect all passengers
+      const passengers = [...document.querySelectorAll('.pax-row')].map((r, i) => ({
+        name: (r.querySelector('.pax-name')?.value || '').trim(),
+        age: parseInt(r.querySelector('.pax-age')?.value || '0', 10),
+        gender: r.querySelector('.pax-gender')?.value || 'other',
+        berthPreference: r.querySelector('.pax-berth')?.value || undefined,
+
+        // ✅ New fields for accessibility & grouping
+        needsWheelchair: !!r.querySelector('.pax-wheel')?.checked,
+        needsPrioritySeat: !!r.querySelector('.pax-priority')?.checked,
+        groupId: (r.querySelector('.pax-group')?.value || '') || null,
+        companionOf: (() => {
+          const v = r.querySelector('.pax-comp')?.value.trim();
+          return v === '' ? null : Number(v);
+        })()
+      })).filter(p => p.name && p.age > 0);
+
+      const reservationData = {
+        userId: user._id,
+        from: form.from.value.trim(),
+        to: form.to.value.trim(),
+        journeyDate: form.date.value,
+        berthPreference: form.berth.value || undefined,
+        accessible: !!form.accessible?.checked, // global fallback
+        passengers
+      };
+
+      if (!reservationData.from || !reservationData.to || !reservationData.journeyDate) {
+        msg.style.color = 'crimson';
+        msg.textContent = 'Please fill all required fields.';
+        return;
+      }
+
+      try {
+        msg.style.color = 'gray';
+        msg.textContent = 'Booking...';
+
+        const res = await fetch(`${API_BASE}/api/reservation/book`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(reservationData)
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          msg.style.color = 'red';
+          msg.textContent = data?.error || 'Booking failed. Please try again.';
+          return;
+        }
+
+        // ✅ Store IDs and payment context
+        localStorage.setItem('lastPNR', data.pnr || '');
+        localStorage.setItem('lastReservationId', data._id || '');
+
+        // simple amount: base 449 + 250 per extra pax
+        const count = passengers.length || 1;
+        const amount = 449 + Math.max(0, count - 1) * 250;
+        localStorage.setItem('lastAmount', String(amount));
+
+        msg.style.color = 'limegreen';
+        msg.textContent = 'Booking successful! Redirecting…';
+        setTimeout(() => (location.href = 'payment.html'), 900);
+
+      } catch (err) {
+        console.error(err);
+        msg.style.color = 'red';
+        msg.textContent = 'Server error. Please try again.';
+      }
+    };
+  </script>
+  
+  <script>
+  // highlight active link
+  (function(){
+    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    document.querySelectorAll('nav .links a').forEach(a=>{
+      const href = (a.getAttribute('href')||'').toLowerCase();
+      if (href === path) a.classList.add('active');
+    });
+  })();
+
+  // shrink nav on scroll
+  (function(){
+    const nav = document.querySelector('nav');
+    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive:true });
+  })();
+</script>
+
+</body>
+</html>
