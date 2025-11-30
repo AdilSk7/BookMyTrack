@@ -121,22 +121,51 @@ BookMyTrack/
 | **Frontend** | HTML5, CSS3, JavaScript |
 | **Backend** | Node.js, Express.js |
 | **Database** | MongoDB (Mongoose ODM) |
-| **Authentication** | JSON Web Token (JWT) |
-| **Architecture** | RESTful APIs + Modular Frontend |
+| **User Authentication** | JSON Web Token (JWT), bcrypt (optional hashing) |
+| **Admin Authentication** | JWT with role-based access (adminAuth.js)|
+| **Architecture** | RESTful APIs + Modular Frontend + Protected Admin APIs |
 
 ---
 
 ## 🔒 Authentication Flow  
 
-- Users register and login through `auth.js` routes.  
-- JWT tokens are issued and validated on protected pages using `auth-guard.js`.  
-- Passwords stored securely using **bcrypt hashing** (if implemented).  
+**User Authentication**
 
+- Users register and login using the routes in auth.js.
+
+- After login, a JWT token is issued and stored in localStorage.
+
+- User-only pages (booking, payment, profile, etc.) are protected using auth-guard.js.
+
+- JWT is validated on every API request to verify identity.
+
+- Passwords can be hashed securely using bcrypt (if enabled).
+
+**Admin Authentication (NEW)**
+
+- Admin logs in through /api/admin/login, handled by adminAuth.js.
+
+- A special Admin JWT token is issued containing { role: "admin" }.
+
+- All admin dashboard APIs in Admin.js are protected using:
+```
+Authorization: Bearer <admin_token>
+```
+
+**Only valid admin tokens can access:**
+
+- Booking statistics
+
+- Reservation listings
+
+- Admin-level filters and analytics
+
+If the token expires or is invalid, the admin is automatically logged out.
 ---
 
 ## 🧠 Backend Overview  
 
-🔹 Elderly Priority Algorithm
+**🔹 Elderly Priority Algorithm**
 
 Inside reservation.js, elderly passengers automatically get:
 
@@ -148,7 +177,7 @@ Grouped allocation when traveling with guardians
 
 Sorted seat distribution (elderly → special needs → adults)
 
-🔹 Admin Authentication (NEW)
+**🔹 Admin Authentication (NEW)**
 
 Admin login route:
 ```
@@ -165,7 +194,7 @@ Protected using middleware:
 ```
 Authorization: Bearer <admin_token>
 ```
-🔹 JWT Token Structure
+**🔹 JWT Token Structure**
 
 Role-based token → { role: "admin", email }
 
@@ -175,7 +204,7 @@ Default expiry: 8 hours
 
 ## 🖥️ Frontend Overview  
 
-🔹 Admin Dashboard (NEW)
+**🔹 Admin Dashboard (NEW)**
 
 Loads stats:
 
@@ -191,7 +220,7 @@ Advanced filters for reservations
 
 Clean UI with table view of all passengers
 
-🔹 User Interface
+**🔹 User Interface**
 
 Fully responsive layout
 
@@ -202,19 +231,19 @@ Clean booking form design
 Smooth navigation & animations
 
 ---
-🚀 Setup Instructions
-1️⃣ Clone the repository
+## 🚀 Setup Instructions
+**1️⃣ Clone the repository**
 ```
 git clone https://github.com/Adilsk7/BookMyTrack.git
 cd BookMyTrack
 ```
-2️⃣ Install backend dependencies
+**2️⃣ Install backend dependencies**
 ```
 cd backend
 npm install
 ```
 
-3️⃣ Configure environment variables
+**3️⃣ Configure environment variables**
 
 Create .env inside /backend:
 ```
@@ -225,14 +254,14 @@ ADMIN_EMAIL=your_admin_email
 ADMIN_PASSWORD=your_admin_password
 JWT_SECRET=your_secret
 ```
-4️⃣ Start backend
+**4️⃣ Start backend**
 ```
 node server.js
 # or
 npx nodemon server.js
 ```
 
-5️⃣ View frontend
+**5️⃣ View frontend**
 
 Open any .html file from frontend/ in your browser.
 Admin login is at:
