@@ -204,21 +204,16 @@ Default expiry: 8 hours
 
 ## 🖥️ Frontend Overview  
 
-**🔹 Admin Dashboard (NEW)**
+## 🔹 Admin Dashboard (NEW)
 
-- Loads stats:
+- **Loads stats:**
+  - Total bookings
+  - Active bookings
+  - Cancelled bookings
+  - Today's bookings
 
-Total bookings
-
-Active bookings
-
-Cancelled bookings
-
-Today's bookings
-
-- Advanced filters for reservations
-
-- Clean UI with table view of all passengers
+- **Advanced filters for reservations**
+- **Clean UI with table view of all passengers**
 
 **🔹 User Interface**
 
