@@ -167,15 +167,15 @@ If the token expires or is invalid, the admin is automatically logged out.
 
 **🔹 Elderly Priority Algorithm**
 
-Inside reservation.js, elderly passengers automatically get:
+- Inside reservation.js, elderly passengers automatically get:
 
-Highest priorityScore
+- Highest priorityScore
 
-Guaranteed lower berth if available
+- Guaranteed lower berth if available
 
-Grouped allocation when traveling with guardians
+- Grouped allocation when traveling with guardians
 
-Sorted seat distribution (elderly → special needs → adults)
+- Sorted seat distribution (elderly → special needs → adults)
 
 **🔹 Admin Authentication (NEW)**
 
