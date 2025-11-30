@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BookMyTrack – Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <header class="admin-header">
+    <div class="header-left">
+      <h1>BookMyTrack – Admin Dashboard</h1>
+      <p>Monitor bookings, seats, and elderly priority allocation.</p>
+    </div>
+
+    <!-- ⭐ ADDED LOGOUT BUTTON -->
+    <button id="admin-logout" class="logout-btn">Logout</button>
+  </header>
+
+  <main class="admin-container">
+
+    <!-- Stats cards -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <h3>Total Bookings</h3>
+        <p id="stat-total">–</p>
+      </div>
+      <div class="stat-card">
+        <h3>Active Bookings</h3>
+        <p id="stat-active">–</p>
+      </div>
+      <div class="stat-card">
+        <h3>Cancelled Bookings</h3>
+        <p id="stat-cancelled">–</p>
+      </div>
+      <div class="stat-card">
+        <h3>Today's Bookings</h3>
+        <p id="stat-today">–</p>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filter-panel">
+      <h2>Filter Reservations</h2>
+
+      <div class="filter-row">
+
+        <div class="filter-field">
+          <label for="filter-pnr">PNR</label>
+          <input type="text" id="filter-pnr" placeholder="Enter PNR" />
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-user">User ID</label>
+          <input type="text" id="filter-user" placeholder="Mongo UserId" />
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-date">Journey Date</label>
+          <input type="date" id="filter-date" />
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-status">Status</label>
+          <select id="filter-status">
+            <option value="any">Any</option>
+            <option value="Pending">Pending</option>
+            <option value="Paid">Paid</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="filter-actions">
+        <button id="btn-search">Search</button>
+        <button id="btn-clear" class="secondary">Clear</button>
+      </div>
+    </section>
+
+    <!-- Table Section -->
+    <section class="table-section">
+      <h2>Reservations</h2>
+      <p class="table-hint">
+        Each row represents a passenger (PNR repeats for group bookings).
+      </p>
+
+      <div class="table-wrapper">
+        <table id="reservations-table">
+          <thead>
+            <tr>
+              <th>PNR</th>
+              <th>Status</th>
+              <th>User ID</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Journey Date</th>
+              <th>Passenger</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Priority Score</th>
+              <th>Berth Allocated</th>
+              <th>Coach</th>
+              <th>Seat</th>
+            </tr>
+          </thead>
+
+          <tbody id="reservations-body">
+            <tr><td colspan="13" class="empty">Loading...</td></tr>
+          </tbody>
+
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -33,6 +33,55 @@ function pickBerthForPassenger(p, groupDefault, accessibleGlobal) {
   return 'middle';                                   // 5) Fallback
 }
 
+/**
+ * Compute a numeric priority score for seat allocation.
+ * Higher score -> higher priority for lower / better berths.
+ *
+ * Metrics used:
+ *  - Wheelchair / priority seat  -> huge boost
+ *  - Elderly age (>=60)          -> strong boost; older => more
+ *  - Elderly female              -> small extra bump (safety)
+ *  - Accessible flag             -> small bump
+ *  - Original index              -> mild tie-breaker (earlier in request wins)
+ */
+function computePriorityScore(p, originalIdx) {
+  const age = Number(p.age);
+  const isElder = Number.isFinite(age) && age >= 60;
+  const wheelchair = !!p.needsWheelchair;
+  const medicalPriority = !!p.needsPrioritySeat;
+  const accessible = !!p.accessible;
+  const gender = (p.gender || '').toLowerCase();
+
+  let score = 0;
+
+  // 1) Wheelchair / medical priority passengers get top priority
+  if (wheelchair) score += 100;
+  if (medicalPriority) score += 80;
+
+  // 2) Elderly priority, age-weighted
+  if (isElder) {
+    score += 50;
+    // Extra weight for older age, e.g. 60 -> +0, 75 -> +15
+    score += Math.max(0, age - 60);
+  }
+
+  // 3) Elderly women small bump (safety, comfort)
+  if (isElder && gender === 'female') {
+    score += 5;
+  }
+
+  // 4) General accessibility flag
+  if (accessible) {
+    score += 10;
+  }
+
+  // 5) Earlier passengers in the request keep a slight advantage
+  //    (prevents weird reordering for identical profiles)
+  score -= (originalIdx || 0) * 0.01;
+
+  return score;
+}
+
 /* -------- Seat map + assignment helpers -------- */
 const COACH_COUNT = 4;
 const SEATS_PER_COACH = 72;
@@ -329,10 +378,16 @@ router.post('/book', async (req, res) => {
         }];
 
     // --- Allocate berth type (not seat numbers) for everyone ---
-    const paxWithAllocation = pax.map(p => ({
-      ...p,
-      berthAllocated: pickBerthForPassenger(p, berthPreference, accessibleGlobal)
-    }));
+    const paxWithAllocation = pax.map((p, idx) => {
+      const berthAllocated = pickBerthForPassenger(p, berthPreference, accessibleGlobal);
+      const priorityScore = computePriorityScore(p, idx);
+      return {
+        ...p,
+        berthAllocated,
+        priorityScore,
+        originalIdx: idx
+      };
+    });
 
     // --- Validate companion indices ---
     paxWithAllocation.forEach((p, idx) => {
@@ -343,31 +398,44 @@ router.post('/book', async (req, res) => {
       }
     });
 
-    // --- Group by groupId and reorder (wheelchair anchors first, companions next) ---
+    // --- Group by groupId and reorder with priority ---
     const groups = new Map();
-    paxWithAllocation.forEach((p, idx) => {
-      const key = p.groupId || `_solo_${idx}`;
+    paxWithAllocation.forEach((p) => {
+      const key = p.groupId || `_solo_${p.originalIdx}`;
       if (!groups.has(key)) groups.set(key, []);
-      groups.get(key).push({ ...p, _idx: idx });
+      groups.get(key).push(p);
     });
 
     groups.forEach((arr, key) => {
       const isCompanion = p => Number.isInteger(p.companionOf);
+
+      // anchors = main passengers in the group (not companions)
       const anchors = arr.filter(p => !isCompanion(p));
-      anchors.sort((a, b) => (b.needsWheelchair ? 1 : 0) - (a.needsWheelchair ? 1 : 0));
+
+      // Sort anchors by descending priorityScore
+      anchors.sort((a, b) => b.priorityScore - a.priorityScore);
+
       const ordered = [];
+
+      // For each anchor, place them, then their companions (also sorted by priority)
       anchors.forEach(anchor => {
         ordered.push(anchor);
-        ordered.push(...arr.filter(p => isCompanion(p) && p.companionOf === anchor._idx));
+        const companions = arr
+          .filter(p => isCompanion(p) && p.companionOf === anchor.originalIdx)
+          .sort((a, b) => b.priorityScore - a.priorityScore);
+        ordered.push(...companions);
       });
-      const leftovers = arr.filter(p => !ordered.includes(p));
+
+      // Remaining passengers (unattached companions or leftovers) go next by priority
+      const leftovers = arr
+        .filter(p => !ordered.includes(p))
+        .sort((a, b) => b.priorityScore - a.priorityScore);
+
       groups.set(key, [...ordered, ...leftovers]);
     });
 
-    // flatten to final passenger order AND preserve originalIdx for future seat assignment
-    const paxFinal = Array.from(groups.values())
-      .flat()
-      .map(({ _idx, ...p }) => ({ ...p, originalIdx: _idx }));
+    // flatten to final passenger order
+    const paxFinal = Array.from(groups.values()).flat();
 
     // --- Fare quote (server-side) ---
     const quote = computeFare(from, to, paxFinal);
