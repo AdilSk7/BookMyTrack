@@ -206,7 +206,7 @@ Default expiry: 8 hours
 
 **🔹 Admin Dashboard (NEW)**
 
-Loads stats:
+- Loads stats:
 
 Total bookings
 
@@ -216,19 +216,19 @@ Cancelled bookings
 
 Today's bookings
 
-Advanced filters for reservations
+- Advanced filters for reservations
 
-Clean UI with table view of all passengers
+- Clean UI with table view of all passengers
 
 **🔹 User Interface**
 
-Fully responsive layout
+- Fully responsive layout
 
-Interactive seat selection
+- Interactive seat selection
 
-Clean booking form design
+- Clean booking form design
 
-Smooth navigation & animations
+- Smooth navigation & animations
 
 ---
 ## 🚀 Setup Instructions
