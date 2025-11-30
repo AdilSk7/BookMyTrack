@@ -179,18 +179,18 @@ Sorted seat distribution (elderly → special needs → adults)
 
 **🔹 Admin Authentication (NEW)**
 
-Admin login route:
+- Admin login route:
 ```
 POST /api/admin/login
 ```
 
-Protected admin APIs:
+- Protected admin APIs:
 ```
 GET /api/admin/stats
 GET /api/admin/reservations
 ```
 
-Protected using middleware:
+- Protected using middleware:
 ```
 Authorization: Bearer <admin_token>
 ```
