@@ -1,4 +1,4 @@
-# 🚆 BookMyTrack – Modern Railway Reservation System  
+# 🚆 BookMyTrack – Modern Railway Reservation System 
 
 **BookMyTrack** is a full-stack, web-based **railway reservation system** that redefines the train ticket booking experience with a focus on **inclusivity, accessibility, and automation**.  
 The project uses a **Node.js + Express.js backend** connected to **MongoDB**, and a **frontend built with HTML, CSS, and JavaScript** for an intuitive, responsive interface.  
