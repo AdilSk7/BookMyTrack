@@ -39,7 +39,6 @@ BookMyTrack/
 │ │ └── reservation.js # Seat booking and reservation API
 │ │
 │ ├── server.js # Main Express server entry point
-│ ├── .env # Environment variables (Mongo URI, JWT secret)
 │ ├── package.json
 │ └── package-lock.json
 │
@@ -130,16 +129,37 @@ BookMyTrack/
 
 ---
 
-## 🧠 Future Enhancements  
+## 🚀 Future Enhancements
 
-- Add **real-time train data** integration via public APIs.  
-- Implement **online payment gateway (Stripe/Razorpay)**.  
-- Add **Admin Dashboard** for train & user management.  
-- Include **PNR tracking and cancellation system**.  
-- Build **mobile-friendly (PWA) version** for end users.  
+- Integrate real-time train schedules and availability APIs.
+- Integrate a production payment gateway such as Razorpay or Stripe.
+- Implement real-time PNR status tracking.
+- Add email/SMS notifications for booking confirmations and cancellations.
+- Develop a Progressive Web App (PWA) for mobile users.  
 
 ---
+## 🎯 Features Implemented
 
+- ✅ User Registration & Login
+- ✅ JWT Authentication
+- ✅ Smart Seat Allocation
+- ✅ Elderly Passenger Lower-Berth Priority
+- ✅ Family & Group Booking
+- ✅ Accessibility Preferences
+- ✅ Train Schedule & Fare Enquiry
+- ✅ PNR Generation & Viewing
+- ✅ Booking Cancellation
+- ✅ Payment/UPI Simulation
+- ✅ User Profile Management
+- ✅ Feedback & Contact Management
+- ✅ Admin Dashboard
+- ✅ Reservation Management
+- ✅ User Management
+- ✅ Train & Route Management
+- ✅ Booking Status Management
+- ✅ Dashboard Analytics
+
+---
 
 ## 🏁 Conclusion  
 
