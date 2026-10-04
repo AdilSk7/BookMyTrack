@@ -3,53 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Login – BookMyTrack</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;900&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      background: #f5f6fa;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      font-family: Arial;
+      background: linear-gradient(135deg, rgba(4,10,23,0.7), rgba(4,10,23,0.9)), url('auth_bg.png') center/cover no-repeat fixed;
+      color: white;
     }
-    .login-box {
-      background: #fff;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 320px;
-    }
-    input, button {
+
+    .login-container {
+      background: rgba(13, 25, 48, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 40px 45px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 210, 255, 0.15) inset;
       width: 100%;
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      max-width: 420px;
+      text-align: center;
     }
+
+    .login-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      color: #00d2ff;
+      filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.5));
+    }
+
+    .login-container h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    .login-container h2 span {
+      color: #00d2ff;
+      font-weight: 900;
+    }
+
+    .login-container p.subtitle {
+      color: #a0b2c6;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 17px;
+      transform: translateY(-50%);
+      color: #00d2ff;
+      font-size: 16px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 18px 14px 45px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .input-group input::placeholder {
+      color: #798fa6;
+    }
+
+    .input-group input:focus {
+      border-color: #00d2ff;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+    }
+
     button {
-      background: #0066ff;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, #00d2ff, #007acc);
       color: white;
       border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
       cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 210, 255, 0.3);
+      transition: all 0.3s ease;
+      margin-top: 15px;
     }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(0, 210, 255, 0.45);
+      background: linear-gradient(90deg, #00e5ff, #0088ff);
+    }
+
     .error {
-      color: red;
-      margin-top: 10px;
-      text-align: center;
+      color: #ff4d4d;
+      margin-top: 15px;
       font-size: 13px;
+      background: rgba(255, 77, 77, 0.15);
+      padding: 8px;
+      border-radius: 6px;
+      display: none;
+      border: 1px solid rgba(255, 77, 77, 0.25);
     }
   </style>
 </head>
 <body>
-  <div class="login-box">
-    <h2>Admin Login</h2>
-    <form id="admin-login-form">
-      <input type="email" id="email" placeholder="Admin Email" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button type="submit">Login</button>
+  
+  <div class="login-container">
+    <div class="login-icon">
+      <i class="fa-solid fa-shield-halved"></i>
+    </div>
+    <h2>Admin <span>Portal</span></h2>
+    <p class="subtitle">Secure access to BookMyTrack operations</p>
+    
+    <form id="admin-login-form" autocomplete="off">
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" id="email" placeholder="Admin Email" autocomplete="off" required>
+      </div>
+      
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" autocomplete="new-password" required>
+      </div>
+      
+      <button type="submit">Authenticate Session</button>
       <p class="error" id="error"></p>
     </form>
   </div>
+
+  <script>
+    // Show error box cleanly whenever JS updates the error text
+    const errorEl = document.getElementById('error');
+    if (errorEl) {
+      const observer = new MutationObserver(() => {
+        if (errorEl.innerText.trim() !== '') {
+          errorEl.style.display = 'block';
+        } else {
+          errorEl.style.display = 'none';
+        }
+      });
+      observer.observe(errorEl, { childList: true, characterData: true, subtree: true });
+    }
+  </script>
   <script src="admin-login.js"></script>
 </body>
 </html>

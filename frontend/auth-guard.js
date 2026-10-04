@@ -1,7 +1,7 @@
 // auth-guard.js
 document.addEventListener('DOMContentLoaded', () => {
   const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-  const PUBLIC = new Set(['login.html', 'registration.html', 'index.html']);
+  const PUBLIC = new Set(['login.html', 'registration.html', 'index.html', 'home.html', 'about.html', 'contact.html', 'feedback.html', 'admin-login.html']);
   const user = JSON.parse(localStorage.getItem('user') || 'null');
 
   // ---------- Route protection ----------
@@ -14,16 +14,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // ---------- Navbar replacement when logged in ----------
+  // ---------- Navbar logic based on Auth State ----------
+  const cta = document.getElementById('nav-cta') || document.querySelector('.buttons');
+  
   if (user) {
+    // 1) Logic for Logged In User
     document.body.classList.add('auth-logged-in');
 
-    const cta = document.getElementById('nav-cta') || document.querySelector('.buttons');
     if (cta) {
       cta.innerHTML = `
         <div class="nav-user">
-          <button id="userMenuBtn" class="user-btn" aria-haspopup="true" aria-expanded="false">
-            Hi, ${user.name || 'User'} <span aria-hidden="true">▾</span>
+          <button id="userMenuBtn" class="user-btn" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center; gap: 10px; border: none; background: transparent; padding: 4px 8px; color: inherit; font-size: inherit; font-weight: 500; cursor: pointer; white-space: nowrap;">
+            <div style="background-color: #0088ff; border-radius: 50%; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; color: white; font-size: 16px; flex-shrink: 0;">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            Hi, ${user.name || 'User'} <i class="fa-solid fa-chevron-down" style="font-size: 12px; margin-left: 2px;"></i>
           </button>
           <div id="userMenu" class="user-menu" role="menu" aria-hidden="true">
             <a role="menuitem" href="mybookings.html">My Bookings</a>
@@ -72,7 +77,24 @@ document.addEventListener('DOMContentLoaded', () => {
       // logout
       document.getElementById('logoutBtn').addEventListener('click', () => {
         localStorage.removeItem('user');
-        location.replace('login.html');
+        location.replace('home.html');
+      });
+    }
+  } else {
+    // 2) Logic for Guest (Not Logged In)
+    if (cta) {
+      cta.innerHTML = `
+        <a href="login.html"><button>Login</button></a>
+        <a href="registration.html"><button>Sign Up</button></a>
+      `;
+      
+      // Hide protected links from the navbar for guests
+      const protectedLinks = ['reservation.html', 'schedule.html', 'fare.html', 'pnr.html', 'mybookings.html'];
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (protectedLinks.some(link => href.includes(link))) {
+          a.style.display = 'none';
+        }
       });
     }
   }

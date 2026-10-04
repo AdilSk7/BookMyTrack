@@ -34,7 +34,10 @@ const reservationSchema = new mongoose.Schema({
 
   from:        { type: String, required: true },
   to:          { type: String, required: true },
+  trainNo:     { type: String, default: 'N/A' },
+  trainName:   { type: String, default: 'Unknown Train' },
   journeyDate: { type: Date,   required: true },
+  travelClass: { type: String, default: 'SL' },
 
   berthPreference: { type: String,  default: '' },
   accessible:      { type: Boolean, default: false }, // global accessibility switch

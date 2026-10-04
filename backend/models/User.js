@@ -7,8 +7,14 @@ const UserSchema = new mongoose.Schema({
   password:{ type: String, required: true },
   age:     { type: Number, default: 0 },
   gender:  { type: String, enum: ['male','female','other'], default: 'other' },
+  phone:   { type: String, default: '' },
   role:    { type: String, default: 'user' },
-  photo:   { type: String, default: '' }   // kept for future use (optional)
+  photo:   { type: String, default: '' },   // kept for future use (optional)
+  savedPassengers: [{
+      name: String,
+      age: Number,
+      gender: String
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', UserSchema);

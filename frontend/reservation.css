@@ -1,162 +1,509 @@
-/* ===== Reservation layout (fixed, wide, clean) ===== */
-
-.reservation-container {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 30px;
-  margin: 30px auto;
-  border-radius: 10px;
-  max-width: 1100px;            /* wider so two columns fit */
-  width: 100%;
-  text-align: left;
-  color: white;
+/* ===== Reservation layout (glassmorphic, two-col) ===== */
+/* Inherits global background from style.css */
+body {
+    color: #cbd5e1;
 }
 
-.reservation-container h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: orange;
+.res-main-wrapper {
+    max-width: 1400px;
+    margin: 15px auto;
+    padding: 0 20px;
 }
 
-/* Ensure the inner card stretches */
-.reservation-container .card {
-  width: 100%;
-  max-width: none;
-  background: transparent;      /* keep your dark container look */
-  box-shadow: none;
-  border: 0;
-  padding: 0;
+/* Header */
+.res-header {
+    position: relative;
+    margin-bottom: 10px;
+}
+.res-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    margin: 0 0 5px 0;
+}
+.res-header h1 span {
+    color: #0b84f3; /* Bright blue */
+}
+.res-header p {
+    color: #94a3b8;
+    margin: 0;
+    font-size: 15px;
+}
+.res-quote {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-family: 'Caveat', 'Georgia', cursive;
+    font-style: italic;
+    font-size: 20px;
+    text-align: right;
+    line-height: 1.2;
 }
 
-/* Two-column grid for the top section */
-.reservation-container .grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(260px, 1fr));
-  gap: 16px 18px;
+/* Feature Pills */
+.res-features {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+.res-feat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(4, 10, 20, 0.50);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+.res-feat i.blue { color: #0b84f3; }
+.res-feat i.cyan { color: #06b6d4; }
+.res-feat i.yellow { color: #eab308; }
+.res-feat i.orange { color: #f97316; }
+
+/* 2-Column Grid */
+.res-two-col {
+    display: grid;
+    grid-template-columns: 69% 1fr;
+    gap: 25px;
 }
 
-/* Labels + inputs */
-.reservation-container label {
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-  gap: 6px;
+/* Stepper */
+.res-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px 20px;
+    background: rgba(5, 18, 35, 0.65);
+    border: 1px solid rgba(120, 190, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+}
+.step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+}
+.step.active {
+    color: white;
+}
+.step-num {
+    width: 25px; height: 25px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+}
+.step.active .step-num {
+    background: #0b84f3;
+    color: white;
+}
+.step-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 0 15px;
+}
+.step-line.active {
+    background: #0b84f3;
 }
 
-.reservation-container input,
-.reservation-container select {
-  width: 100%;
-  height: 42px;
-  padding: 10px;
-  margin-top: 4px;
-  border-radius: 6px;
-  border: none;
-  background: #eef0eabd;
-  color: #000000;
+/* Glass Cards */
+.res-card {
+    background: rgba(5, 18, 35, 0.65);
+    border: 1px solid rgba(120, 190, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.res-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+.res-card-title .icon {
+    width: 35px; height: 35px;
+    border-radius: 8px;
+    background: rgba(11, 132, 243, 0.15);
+    color: #0b84f3;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+}
+.res-card-title h3 {
+    margin: 0;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+}
+.res-card-title p {
+    margin: 2px 0 0 0;
+    color: #94a3b8;
+    font-size: 12px;
 }
 
-.reservation-container input:focus,
-.reservation-container select:focus {
-  outline: 2px solid #1d9bf0;
+/* Payment Tabs */
+.payment-tab.active {
+    background: #0b84f3 !important;
+    color: white !important;
 }
 
-/* Make the checkbox row span full width and align horizontally */
-.reservation-container .access-row {
-  grid-column: 1 / -1;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  margin-top: 4px;
+/* Form Grids within Cards */
+.form-row {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 10px;
 }
-/* Keep checkbox and text inline */
-.reservation-container label.checkbox-inline {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: bold;
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+/* Input Styling */
+.res-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
+.res-input-wrap label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #cbd5e1;
+    display: flex; align-items: center; gap: 6px;
+}
+.res-input-wrap label i { color: #0b84f3; }
+.res-input-wrap input,
+.res-input-wrap select {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s;
+}
+.res-input-wrap input::placeholder { color: #64748b; }
+.res-input-wrap input:focus,
+.res-input-wrap select:focus {
+    border-color: #0b84f3;
+    box-shadow: 0 0 0 2px rgba(11, 132, 243, 0.2);
+}
+.res-input-wrap select option {
+    background: #0f172a;
+    color: white;
+}
+.swap-btn {
+    align-self: center; /* within a flex parent or absolute */
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    border-radius: 50%;
+    width: 35px; height: 35px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 15px; /* offset label height */
+}
+.swap-btn:hover { background: rgba(255,255,255,0.1); }
 
-
-/* Passengers section */
+/* Passenger UI */
 .pax-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.pax-card {
+    background: rgba(0, 0, 0, 0.20);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    position: relative;
+    padding: 15px 12px 10px 12px;
+    margin-top: 10px; /* space for the top tab */
+}
+.pax-tab {
+    position: absolute;
+    top: -15px;
+    left: -1px;
+    background: #0b84f3;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 15px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.pax-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 5px;
+}
+.pax-remove:hover { color: #f87171; text-decoration: underline; }
+
+.pax-toggles {
+    display: flex;
+    gap: 15px;
+    padding-top: 8px;
+    margin-top: 8px;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+}
+.pax-toggles label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #cbd5e1;
+    cursor: pointer;
+}
+.pax-toggles input[type="checkbox"] {
+    accent-color: #0b84f3;
+    width: 15px; height: 15px;
 }
 
-.pax-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr auto; /* name wider */
-  gap: 10px;
-  align-items: center;
+.add-pax-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px dashed rgba(255,255,255,0.2);
+    color: #60a5fa;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+    margin: 10px 0;
+}
+.add-pax-btn:hover { background: rgba(255,255,255,0.05); }
+
+.proceed-btn {
+    width: 100%;
+    background: #0b84f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(11, 132, 243, 0.3);
+    transition: 0.2s;
+}
+.proceed-btn:hover { background: #0ea5e9; }
+
+/* Right Column Summary */
+.summary-card {
+    background: rgba(5, 18, 35, 0.65);
+    border: 1px solid rgba(120, 190, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.sc-img {
+    height: 120px;
+    background: url('red_train_banner.jpg') center/cover; /* Standard UI Banner Image */
+    position: relative;
+}
+.sc-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    padding: 30px 15px 10px 15px;
+}
+.sc-train-name {
+    color: white; margin: 0; font-size: 15px; font-weight: 700;
+}
+.sc-train-no {
+    color: #94a3b8; font-size: 12px; margin: 0;
 }
 
-.pax-row input,
-.pax-row select {
-  margin-top: 0;
+.sc-details {
+    padding: 15px;
+}
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background: rgba(255,255,255,0.1);
+}
+.tl-node {
+    position: relative;
+    margin-bottom: 15px;
+}
+.tl-node:last-child { margin-bottom: 0; }
+.tl-dot {
+    position: absolute;
+    left: -20px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #0b84f3;
+    border: 2px solid rgba(5,18,35,1);
+    box-shadow: 0 0 5px #0b84f3;
+}
+.tl-station {
+    color: white; font-size: 13px; font-weight: 600; margin: 0 0 2px 0;
+}
+.tl-time {
+    color: #94a3b8; font-size: 12px; margin: 0;
 }
 
-.pax-row .btn,
-.pax-row button {
-  background: #b00020;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
-  font-weight: 700;
-  padding: 10px 12px;
-  cursor: pointer;
+.sc-metrics {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+.metric {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.metric i { font-size: 18px; color: #f97316; }
+.metric div {
+    display: flex; flex-direction: column;
+}
+.metric div span:first-child { color: white; font-weight: 600; font-size: 11px; }
+.metric div span:last-child { color: #94a3b8; font-size: 10px; }
+
+
+.tagline-box {
+    background: rgba(234, 179, 8, 0.1);
+    border: 1px solid rgba(234, 179, 8, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.tagline-box i { color: #eab308; font-size: 20px; }
+.tagline-box p { color: #cbd5e1; font-size: 12px; margin: 0; line-height: 1.4; }
+
+/* Support Card */
+.support-card {
+    background: rgba(5, 18, 35, 0.65);
+    border: 1px solid rgba(120, 190, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+.sup-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.sup-header i {
+    width: 35px; height: 35px; border-radius: 50%;
+    background: rgba(11, 132, 243, 0.15); color: #0b84f3;
+    display: flex; align-items: center; justify-content: center;
+}
+.sup-header div { text-align: left; }
+.sup-header h4 { margin: 0; color: white; font-size: 14px; }
+.sup-header p { margin: 0; color: #94a3b8; font-size: 11px; }
+
+.contact-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: 0.2s;
+    font-weight: 600; font-size: 13px;
+}
+.contact-btn:hover { background: rgba(255,255,255,0.05); }
+
+.trust-badges {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.badge { display: flex; align-items: center; gap: 5px; color: #0ea5e9; font-size: 10px; font-weight: 600;}
+
+/* Placeholder Empty state for Summary */
+.summary-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: #94a3b8;
+}
+.summary-empty i { font-size: 30px; margin-bottom: 10px; opacity: 0.5; }
+
+
+/* Error Msg styling */
+#message { margin-top: 15px; text-align: center; font-weight: 600; font-size: 14px; }
+
+/* Responsive adjustments */
+@media(max-width: 900px) {
+    .res-two-col {
+        grid-template-columns: 1fr;
+    }
+    .res-quote { display: none; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 15px; }
+    .step-line { width: 30px; flex: none; }
+    .res-stepper { flex-wrap: wrap; justify-content: center; gap: 10px; }
 }
 
-.pax-row .btn:hover,
-.pax-row button:hover {
-  background: #e53935;
+/* Specific Spacing Overrides for Step 1 Only */
+#step1-card .res-card {
+    padding: 30px;
+    min-height: 380px; 
+}
+#step1-card .res-card-title {
+    margin-bottom: 25px;
+}
+#step1-card .res-card-title h3 {
+    font-size: 22px;
+}
+#step1-card .form-row {
+    gap: 25px;
+    margin-bottom: 25px;
+}
+#step1-card .res-input-wrap label {
+    font-size: 14px;
+}
+#step1-card .res-input-wrap input,
+#step1-card .res-input-wrap select {
+    padding: 14px 16px;
+    font-size: 15px;
+}
+#step1-card .proceed-btn {
+    padding: 16px;
+    font-size: 16px;
+    margin-top: 10px;
 }
 
-/* Primary/ghost buttons in your flow */
-.btn { 
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 16px;
-  font-weight: 700;
-}
-
-.btn-primary {
-  background: #1d9bf0;
-  color: white;
-  width: 100%;
-}
-
-.btn-primary:hover { background: #0d74c7; }
-
-.btn-ghost {
-  background: transparent;
-  color: white;
-  border: 1px dashed #5a5a5a;
-  width: 100%;
-}
-
-.btn-ghost:hover { background: rgba(255, 255, 255, 0.06); }
-
-/* Proceed/Add buttons block spacing */
-.reservation-container .btn + .btn,
-.reservation-container .btn-ghost + .btn-primary {
-  margin-top: 10px;
-}
-
-/* Message */
-#message { margin-top: 12px; font-weight: 600; }
-
-/* Responsive: stack to one column on smaller screens */
-@media (max-width: 860px) {
-  .reservation-container .grid {
-    grid-template-columns: 1fr;
-  }
-  .reservation-container .access-row {
-    grid-column: 1 / -1;
-  }
-  .pax-row {
-    grid-template-columns: 1fr 1fr;         /* compact passengers */
-    grid-auto-rows: minmax(42px, auto);
-  }
-}

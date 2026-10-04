@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const Reservation = require('../models/Reservation');
+const Train = require('../models/Train');
+const Setting = require('../models/Setting');
 
 /* ---------------- helpers ---------------- */
 function genPNR() {
@@ -54,9 +56,11 @@ function computePriorityScore(p, originalIdx) {
 
   let score = 0;
 
-  // 1) Wheelchair / medical priority passengers get top priority
+  // 1) Wheelchair passengers get top priority unconditionally
   if (wheelchair) score += 100;
-  if (medicalPriority) score += 80;
+  
+  // Only grant the Priority Checkbox bonus if they are actually 60+ (new business rule)
+  if (medicalPriority && isElder) score += 80;
 
   // 2) Elderly priority, age-weighted
   if (isElder) {
@@ -85,13 +89,26 @@ function computePriorityScore(p, originalIdx) {
 /* -------- Seat map + assignment helpers -------- */
 const COACH_COUNT = 4;
 const SEATS_PER_COACH = 72;
-const COACH_PREFIX = "S";
-const BAY_SIZE = 6;
-const BERTH_CYCLE = ['lower','middle','upper','lower','middle','upper'];
-const ACCESSIBLE_LOWER_PER_COACH = 8;
 
 // occupiedSet contains labels like "S1-2"
-function buildSeatMap(occupiedSet = new Set()) {
+function buildSeatMap(occupiedSet = new Set(), travelClass = 'SL') {
+  let COACH_PREFIX, BAY_SIZE, BERTH_CYCLE, ACCESSIBLE_LOWER_PER_COACH;
+  if (travelClass === 'CC') {
+      COACH_PREFIX = "C"; BAY_SIZE = 3; BERTH_CYCLE = ['window','middle','aisle']; ACCESSIBLE_LOWER_PER_COACH = 8;
+  } else if (travelClass === '2S') {
+      COACH_PREFIX = "D"; BAY_SIZE = 3; BERTH_CYCLE = ['window','middle','aisle']; ACCESSIBLE_LOWER_PER_COACH = 8;
+  } else if (travelClass === '1A') {
+      COACH_PREFIX = "H"; BAY_SIZE = 4; BERTH_CYCLE = ['lower','upper','cabin','coupe']; ACCESSIBLE_LOWER_PER_COACH = 2;
+  } else if (travelClass === '2A') {
+      COACH_PREFIX = "A"; BAY_SIZE = 4; BERTH_CYCLE = ['lower','upper','side_lower','side_upper']; ACCESSIBLE_LOWER_PER_COACH = 4;
+  } else if (travelClass === '3A') {
+      COACH_PREFIX = "B"; BAY_SIZE = 8; BERTH_CYCLE = ['lower','middle','upper','lower','middle','upper','side_lower','side_upper']; ACCESSIBLE_LOWER_PER_COACH = 8;
+  } else if (travelClass === '3E') {
+      COACH_PREFIX = "M"; BAY_SIZE = 8; BERTH_CYCLE = ['lower','middle','upper','lower','middle','upper','side_lower','side_upper']; ACCESSIBLE_LOWER_PER_COACH = 8;
+  } else { // SL
+      COACH_PREFIX = "S"; BAY_SIZE = 8; BERTH_CYCLE = ['lower','middle','upper','lower','middle','upper','side_lower','side_upper']; ACCESSIBLE_LOWER_PER_COACH = 8;
+  }
+
   const seats = [];
   for (let c = 1; c <= COACH_COUNT; c++) {
     const coach = `${COACH_PREFIX}${c}`;
@@ -99,8 +116,8 @@ function buildSeatMap(occupiedSet = new Set()) {
     for (let i = 1; i <= SEATS_PER_COACH; i++) {
       const idxInBay = (i - 1) % BAY_SIZE;
       const berth = BERTH_CYCLE[idxInBay];
-      const accessibleZone = (berth === 'lower' && lbAssigned < ACCESSIBLE_LOWER_PER_COACH);
-      if (berth === 'lower') lbAssigned++;
+      const accessibleZone = (['lower', 'window'].includes(berth) && lbAssigned < ACCESSIBLE_LOWER_PER_COACH);
+      if (['lower', 'window'].includes(berth)) lbAssigned++;
 
       const seatLabel = `${coach}-${i}`;
       seats.push({
@@ -166,8 +183,8 @@ function findNearestInCoach(seatsByCoach, coach, targetSeatNo, pred) {
  * - wheelchair/priority target lower accessible zone
  * - rotation seed avoids always starting at S1-2 on empty maps
  */
-function assignCoachesAndSeats(passengersOrdered, occupiedSet, seedForRotation) {
-  const allSeats = buildSeatMap(occupiedSet);
+function assignCoachesAndSeats(passengersOrdered, occupiedSet, seedForRotation, travelClass = 'SL') {
+  const allSeats = buildSeatMap(occupiedSet, travelClass);
   const baseOffset = seedForRotation % Math.max(1, allSeats.length);
 
   // Build quick lookups per coach sorted by seatNumber
@@ -183,14 +200,14 @@ function assignCoachesAndSeats(passengersOrdered, occupiedSet, seedForRotation) 
 
     // 1) wheelchair/priority → lower in accessible zone
     if (pax.needsWheelchair || pax.needsPrioritySeat || pax.accessible) {
-      tests.push(s => !s.taken && s.berth === 'lower' && s.accessibleZone);
+      tests.push(s => !s.taken && ['lower','window'].includes(s.berth) && s.accessibleZone);
     }
     // 2) exact berth match
     if (pax.berthAllocated) {
       tests.push(s => !s.taken && s.berth === pax.berthAllocated);
     }
-    // 3) any lower
-    tests.push(s => !s.taken && s.berth === 'lower');
+    // 3) any lower or window
+    tests.push(s => !s.taken && ['lower','window'].includes(s.berth));
     // 4) anything free
     tests.push(s => !s.taken);
 
@@ -242,7 +259,7 @@ function assignCoachesAndSeats(passengersOrdered, occupiedSet, seedForRotation) 
           );
           if (near) {
             takeSeat(near);
-            result.push({ ...pax, coach: near.coach, seatNumber: near.seatNumber, seatLabel: near.seatLabel });
+            result.push({ ...pax, coach: near.coach, seatNumber: near.seatNumber, seatLabel: near.seatLabel, berthAllocated: near.berth });
             assignedByOriginalIdx.set(pax.originalIdx ?? pax.companionOf, { coach: near.coach, seatNumber: near.seatNumber });
             chosenCoach = chosenCoach || near.coach;
             lastGroupSeatNo = near.seatNumber;
@@ -261,7 +278,7 @@ function assignCoachesAndSeats(passengersOrdered, occupiedSet, seedForRotation) 
         );
         if (near) {
           takeSeat(near);
-          result.push({ ...pax, coach: near.coach, seatNumber: near.seatNumber, seatLabel: near.seatLabel });
+          result.push({ ...pax, coach: near.coach, seatNumber: near.seatNumber, seatLabel: near.seatLabel, berthAllocated: near.berth });
           assignedByOriginalIdx.set(pax.originalIdx ?? -1, { coach: near.coach, seatNumber: near.seatNumber });
           lastGroupSeatNo = near.seatNumber;
           continue;
@@ -274,7 +291,7 @@ function assignCoachesAndSeats(passengersOrdered, occupiedSet, seedForRotation) 
       if (seat) {
         if (!chosenCoach) chosenCoach = seat.coach;
         lastGroupSeatNo = seat.seatNumber;
-        result.push({ ...pax, coach: seat.coach, seatNumber: seat.seatNumber, seatLabel: seat.seatLabel });
+        result.push({ ...pax, coach: seat.coach, seatNumber: seat.seatNumber, seatLabel: seat.seatLabel, berthAllocated: seat.berth });
         assignedByOriginalIdx.set(pax.originalIdx ?? -1, { coach: seat.coach, seatNumber: seat.seatNumber });
       } else {
         // no seat found (unlikely)
@@ -289,27 +306,19 @@ function assignCoachesAndSeats(passengersOrdered, occupiedSet, seedForRotation) 
 }
 
 /* -------- Fare helpers (server-side pricing) -------- */
-function norm(s){ return String(s||'').trim().toLowerCase(); }
-
-// Base fare table per route (edit/extend as you wish)
-const ROUTE_BASE = {
-  'nellore|vijayawada': 499,
-  'nlr|vijayawada': 499,
-  'nlr|nagore': 699,
-  'nellore|nagore': 699,
-  // fallback will be used for anything not listed
-};
-
-function baseFareForRoute(from, to) {
-  const a = norm(from), b = norm(to);
-  return ROUTE_BASE[`${a}|${b}`] ?? ROUTE_BASE[`${b}|${a}`] ?? 449; // default
-}
-
-/** Compute fare for all passengers (returns { total, per }) */
-function computeFare(from, to, passengers = []) {
-  const base = baseFareForRoute(from, to);
+// Compute fare based on train's dynamic baseFare/classFares
+async function computeFare(train, travelClass, passengers = []) {
   const per = [];
   let total = 0;
+  
+  let base = train.baseFare;
+  if (train.classFares) {
+      if (typeof train.classFares.get === 'function') {
+          if (train.classFares.get(travelClass)) base = train.classFares.get(travelClass);
+      } else {
+          if (train.classFares[travelClass]) base = train.classFares[travelClass];
+      }
+  }
 
   for (const p of passengers) {
     let f = base;
@@ -317,7 +326,7 @@ function computeFare(from, to, passengers = []) {
     // Example rules — tweak as needed
     const age = Number(p.age);
     if (Number.isFinite(age) && age < 12) f *= 0.5;   // child 50%
-    if (Number.isFinite(age) && age >= 60) f *= 0.6;  // senior 40% off
+    if (Number.isFinite(age) && age >= 60) f *= 0.85; // senior 15% off
     if (p?.needsWheelchair || p?.needsPrioritySeat) f += 50; // service fee
 
     f = Math.round(f);
@@ -325,11 +334,21 @@ function computeFare(from, to, passengers = []) {
     total += f;
   }
 
-  // Example GST: uncomment if you want tax
-  // total = Math.round(total * 1.05);
+  // Add flat Convenience Fee per booking (not per pax) sourced from Platform Settings (defaults to 29 if unset)
+  let CONVENIENCE_FEE = 29;
+  try {
+     const reqFee = await Setting.findOne({ key: 'base_fee' }).lean();
+     if (reqFee && !isNaN(Number(reqFee.value))) {
+        CONVENIENCE_FEE = Number(reqFee.value);
+     }
+  } catch (err) { }
+  
+  total += CONVENIENCE_FEE;
 
-  return { total, per };
+  return { total, per, convenienceFee: CONVENIENCE_FEE };
 }
+
+
 
 /* ---------------- routes ---------------- */
 
@@ -337,16 +356,24 @@ function computeFare(from, to, passengers = []) {
 // Create booking as PENDING (no seats yet) and compute fare
 router.post('/book', async (req, res) => {
   try {
-    let { userId, from, to, journeyDate, berthPreference, accessible, passengers = [] } = req.body;
+    let { userId, from, to, trainNo, journeyDate, travelClass, berthPreference, accessible, passengers = [] } = req.body;
 
     userId = (userId || '').trim();
+    travelClass = (travelClass || 'SL').trim();
     from = (from || '').trim();
     to = (to || '').trim();
+    trainNo = (trainNo || '').trim();
     berthPreference = (berthPreference || '').trim().toLowerCase();
     const accessibleGlobal = !!accessible;
 
-    if (!userId || !from || !to || !journeyDate) {
+    if (!userId || !from || !to || !trainNo || !journeyDate) {
       return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Fetch Train Data
+    const train = await Train.findOne({ trainNo });
+    if (!train) {
+      return res.status(404).json({ error: 'Selected train not found in database.' });
     }
 
     // generate PNR first so we can use it later at payment time
@@ -401,7 +428,7 @@ router.post('/book', async (req, res) => {
     // --- Group by groupId and reorder with priority ---
     const groups = new Map();
     paxWithAllocation.forEach((p) => {
-      const key = p.groupId || `_solo_${p.originalIdx}`;
+      const key = p.groupId || '_solo';
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key).push(p);
     });
@@ -437,15 +464,18 @@ router.post('/book', async (req, res) => {
     // flatten to final passenger order
     const paxFinal = Array.from(groups.values()).flat();
 
-    // --- Fare quote (server-side) ---
-    const quote = computeFare(from, to, paxFinal);
+    // --- Fare quote (server-side) using exact baseFare ---
+    const quote = await computeFare(train, travelClass, paxFinal);
 
     // --- Save reservation as PENDING (no coach/seat yet) ---
     const reservation = new Reservation({
       userId,
       from,
       to,
+      trainNo: train.trainNo,
+      trainName: train.trainName,
       journeyDate: new Date(journeyDate),
+      travelClass: travelClass,
       berthPreference: berthPreference || '',
       accessible: accessibleGlobal,
       passengers: paxFinal,
@@ -464,6 +494,7 @@ router.post('/book', async (req, res) => {
       status: reservation.status,
       passengers: reservation.passengers,
       fareTotal: reservation.fareTotal,
+      convenienceFee: quote.convenienceFee,
       currency: reservation.currency
     });
   } catch (err) {
@@ -501,9 +532,12 @@ router.post('/confirm-pay/:id', async (req, res) => {
     }
 
     // Optional: refresh fare in case anything changed
-    const freshQuote = computeFare(r.from, r.to, r.passengers);
-    r.fareTotal = freshQuote.total;
-    r.farePerPax = freshQuote.per;
+    const train = await Train.findOne({ trainNo: r.trainNo });
+    if (train) {
+      const freshQuote = await computeFare(train, r.travelClass, r.passengers);
+      r.fareTotal = freshQuote.total;
+      r.farePerPax = freshQuote.per;
+    }
     r.currency = 'INR';
 
     // Build occupied set for same route/date (exclude this reservation)
@@ -514,6 +548,7 @@ router.post('/confirm-pay/:id', async (req, res) => {
         _id: { $ne: r._id },
         from: r.from,
         to: r.to,
+        travelClass: r.travelClass || 'SL',
         journeyDate: { $gte: dayStart, $lte: dayEnd },
         status: { $ne: 'Cancelled' }
       },
@@ -531,7 +566,7 @@ router.post('/confirm-pay/:id', async (req, res) => {
 
     // Assign seats now (payment time)
     const rotationSeed = pnrToSeed(r.pnr);
-    const paxWithSeats = assignCoachesAndSeats(r.passengers, occupied, rotationSeed);
+    const paxWithSeats = assignCoachesAndSeats(r.passengers, occupied, rotationSeed, r.travelClass || 'SL');
 
     r.passengers = paxWithSeats;
     r.status = 'Paid'; // or 'Confirmed' if you prefer that wording

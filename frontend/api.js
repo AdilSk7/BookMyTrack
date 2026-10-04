@@ -3,7 +3,7 @@
   if (window.API_BASE) return; // allow manual override elsewhere
 
   const isLocal = (hostname) =>
-    hostname === 'localhost' || hostname === '127.0.0.1';
+    hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
 
   const base = isLocal(location.hostname)
     ? 'http://localhost:5000'

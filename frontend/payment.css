@@ -1,46 +1,270 @@
+/* Premium Glassmorphic Payment Container */
 .payment-container {
-  background: rgba(0,0,0,0.6);
-  max-width: 400px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  max-width: 550px;
   margin: 50px auto;
-  padding: 30px;
-  border-radius: 10px;
+  border-radius: 12px;
   color: white;
   text-align: left;
 }
 
-.payment-container h1 {
-  text-align: center;
-  color: orange;
-  margin-bottom: 20px;
+/* Header */
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding: 0 30px;
+  margin-top: 30px;
 }
-
-.payment-container label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.payment-container input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 5px;
-  border: none;
-}
-
-.payment-container button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  border: none;
-  border-radius: 5px;
-  background: #1d9bf0;
+.payment-header h1 {
   color: white;
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 0.5px;
+}
+.secure-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #a4b0be;
+}
+.secure-badge strong {
+  color: #fff;
+  display: block;
+}
+
+/* Fare Summary Block */
+.fare-summary-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  margin: 0 30px 25px;
+  display: flex;
+  flex-direction: column;
+}
+.fare-top-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px dashed rgba(255,255,255,0.15);
+}
+.fare-top-row h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #fff;
+}
+.fare-pnr {
+  font-size: 13px;
+  color: #a4b0be;
+}
+.fare-route-info {
+  text-align: right;
+  font-size: 14px;
+}
+.fare-route-info span {
+  font-size: 12px;
+  color: #a4b0be;
+  display: block;
+  margin-top: 3px;
+}
+.fare-breakdown {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #dcdde1;
+}
+.fare-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.fare-row.total {
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-size: 18px;
   font-weight: bold;
+  color: #fff;
+}
+.fare-row.total .amt {
+  color: #1d9bf0;
+}
+
+/* Internal Card Box */
+.payment-box {
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  margin: 0 30px 30px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.payment-box-header {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 15px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 6px;
+  padding: 4px;
+}
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
   cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #a4b0be;
+  transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.tab:hover {
+  color: #fff;
+}
+.tab.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #2980b9; 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  border-bottom: 2px solid #2980b9;
+}
+.tab.active svg { fill: #2980b9; }
+
+/* Form Sections */
+.form-section {
+  display: none;
+  animation: fadeIn 0.3s;
+}
+.form-section.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Inputs Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.form-group.full {
+  grid-column: span 2;
+}
+.form-group label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #dcdde1;
+  font-weight: 500;
+}
+.input-with-icon {
+  position: relative;
+}
+.input-with-icon i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7f8fa6;
+}
+.input-with-icon input {
+  width: 100%;
+  padding: 12px 12px 12px 35px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
   transition: 0.3s;
 }
+.input-with-icon input:focus {
+  border-color: #2980b9;
+  background: rgba(255, 255, 255, 0.12);
+}
 
-.payment-container button:hover {
-  background: #005bb5;
+/* The Big Blue Button */
+.pay-btn-main {
+  width: 100%;
+  padding: 14px;
+  background: #2980b9;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.pay-btn-main:hover {
+  background: #3498db;
+  box-shadow: 0 4px 15px rgba(41, 128, 185, 0.4);
+}
+.pay-btn-main:disabled {
+  background: #7f8fa6;
+  cursor: not-allowed;
+}
+
+/* Trust Badges Footer */
+.trust-badges {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  margin-bottom: 25px;
+}
+.badge-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #a4b0be;
+}
+.badge-item i {
+  font-size: 18px;
+  color: #7f8fa6;
+}
+.badge-item strong {
+  display: block;
+  color: #fff;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+/* Bottom Links */
+.bottom-links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 0 30px 20px;
+}
+.bottom-links a {
+  color: #1d9bf0;
+  text-decoration: none;
+}
+.bottom-links a:hover {
+  text-decoration: underline;
 }

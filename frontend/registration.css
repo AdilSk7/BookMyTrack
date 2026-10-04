@@ -1,46 +1,165 @@
+/* Custom body override for auth layout */
+body {
+  background: linear-gradient(135deg, rgba(4,10,23,0.7), rgba(4,10,23,0.9)), url('auth_bg.png') center/cover no-repeat fixed !important;
+}
+
+/* Glassmorphism User Registration Container */
 .registration-container {
-  background: rgba(0, 0, 0, 0.6);
-  max-width: 400px;
+  background: rgba(13, 25, 48, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 35px 40px 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 210, 255, 0.15) inset;
+  width: 100%;
+  max-width: 440px;
   margin: 50px auto;
-  padding: 30px;
-  border-radius: 10px;
+  text-align: center;
   color: white;
-  text-align: left;
+}
+
+.registration-icon {
+  font-size: 38px;
+  margin-bottom: 12px;
+  color: #00d2ff;
+  filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.5));
 }
 
 .registration-container h1 {
-  text-align: center;
-  color: orange;
-  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.registration-container h1 span {
+  color: #00d2ff;
+  font-weight: 900;
+}
+
+.registration-container p.subtitle {
+  color: #a0b2c6;
+  font-size: 14px;
+  margin-bottom: 25px;
 }
 
 .registration-container label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
+  display: none; /* using placeholders */
 }
 
-.registration-container input {
+.input-group {
+  position: relative;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.input-group i {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #00d2ff;
+  font-size: 15px;
+  z-index: 2;
+}
+
+.input-group input, 
+.input-group select {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 5px;
-  border: none;
+  padding: 14px 18px 14px 45px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none; /* override default select arrow */
+}
+
+/* Add custom arrow for select */
+.input-group select {
+  cursor: pointer;
+}
+.input-group.select-group::after {
+  content: '\f0d7';
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #798fa6;
+  pointer-events: none;
+}
+
+/* Fix dropdown options color on windows/macos */
+.input-group select option {
+  background: rgba(13, 25, 48, 0.95);
+  color: white;
+}
+
+.input-group input::placeholder {
+  color: #798fa6;
+}
+.input-group select:invalid {
+  color: #798fa6;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #00d2ff;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
 }
 
 .registration-container button {
   width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  border: none;
-  border-radius: 5px;
-  background: #1d9bf0;
+  padding: 14px;
+  background: linear-gradient(90deg, #00d2ff, #007acc);
   color: white;
-  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  transition: 0.3s;
+  box-shadow: 0 8px 20px rgba(0, 210, 255, 0.3);
+  transition: all 0.3s ease;
+  margin-top: 15px;
 }
 
 .registration-container button:hover {
-  background: #005bb5;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(0, 210, 255, 0.45);
+  background: linear-gradient(90deg, #00e5ff, #0088ff);
+}
+
+#regMessage {
+  margin-top: 12px;
+  font-size: 13px;
+  padding: 8px;
+  border-radius: 6px;
+  display: none;
+}
+
+.registration-container p {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #a0b2c6;
+}
+
+.registration-container a {
+  color: #00d2ff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.registration-container a:hover {
+  text-decoration: underline;
+  color: #00e5ff;
 }

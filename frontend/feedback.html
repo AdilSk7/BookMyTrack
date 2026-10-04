@@ -6,6 +6,7 @@
   <title>BookMyTrack - Feedback</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="auth-guard.js"></script>
 
 </head>
@@ -23,7 +24,6 @@
       <a href="mybookings.html">My Bookings</a>
       <a href="feedback.html">Feedback</a>
       <a href="contact.html">Contact</a>
-      <a href="admin.html">Admin</a>
     </div>
     <div class="buttons">
       <a href="login.html"><button>Login</button></a>
@@ -32,32 +32,142 @@
   </nav>
 
   <!-- Feedback Section -->
-  <div class="feedback-container">
-    <h1>We Value Your Feedback</h1>
-    <p>Please share your thoughts to help us improve our services.</p>
-    <div id="feedbackMessage"></div>
-    <form id="feedbackForm" onsubmit="return submitFeedback()">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <textarea name="message" rows="5" placeholder="Your Feedback" required></textarea>
-      <button type="submit">Submit Feedback</button>
-    </form>
+  <div class="feedback-layout-wrapper">
+    <!-- Left Column: Hero & Features -->
+    <div class="feedback-hero">
+      <div class="hero-subtitle">
+        <span>WE LISTEN</span> <span>•</span> <span>WE IMPROVE</span> <span>•</span> <span>WE SERVE BETTER</span>
+      </div>
+      <h1>Your Feedback<br>Drives a <span class="text-highlight">Better<br>Journey</span></h1>
+      <p class="hero-desc">
+        Please share your thoughts, suggestions or concerns to help us improve our services and make train travel more inclusive and comfortable for everyone.
+      </p>
+
+      <div class="feedback-features">
+        <div class="feat-card">
+          <div class="feat-icon icon-blue"><i class="fa-solid fa-users"></i></div>
+          <div class="feat-text">
+            <h3>Better Services</h3>
+            <p>Your feedback helps us understand your needs and improve continuously.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon icon-purple"><i class="fa-solid fa-lightbulb"></i></div>
+          <div class="feat-text">
+            <h3>New Features</h3>
+            <p>Your suggestions inspire new features and better experiences.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon icon-green"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="feat-text">
+            <h3>Solve Issues</h3>
+            <p>Help us identify and resolve problems quickly.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon icon-orange"><i class="fa-solid fa-star"></i></div>
+          <div class="feat-text">
+            <h3>Customer First</h3>
+            <p>Your voice matters in building a safer and more inclusive platform.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Form Card -->
+    <div class="feedback-card">
+      <div class="card-header">
+        <div class="header-icon"><i class="fa-solid fa-comment-dots"></i></div>
+        <div>
+          <h2>We Value Your Feedback</h2>
+          <p>Please share your thoughts to help us improve our services.</p>
+        </div>
+      </div>
+
+      <div id="feedbackMessage"></div>
+
+      <form id="feedbackForm">
+        <div class="input-wrap">
+          <i class="fa-solid fa-user input-icon"></i>
+          <input type="text" name="name" placeholder="Your Name" required>
+        </div>
+
+        <div class="input-wrap">
+          <i class="fa-solid fa-envelope input-icon"></i>
+          <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+
+        <div class="input-wrap textarea-wrap">
+          <i class="fa-solid fa-message input-icon textarea-icon"></i>
+          <textarea name="message" id="feedMsg" rows="5" placeholder="Your Feedback" required maxlength="500"></textarea>
+          <div class="char-counter"><span id="charCount">0</span>/500</div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <i class="fa-solid fa-paper-plane"></i> Submit Feedback
+        </button>
+      </form>
+    </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 Railway Reservation Management System. All rights reserved.
+    &copy; 2024 BookMyTrack. All rights reserved.
   </footer>
 
   <script>
-    function submitFeedback() {
+    async function submitFeedback(event) {
+      if (event) event.preventDefault();
+      
+      const form = document.getElementById("feedbackForm");
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
       const feedbackBox = document.getElementById("feedbackMessage");
-      feedbackBox.style.display = "block";
-      feedbackBox.style.backgroundColor = "rgba(0,128,0,0.8)";
-      feedbackBox.innerText = "Thank you for your valuable feedback!";
-      document.getElementById("feedbackForm").reset();
-      return false; // prevent actual form submit
+      const btn = form.querySelector('button[type="submit"]');
+
+      if (!name || !email || !message) return false;
+
+      btn.disabled = true;
+      btn.innerText = "Submitting...";
+
+      try {
+        const HOST = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
+        const res = await fetch(`${HOST}/api/public/feedback`, {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({ name, email, message })
+        });
+        
+        if (res.ok) {
+           feedbackBox.style.display = "block";
+           feedbackBox.style.backgroundColor = "rgba(0,128,0,0.8)";
+           feedbackBox.innerText = "Thank you for your valuable feedback!";
+           form.reset();
+        } else {
+           feedbackBox.style.display = "block";
+           feedbackBox.style.backgroundColor = "rgba(255,0,0,0.8)";
+           feedbackBox.innerText = "Failed to submit feedback. Please try again.";
+        }
+      } catch (err) {
+        feedbackBox.style.display = "block";
+        feedbackBox.style.backgroundColor = "rgba(255,0,0,0.8)";
+        feedbackBox.innerText = "Network Error.";
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Submit Feedback";
+      }
+      return false; 
     }
+    
+    // Character Counter
+    document.getElementById("feedMsg").addEventListener('input', function() {
+       document.getElementById("charCount").innerText = this.value.length;
+    });
+
+    // Bind listener
+    document.getElementById("feedbackForm").addEventListener('submit', submitFeedback);
   </script>
 
   <script>

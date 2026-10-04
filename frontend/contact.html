@@ -39,7 +39,6 @@
       <a href="mybookings.html">My Bookings</a>
       <a href="feedback.html">Feedback</a>
       <a href="contact.html">Contact</a>
-      <a href="admin.html">Admin</a>
     </div>
     <div class="buttons">
       <a href="login.html"><button>Login</button></a>
@@ -49,48 +48,258 @@
 
   <!-- Contact Section -->
   <div class="container">
-    <div class="content">
-      <h1>Contact Us</h1>
-      <p>If you have any questions, feedback, or need assistance regarding our railway reservation system, please reach out using the details below.</p>
-      <div class="contact-info">
-        <h2>General Inquiries</h2>
-        <p><strong>Official University Page:</strong> <a href="https://vitap.ac.in/" target="_blank" style="color: aqua;">VIT-AP University</a></p>
-        <p><strong>Email:</strong> <a href="mailto:rrms@gmail.com" style="color:yellow;">rrms@gmail.com</a></p>
-        <p><strong>Phone:</strong> 0124-39021212, +91 6400287685</p>
-        <p><strong>Office Hours:</strong> Monday-Saturday</p>
+    
+    <div class="page-header">
+       <h1>Contact <span>Us</span></h1>
+       <p>If you have any questions, feedback, or need assistance regarding our railway reservation system, please reach out using the details below.</p>
+    </div>
+
+    <!-- TOP CARDS -->
+    <div class="top-cards">
+       <div class="info-card">
+           <div class="icon-circle phone"><i class="fas fa-phone-alt"></i></div>
+           <div>
+               <h4>Phone</h4>
+               <p>0124-39021212<br>+91 6400287685</p>
+           </div>
+       </div>
+       <div class="info-card">
+           <div class="icon-circle email"><i class="fas fa-envelope"></i></div>
+           <div>
+               <h4>Email</h4>
+               <p>support@bookmytrack.com</p>
+           </div>
+       </div>
+       <div class="info-card">
+           <div class="icon-circle clock"><i class="far fa-clock"></i></div>
+           <div>
+               <h4>Office Hours</h4>
+               <p>Monday - Saturday<br>9:00 AM - 6:00 PM</p>
+           </div>
+       </div>
+       <div class="info-card">
+           <div class="icon-circle location"><i class="fas fa-map-marker-alt"></i></div>
+           <div>
+               <h4>Our University</h4>
+               <p>VIT-AP University<br>Amaravathi, Andhra Pradesh</p>
+           </div>
+       </div>
+    </div>
+
+    <!-- MAIN PANELS -->
+    <div class="contact-split">
+       <div class="glass-panel">
+         <h2><i class="fas fa-paper-plane" style="color:#1d9bf0;"></i> Get in Touch</h2>
+         <p>Send us your questions, feedback, or suggestions. We'll get back to you as soon as possible.</p>
+         
+         <div id="confirmationMessage">Thank you for your query!</div>
+         
+         <form id="contactForm">
+           <div class="input-row">
+             <div class="input-group">
+               <i class="fas fa-user"></i>
+               <input type="text" id="cName" placeholder="Your Name" required>
+             </div>
+             <div class="input-group">
+               <i class="fas fa-envelope"></i>
+               <input type="email" id="cEmail" placeholder="Your Email" required>
+             </div>
+           </div>
+           
+           <div class="input-group">
+             <i class="fas fa-list-ul"></i>
+             <select id="cSubject" required>
+                <option value="" disabled selected>Select a subject</option>
+                <option value="booking">Booking Issue</option>
+                <option value="payment">Payment/Refund</option>
+                <option value="technical">Technical Support</option>
+                <option value="other">Other</option>
+             </select>
+           </div>
+           
+           <div class="input-group">
+             <i class="far fa-comment-dots"></i>
+             <textarea id="cQuery" placeholder="Your Query" required></textarea>
+           </div>
+           
+           <button type="submit" id="cBtn" class="submit-btn"><i class="fas fa-paper-plane"></i> Submit Message</button>
+         </form>
+       </div>
+
+       <div class="glass-panel">
+         <h2><i class="fas fa-comment-dots" style="color:#007bff;"></i> Support Inbox</h2>
+         <p>Recent queries and our responses. Track the status of your submitted messages here.</p>
+         
+         <div id="inboxList">
+            <p style="color:#8b949e; font-size:14px; text-align:center; padding: 20px;">Please <a href="login.html" style="color:#1d9bf0;">login</a> to view your support inbox.</p>
+         </div>
+         <a href="#" class="view-all-link">View All Queries &rarr;</a>
+       </div>
+    </div>
+
+    <!-- CONNECT WITH US -->
+    <div class="social-card">
+      <h3>Connect with Us</h3>
+      <p>Follow us on social media for updates and announcements.</p>
+      <div class="social-icons-row">
+         <a href="#" class="social-btn fb"><i class="fab fa-facebook-f"></i></a>
+         <a href="#" class="social-btn tw"><i class="fab fa-twitter"></i></a>
+         <a href="#" class="social-btn li"><i class="fab fa-linkedin-in"></i></a>
+         <a href="#" class="social-btn ig"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
 
-    <h1 style="color: orange; margin-top: 20px;">VIT-AP University</h1>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3825.574674580178!2d80.49662157592765!3d16.497060527841082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35f27d40f21c55%3A0x1490eacd54859850!2sVIT-AP%20University!5e0!3m2!1sen!2sin!4v1727515856056!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
-
-    <div class="social-media">
-      <h2 style="color: red;">Connect with Us</h2>
-      <p>Follow us on social media:</p>
-      <div class="social-icons">
-        <a href="http://facebook.com/railwayreservation" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="http://twitter.com/railwayreserve" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="http://linkedin.com/company/railwayreservation" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-      </div>
+    <!-- BOTTOM RIBBON -->
+    <div class="features-ribbon">
+       <div class="feature-item">
+          <i class="fas fa-train"></i>
+          <div class="feature-text">
+             <h4>Safe Travel</h4>
+             <p>Our Priority</p>
+          </div>
+       </div>
+       <div class="feature-item">
+          <i class="fas fa-users"></i>
+          <div class="feature-text">
+             <h4>Accessible for Everyone</h4>
+             <p>Travel Without Barriers</p>
+          </div>
+       </div>
+       <div class="feature-item">
+          <i class="fas fa-shield-alt"></i>
+          <div class="feature-text">
+             <h4>Trusted Platform</h4>
+             <p>Your Data is Safe</p>
+          </div>
+       </div>
+       <div class="feature-item">
+          <i class="far fa-heart"></i>
+          <div class="feature-text">
+             <h4>A Better Tomorrow</h4>
+             <p>Through Inclusive Travel</p>
+          </div>
+       </div>
     </div>
 
-    <div class="get-in-touch-form">
-      <h2>Get in Touch</h2>
-      <div id="confirmationMessage">Thank you for your query!</div>
-      <form id="contactForm" onsubmit="return validateForm()">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" id="email" name="email" placeholder="Your Email" required>
-        <textarea name="query" rows="5" placeholder="Your Query" required></textarea>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 Railway Reservation Management System. All rights reserved.
+    &copy; 2024 BookMyTrack. All rights reserved.
   </footer>
+
+  <script src="api.js"></script>
+  <script>
+    const contactForm = document.getElementById('contactForm');
+    const cBtn = document.getElementById('cBtn');
+    const confirmationMessage = document.getElementById('confirmationMessage');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      cBtn.disabled = true;
+      const activeUser = JSON.parse(localStorage.getItem('user') || 'null');
+      
+      const payload = {
+        name: document.getElementById('cName').value.trim(),
+        email: document.getElementById('cEmail').value.trim(),
+        query: document.getElementById('cQuery').value.trim(),
+        userId: activeUser ? activeUser._id : null
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/api/public/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          confirmationMessage.style.display = 'block';
+          confirmationMessage.textContent = 'Thank you for your query!';
+          confirmationMessage.style.color = 'limegreen';
+          contactForm.reset();
+          if (activeUser) loadInbox(activeUser._id);
+        } else {
+          confirmationMessage.style.display = 'block';
+          confirmationMessage.style.color = 'red';
+          confirmationMessage.textContent = 'Submission failed.';
+        }
+      } catch (err) {
+        console.error(err);
+        confirmationMessage.style.display = 'block';
+        confirmationMessage.style.color = 'red';
+        confirmationMessage.textContent = 'Server error.';
+      } finally {
+        cBtn.disabled = false;
+      }
+    });
+
+    const activeUser = JSON.parse(localStorage.getItem('user') || 'null');
+    if (activeUser && activeUser._id) {
+       loadInbox(activeUser._id);
+    }
+    
+    async function loadInbox(userId) {
+      const inboxList = document.getElementById('inboxList');
+      if (typeof API_BASE === 'undefined') return;
+      
+      try {
+        const res = await fetch(`${API_BASE}/api/public/contact/user/${userId}`);
+        if (!res.ok) {
+           inboxList.innerHTML = `<p class="muted">Failed to load support inbox.</p>`;
+           return;
+        }
+        const data = await res.json();
+        
+        if (!Array.isArray(data) || data.length === 0) {
+          inboxList.innerHTML = `<p class="muted">No support queries found.</p>`;
+          return;
+        }
+        
+        inboxList.innerHTML = '';
+        data.forEach(q => {
+          const div = document.createElement('div');
+          div.className = "inbox-item";
+          
+          let replyHtml = q.reply 
+             ? `<div class="admin-reply-box">
+                  <div class="admin-reply-label"><i class="fa-solid fa-headset"></i> Admin Reply:</div>
+                  <div class="admin-reply-body">${q.reply}</div>
+                </div>`
+             : `<div style="margin-top: 10px; color: #8b949e; font-style: italic; font-size:13px;">
+                  <i class="fa-regular fa-clock"></i> Awaiting response from admin...
+                </div>`;
+                
+          div.innerHTML = `
+            <div class="date">Query sent ${new Date(q.createdAt).toLocaleDateString()}</div>
+            <div class="msg-label">Your Message:</div>
+            <div class="msg-body">${q.query}</div>
+            ${replyHtml}
+          `;
+          inboxList.appendChild(div);
+        });
+      } catch(err) {
+        console.error('[Support Inbox load error]', err);
+        inboxList.innerHTML = `<p class="muted">Error loading inbox.</p>`;
+      }
+    }
+    
+    // Toggle View All Queries
+    const viewAllBtn = document.querySelector('.view-all-link');
+    if (viewAllBtn) {
+       viewAllBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const inbox = document.getElementById('inboxList');
+          if (!inbox.style.maxHeight || inbox.style.maxHeight !== 'none') {
+              inbox.style.maxHeight = 'none';
+              e.target.innerHTML = 'Collapse &uarr;';
+          } else {
+              inbox.style.maxHeight = '';
+              e.target.innerHTML = 'View All Queries &rarr;';
+          }
+       });
+    }
+  </script>
 
   <script>
   // highlight active link

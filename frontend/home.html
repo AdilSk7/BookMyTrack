@@ -3,19 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BookMyTrack - Homepage</title>
+  <title>BookMyTrack - India's Trusted Railway Booking</title>
+  
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css?v=16">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <script src="auth-guard.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="auth-guard.js" defer></script>
 
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav>
+  <!-- Background overlay handled via home.css -->
+  <div class="hp-background-image"></div>
+  <div class="hp-overlay-gradient"></div>
+
+  <!-- Navbar (Original) -->
+  <nav style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100; box-sizing: border-box;">
     <div class="logo">BookMyTrack</div>
     <div class="links">
-      <a href="index.html">Home</a>
+      <a href="index.html" class="active">Home</a>
       <a href="about.html">About</a>
       <a href="reservation.html">Reservation</a>
       <a href="schedule.html">Schedule</a>
@@ -24,54 +31,184 @@
       <a href="mybookings.html">My Bookings</a>
       <a href="feedback.html">Feedback</a>
       <a href="contact.html">Contact</a>
-      <a href="admin.html">Admin</a>
     </div>
-    <div class="buttons">
-      <a href="login.html"><button>Login</button></a>
-      <a href="registration.html"><button>Sign up</button></a>
+    <div class="buttons" id="nav-cta">
+        <!-- populated by auth-guard.js -->
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Your Safe Travel Journey Is Our Main Goal</h1>
-      <p>India's most trusted platform for online tickets</p>
-      <button class="cta-btn" onclick="window.location.href='reservation.html'">
-        <i class="fas fa-ticket-alt"></i> Get Your Ticket
-      </button>
-    </div>
-    <div class="hero-image">
-      <img src="train.jpg" alt="Train Image">
-    </div>
-  </section>
+  <!-- MAIN HOMEPAGE WRAPPER -->
+  <div class="hp-main-wrapper">
+     
+     <!-- Hero Section -->
+     <section class="hp-hero">
+        <div class="hp-tag"><i class="fas fa-train"></i> INDIA'S TRUSTED <span class="text-blue">RAILWAY BOOKING PLATFORM</span></div>
+        <h1>Journeys That<br> <span class="text-blue">Bring People</span> <span class="text-orange">Closer</span></h1>
+        
+        <p class="hp-hero-desc">
+           BookMyTrack makes train travel across India more inclusive,<br>
+           comfortable and accessible. Experience a smarter, simpler<br>
+           and safer way to travel.
+        </p>
 
-  <!-- Features Section -->
-  <section class="features">
-    <h2>Why Choose RRMS?</h2>
-    <div class="feature-cards">
-      <div class="card">
-        <i class="fas fa-users"></i>
-        <h3>Inclusive Booking</h3>
-        <p>Book tickets respecting gender inclusivity and comfort for all passengers.</p>
-      </div>
-      <div class="card">
-        <i class="fas fa-chair"></i>
-        <h3>Comfortable Seating</h3>
-        <p>Elder passengers automatically get lower berths for a comfortable journey.</p>
-      </div>
-      <div class="card">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Secure Transactions</h3>
-        <p>Safe and secure ticket booking with encrypted data handling.</p>
-      </div>
-    </div>
-  </section>
+        <a href="reservation.html" class="hp-cta-btn">
+          Book a Ticket <i class="fas fa-arrow-right"></i>
+        </a>
+        
+        <div class="hp-badges">
+           <!-- Card 1 -->
+           <div class="hp-badge-card highlight-blue">
+              <div class="hbadge-icon"><i class="fas fa-shield-alt"></i></div>
+              <div class="hbadge-text">
+                 <h4>Safe & Secure</h4>
+                 <p>Encrypted Booking</p>
+              </div>
+           </div>
+           <!-- Card 2 -->
+           <div class="hp-badge-card highlight-green">
+              <div class="hbadge-icon"><i class="fas fa-users"></i></div>
+              <div class="hbadge-text">
+                 <h4>Inclusive Travel</h4>
+                 <p>For All Passengers</p>
+              </div>
+           </div>
+           <!-- Card 3 -->
+           <div class="hp-badge-card highlight-orange">
+              <div class="hbadge-icon"><i class="fas fa-bolt"></i></div>
+              <div class="hbadge-text">
+                 <h4>Smart Booking</h4>
+                 <p>Fast & Reliable</p>
+              </div>
+           </div>
+        </div>
+     </section>
+     
+     <!-- Metrics Bar -->
+     <section class="hp-metrics">
+        <div class="hp-metrics-container">
+           <div class="hp-metric-item">
+              <div class="hm-icon text-blue"><i class="fas fa-users"></i></div>
+              <div class="hm-text">
+                 <h4>30K+</h4>
+                 <p>Happy Passengers</p>
+              </div>
+           </div>
+           <div class="hp-metric-item">
+              <div class="hm-icon text-green"><i class="fas fa-train"></i></div>
+              <div class="hm-text">
+                 <h4>100+</h4>
+                 <p>Trains Available</p>
+              </div>
+           </div>
+           <div class="hp-metric-item">
+              <div class="hm-icon text-orange"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="hm-text">
+                 <h4>500+</h4>
+                 <p>Stations Across India</p>
+              </div>
+           </div>
+           <div class="hp-metric-item">
+              <div class="hm-icon text-purple"><i class="fas fa-star"></i></div>
+              <div class="hm-text">
+                 <h4>4.8/5</h4>
+                 <p>User Satisfaction</p>
+              </div>
+           </div>
+        </div>
+     </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2024 Railway Reservation Management System. All rights reserved.</p>
+     <!-- Popular Destinations -->
+     <section class="hp-destinations">
+        <div class="hp-dest-header">
+           <div class="dest-titles">
+              <div class="dest-sub">EXPLORE INDIA</div>
+              <h2>Popular <span class="text-blue">Destinations</span></h2>
+              <p>Discover amazing places across India with comfortable train journeys</p>
+           </div>
+           <div class="dest-controls">
+              <button class="dest-btn"><i class="fas fa-chevron-left"></i></button>
+              <button class="dest-btn"><i class="fas fa-chevron-right"></i></button>
+           </div>
+        </div>
+        
+        <div class="hp-dest-grid">
+           <!-- New Delhi -->
+           <div class="hp-dest-card" onclick="window.location.href='schedule.html'">
+              <img src="dest_delhi.jpg" alt="New Delhi">
+              <div class="dest-overlay">
+                 <div class="dest-info">
+                    <h3>New Delhi</h3>
+                    <p>Historical Capital</p>
+                 </div>
+                 <div class="dest-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+           </div>
+           <!-- Mumbai -->
+           <div class="hp-dest-card" onclick="window.location.href='schedule.html'">
+              <img src="dest_mumbai.jpg" alt="Mumbai">
+              <div class="dest-overlay">
+                 <div class="dest-info">
+                    <h3>Mumbai</h3>
+                    <p>City of Dreams</p>
+                 </div>
+                 <div class="dest-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+           </div>
+           <!-- Chennai -->
+           <div class="hp-dest-card" onclick="window.location.href='schedule.html'">
+              <img src="dest_chennai.jpg" alt="Chennai">
+              <div class="dest-overlay">
+                 <div class="dest-info">
+                    <h3>Chennai</h3>
+                    <p>Cultural Hub</p>
+                 </div>
+                 <div class="dest-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+           </div>
+           <!-- Bengaluru -->
+           <div class="hp-dest-card" onclick="window.location.href='schedule.html'">
+              <img src="dest_bengaluru.jpg" alt="Bengaluru">
+              <div class="dest-overlay">
+                 <div class="dest-info">
+                    <h3>Bengaluru</h3>
+                    <p>Tech Capital</p>
+                 </div>
+                 <div class="dest-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+           </div>
+           <!-- Hyderabad -->
+           <div class="hp-dest-card" onclick="window.location.href='schedule.html'">
+              <img src="dest_hyderabad.jpg" alt="Hyderabad">
+              <div class="dest-overlay">
+                 <div class="dest-info">
+                    <h3>Hyderabad</h3>
+                    <p>City of Pearls</p>
+                 </div>
+                 <div class="dest-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+           </div>
+        </div>
+     </section>
+     
+  </div> <!-- end hp-main-wrapper -->
+
+  <!-- Sleek, reduced-height fixed footer -->
+  <footer id="footer" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 999; margin: 0; padding: 0 !important; display: flex; align-items: center; justify-content: center; height: 40px; box-sizing: border-box; font-size: 14px;">
+    <p style="margin: 0; font-weight: 500;">&copy; 2026 BookMyTrack. All rights reserved.</p>
   </footer>
   
+  <script>
+    // highlight active link
+    (function () {
+      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (href === path || (path==='home.html' && href==='index.html')) {
+            document.querySelectorAll('nav .links a').forEach(link => link.classList.remove('active'));
+            a.classList.add('active');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="style.css" />
    <link rel="stylesheet" href="mybookings.css" />
   <link rel="stylesheet" href="reservation.css" /> <!-- reuse styling -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="ticketGenerator.js"></script>
   <script src="api.js"></script>
   <script src="auth-guard.js" defer></script>
 </head>
@@ -25,7 +28,6 @@
       <a href="mybookings.html">My Bookings</a>
       <a href="feedback.html">Feedback</a>
       <a href="contact.html">Contact</a>
-      <a href="admin.html">Admin</a>
     </div>
     <div class="buttons" id="nav-cta"></div>
   </nav>
@@ -36,7 +38,7 @@
     <div id="bookingsList">Loading your bookings...</div>
   </div>
 
-  <footer>&copy; 2024 Railway Reservation Management System. All rights reserved.</footer>
+  <footer>&copy; 2024 BookMyTrack. All rights reserved.</footer>
 
   <script>
     const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -146,10 +148,17 @@
           if (statusClass !== 'cancelled') {
             actions += `<button class="btn-cancel" onclick="cancelBooking('${b._id}')">Cancel</button>`;
           }
+          if (statusClass === 'paid' || statusClass === 'confirmed') {
+             // Cache booking safely to avoid injected HTML quote escaping issues
+             window.bookingCache = window.bookingCache || {};
+             window.bookingCache[b.pnr] = Object.assign({}, b, { fareTotal: totalFare, farePerPax: [totalFare / paxCount] });
+             actions += `<button class="btn-cancel" style="background:#028090; margin-left:8px;" onclick="generatePremiumTicket(window.bookingCache['${b.pnr}'], this)"><i class="fa-solid fa-file-pdf"></i> Ticket</button>`;
+          }
 
           div.innerHTML = `
             <h3>PNR: ${b.pnr}</h3>
             <div class="booking-details">
+              <b>Train:</b> <span style="color:#ffb703;">${b.trainNo || 'Unknown'} - ${b.trainName || 'N/A'}</span><br>
               <b>From:</b> ${b.from} &nbsp;&nbsp; <b>To:</b> ${b.to}<br>
               <b>Date:</b> ${new Date(b.journeyDate).toDateString()}<br>
               <b>Status:</b> <span class="status-${statusClass}">${b.status}</span><br>
@@ -191,6 +200,7 @@
         alert('Network/parse error while cancelling.\n' + (err.message || err));
       }
     }
+    // downloadBooking is fully managed by ticketGenerator.js now.
   </script>
 
   <script>

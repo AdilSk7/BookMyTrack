@@ -14,6 +14,12 @@ router.post('/pay', async (req, res) => {
       return res.status(400).json({ error: 'Valid amount is required' });
     }
 
+    if (method === 'upi') {
+      if (!upi || !/^[0-9]{10}@[a-zA-Z]{3,64}$/.test(upi)) {
+        return res.status(400).json({ error: 'Invalid UPI ID format' });
+      }
+    }
+
     const cardLast4 = cardNumber ? String(cardNumber).slice(-4) : undefined;
 
     const payment = new Payment({

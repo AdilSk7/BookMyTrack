@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BookMyTrack - Login</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="login.css">
   <script src="api.js"></script>
@@ -12,24 +13,44 @@
 
   <!-- Login Form -->
   <div class="login-container">
-    <h1>Login</h1>
+    <div class="login-icon">
+      <i class="fa-solid fa-user-circle"></i>
+    </div>
+    <h1>Welcome <span>Back</span></h1>
+    <p class="subtitle">Access your BookMyTrack account</p>
+
     <form id="loginForm" autocomplete="off">
-      <label>Email:</label>
-      <input type="email" name="email" placeholder="Enter your email" required autocomplete="off">
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" name="email" placeholder="Enter your email" required autocomplete="off">
+      </div>
 
-      <label>Password:</label>
-      <input type="password" name="password" placeholder="Enter your password" required autocomplete="off">
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" name="password" placeholder="Enter your password" required autocomplete="off">
+      </div>
 
-      <button type="submit">Login</button>
+      <button type="submit">Log in to your account</button>
     </form>
+    
     <div id="loginMessage"></div>
-
     <p>Don’t have an account? <a href="registration.html">Sign up here</a></p>
   </div>
 
   <script>
     const loginForm = document.getElementById('loginForm');
     const loginMessage = document.getElementById('loginMessage');
+    
+    if (loginMessage) {
+      const observer = new MutationObserver(() => {
+        if (loginMessage.innerText.trim() !== '') {
+          loginMessage.style.display = 'block';
+        } else {
+          loginMessage.style.display = 'none';
+        }
+      });
+      observer.observe(loginMessage, { childList: true, characterData: true, subtree: true });
+    }
 
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -37,33 +58,64 @@
       const password = loginForm.password.value.trim();
 
       try {
-        const res = await fetch(`${API_BASE}/api/auth/login`, {
+        let res = await fetch(`${API_BASE}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
 
-        const data = await res.json();
+        let data = await res.json();
+        let isAdmin = false;
+
+        // Fallback to Admin authenticate if User auth fails
+        if (!res.ok) {
+          try {
+            let adminRes = await fetch(`${API_BASE}/api/admin/login`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password })
+            });
+            let adminData = await adminRes.json();
+            
+            if (adminRes.ok) {
+              res = adminRes;
+              data = adminData;
+              isAdmin = true;
+            }
+          } catch(e) {
+            // fail silently, proceed to the negative user auth feedback
+          }
+        }
 
         if (res.ok) {
           loginForm.reset();
-          loginMessage.style.color = 'green';
-          loginMessage.innerText = 'Login successful! Redirecting...';
+          loginMessage.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
+          loginMessage.style.borderColor = 'rgba(0, 255, 0, 0.3)';
+          loginMessage.style.color = '#33ff33';
+          loginMessage.innerText = isAdmin ? 'Admin authenticated! Routing...' : 'Login successful! Redirecting...';
 
-          // Save user info to localStorage
-          localStorage.setItem('user', JSON.stringify(data.user));
-
-          // Redirect to homepage
-          setTimeout(() => {
-            window.location.href = 'home.html';
-          }, 1000);
+          if (isAdmin) {
+            localStorage.setItem('admin_token', data.token);
+            setTimeout(() => {
+              window.location.href = 'admin.html';
+            }, 1000);
+          } else {
+            localStorage.setItem('user', JSON.stringify(data.user));
+            setTimeout(() => {
+              window.location.href = 'home.html';
+            }, 1000);
+          }
         } else {
-          loginMessage.style.color = 'red';
-          loginMessage.innerText = data.error || 'Login failed';
+          loginMessage.style.backgroundColor = 'rgba(255, 77, 77, 0.15)';
+          loginMessage.style.borderColor = 'rgba(255, 77, 77, 0.25)';
+          loginMessage.style.color = '#ff4d4d';
+          loginMessage.innerText = data.error || 'Invalid credentials';
         }
       } catch (err) {
         console.error(err);
-        loginMessage.style.color = 'red';
+        loginMessage.style.backgroundColor = 'rgba(255, 77, 77, 0.15)';
+        loginMessage.style.borderColor = 'rgba(255, 77, 77, 0.25)';
+        loginMessage.style.color = '#ff4d4d';
         loginMessage.innerText = 'Server error';
       }
     });
@@ -71,7 +123,7 @@
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 Railway Reservation Management System. All rights reserved.
+    &copy; 2024 BookMyTrack. All rights reserved.
   </footer>
 </body>
 </html>

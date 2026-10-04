@@ -24,7 +24,6 @@
       <a href="mybookings.html">My Bookings</a>
       <a href="feedback.html">Feedback</a>
       <a href="contact.html">Contact</a>
-      <a href="admin.html">Admin</a>
     </div>
     <div class="buttons" id="nav-cta">
       <a href="login.html"><button>Login</button></a>
@@ -44,13 +43,46 @@
     <div class="user-info">
       <h3 id="userName"></h3>
       <p id="userEmail"></p>
+      <p id="userPhone"></p>
       <p id="userAge"></p>
       <p id="userGender"></p>
+      <button onclick="toggleEdit()" style="margin-top:15px; padding:8px 16px; background:#1d9bf0; color:white; border:none; border-radius:5px; cursor:pointer;">Edit Profile</button>
+    </div>
+
+    <!-- Edit Form -->
+    <form id="editProfileForm" style="display:none; margin-top:20px; text-align:left; background:rgba(255,255,255,0.05); padding:15px; border-radius:8px;">
+       <input type="text" id="editName" placeholder="Full Name" required style="width:100%; margin-bottom:10px; padding:8px;">
+       <input type="tel" id="editPhone" placeholder="Phone Number" style="width:100%; margin-bottom:10px; padding:8px;">
+       <input type="number" id="editAge" placeholder="Age" min="1" required style="width:100%; margin-bottom:10px; padding:8px;">
+       <select id="editGender" required style="width:100%; margin-bottom:10px; padding:8px;">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+       </select>
+       <button type="submit" style="padding:8px 16px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;">Save Changes</button>
+       <button type="button" onclick="toggleEdit()" style="padding:8px 16px; background:#6c757d; color:white; border:none; border-radius:5px; cursor:pointer; margin-left:10px;">Cancel</button>
+    </form>
+
+    <!-- Saved Passengers -->
+    <div class="saved-pax-wrapper" style="margin-top:40px; text-align:left; background:rgba(255,255,255,0.05); padding:20px; border-radius:8px;">
+        <h3 style="color:#ffcc00; margin-top:0; border-bottom:1px solid #444; padding-bottom:8px;">Saved Companions</h3>
+        <ul id="paxList" style="list-style:none; padding:0; margin-bottom:15px;"></ul>
+        
+        <form id="addPaxForm" style="display:flex; gap:10px; flex-wrap:wrap;">
+            <input type="text" id="paxName" placeholder="Companion Name" required style="flex:1; min-width:150px; padding:8px;">
+            <input type="number" id="paxAge" placeholder="Age" min="1" required style="width:70px; padding:8px;">
+            <select id="paxGender" required style="padding:8px;">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+            <button type="submit" style="padding:8px 16px; background:#1d9bf0; color:white; border:none; border-radius:5px; cursor:pointer;">Add</button>
+        </form>
     </div>
   </div>
 
   <footer>
-    © 2024 Railway Reservation Management System. All rights reserved.
+    © 2024 BookMyTrack. All rights reserved.
   </footer>
 
   <script>
@@ -69,15 +101,59 @@
       loadProfile();
     }
 
+    const userPhone = document.getElementById('userPhone');
+    
+    // Forms
+    const editProfileForm = document.getElementById('editProfileForm');
+    const addPaxForm = document.getElementById('addPaxForm');
+    const paxListEl = document.getElementById('paxList');
+    
+    // Edit Inputs
+    const editName = document.getElementById('editName');
+    const editPhone = document.getElementById('editPhone');
+    const editAge = document.getElementById('editAge');
+    const editGender = document.getElementById('editGender');
+
+    if (!user) {
+      alert('Please log in first!');
+      window.location.href = 'login.html';
+    } else {
+      loadProfile();
+    }
+
+    function toggleEdit() {
+       const info = document.querySelector('.user-info');
+       if (editProfileForm.style.display === 'none') {
+           info.style.display = 'none';
+           editProfileForm.style.display = 'block';
+       } else {
+           info.style.display = 'block';
+           editProfileForm.style.display = 'none';
+       }
+    }
+
     async function loadProfile() {
       try {
         const res = await fetch(`${API_BASE}/api/profile/${user._id}`);
         const data = await res.json();
+        
+        if (!res.ok) throw new Error(data.error);
 
+        // Populate read-only view
         userName.textContent = data.name || '';
         userEmail.textContent = data.email || '';
+        userPhone.textContent = data.phone ? `Phone: ${data.phone}` : 'No phone listed';
         userAge.textContent = data.age ? `Age: ${data.age}` : '';
         userGender.textContent = data.gender ? `Gender: ${data.gender}` : '';
+
+        // Pre-fill edit form
+        editName.value = data.name || '';
+        editPhone.value = data.phone || '';
+        editAge.value = data.age || '';
+        editGender.value = data.gender || 'other';
+
+        // Render saved passengers
+        renderPaxList(data.savedPassengers || []);
 
         if (data.photo) {
           profilePhoto.src = `${API_BASE}${data.photo}?t=${Date.now()}`;
@@ -85,8 +161,103 @@
       } catch (e) {
         console.error('Profile load error:', e);
         msg.style.color = 'crimson';
-        msg.textContent = 'Failed to load profile.';
+        msg.textContent = 'Failed to load profile. ' + e.message;
       }
+    }
+
+    function renderPaxList(paxArray) {
+        paxListEl.innerHTML = '';
+        if (paxArray.length === 0) {
+            paxListEl.innerHTML = '<li style="color:#aaa; font-style:italic;">No saved companions.</li>';
+            return;
+        }
+        paxArray.forEach((px, i) => {
+            const li = document.createElement('li');
+            li.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.5); padding:10px; margin-bottom:8px; border-radius:5px;";
+            li.innerHTML = `
+                <div>
+                   <strong style="color:#1d9bf0;">${px.name}</strong> • ${px.age} yrs • <span style="text-transform:capitalize;">${px.gender}</span>
+                </div>
+                <button onclick="deletePax(${i})" style="background:#dc3545; color:white; border:none; border-radius:3px; cursor:pointer; padding:5px 10px;">X</button>
+            `;
+            paxListEl.appendChild(li);
+        });
+    }
+
+    // PUT Update Profile
+    editProfileForm.onsubmit = async (e) => {
+        e.preventDefault();
+        try {
+            msg.textContent = "Updating...";
+            const res = await fetch(`${API_BASE}/api/profile/${user._id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: editName.value.trim(),
+                    phone: editPhone.value.trim(),
+                    age: Number(editAge.value),
+                    gender: editGender.value
+                })
+            });
+            const updated = await res.json();
+            if (!res.ok) throw new Error(updated.error);
+            
+            // Sync local storage mapping
+            user.name = updated.name;
+            localStorage.setItem('user', JSON.stringify(user));
+            
+            msg.textContent = "Profile updated!";
+            msg.style.color = "lightgreen";
+            toggleEdit(); // hide formal
+            loadProfile(); // reload visual
+            setTimeout(() => msg.textContent='', 2000);
+        } catch (err) {
+            msg.textContent = err.message || "Failed to update profile";
+            msg.style.color = "crimson";
+        }
+    }
+
+    // POST Add Companion
+    addPaxForm.onsubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const btn = addPaxForm.querySelector('button');
+            btn.disabled = true;
+            const res = await fetch(`${API_BASE}/api/profile/${user._id}/passengers`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: document.getElementById('paxName').value.trim(),
+                    age: Number(document.getElementById('paxAge').value),
+                    gender: document.getElementById('paxGender').value
+                })
+            });
+            const newList = await res.json();
+            if (!res.ok) throw new Error(newList.error);
+            
+            renderPaxList(newList);
+            addPaxForm.reset();
+        } catch (err) {
+            alert(err.message || "Could not save companion");
+        } finally {
+            addPaxForm.querySelector('button').disabled = false;
+        }
+    }
+
+    // DELETE Companion
+    async function deletePax(index) {
+        if (!confirm('Remove this saved companion?')) return;
+        try {
+            const res = await fetch(`${API_BASE}/api/profile/${user._id}/passengers/${index}`, {
+                method: 'DELETE'
+            });
+            const newList = await res.json();
+            if (!res.ok) throw new Error(newList.error);
+            
+            renderPaxList(newList);
+        } catch (err) {
+            alert(err.message || "Could not delete companion");
+        }
     }
   </script>
 

@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="pnr.css" />
   <link rel="stylesheet" href="reservation.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="ticketGenerator.js"></script>
   <script src="auth-guard.js" defer></script>
   <script src="api.js"></script>
 
@@ -26,34 +29,108 @@
       <a href="mybookings.html">My Bookings</a>
       <a href="feedback.html">Feedback</a>
       <a href="contact.html">Contact</a>
-      <a href="admin.html">Admin</a>
     </div>
     <div class="buttons" id="nav-cta"></div>
   </nav>
 
   <!-- PNR Status Section -->
-  <div class="pnr-container">
-    <h1>Check PNR Status</h1>
-    <form id="pnrForm">
-      <input type="text" id="pnrInput" placeholder="Enter 6-digit PNR" maxlength="6" required />
-      <button type="submit" id="pnrBtn">Check Status</button>
-    </form>
+  <!-- PNR Status Section -->
+  <div class="pnr-layout-wrapper">
+    <div class="pnr-top-section">
+      <!-- Left Column: Hero Text -->
+      <div class="pnr-hero-left">
+        <h4 class="hero-subtitle">TRAVEL UPDATES</h4>
+        <h1 class="hero-title">Check Your <br><span class="hero-highlight">PNR Status</span></h1>
+        <p class="hero-desc">Get real-time updates on your booking status, coach position, and journey details instantly.</p>
+      </div>
 
-    <div id="pnrResult" class="pnr-result"></div>
+      <!-- Right Column: Main Card -->
+      <div class="pnr-hero-right">
+        <div class="pnr-main-card">
+           <div class="pnr-card-header">
+              <div class="pnr-icon-wrapper"><i class="fa-solid fa-ticket-simple"></i></div>
+              <div class="pnr-card-title-box">
+                 <h2>Check PNR Status</h2>
+                 <p>Enter your 6-digit PNR number to get the latest status</p>
+              </div>
+           </div>
+           
+           <form id="pnrForm" class="pnr-modern-form">
+         <div class="form-input-container">
+           <i class="fa-solid fa-ticket-simple" style="color:var(--text-secondary); margin-left:20px; font-size:16px;"></i>
+           <input type="text" id="pnrInput" placeholder="Enter 6-digit PNR number" maxlength="6" required />
+           <span id="clearPnrBtn" style="display:none; color:#888; cursor:pointer; margin-right:15px; font-size:16px; padding:5px;" title="Clear input">
+              <i class="fa-solid fa-xmark"></i>
+           </span>
+           <button type="submit" id="pnrBtn"><i class="fa-solid fa-magnifying-glass"></i> Check Status</button>
+         </div>
+       </form>
+
+           <div id="pnrResult" class="pnr-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pnr-features-grid">
+       <div class="feature-card">
+         <div class="feature-icon bg-green"><i class="fa-regular fa-clock"></i></div>
+         <div class="feature-text">
+           <h4>Live Status</h4>
+           <p>Get real-time booking updates</p>
+         </div>
+       </div>
+       <div class="feature-card">
+         <div class="feature-icon bg-purple"><i class="fa-solid fa-train-subway"></i></div>
+         <div class="feature-text">
+           <h4>Coach Position</h4>
+           <p>Know your coach and berth details</p>
+         </div>
+       </div>
+       <div class="feature-card">
+         <div class="feature-icon bg-orange"><i class="fa-solid fa-bell"></i></div>
+         <div class="feature-text">
+           <h4>Journey Alerts</h4>
+           <p>Stay updated with important notifications</p>
+         </div>
+       </div>
+       <div class="feature-card">
+         <div class="feature-icon bg-blue"><i class="fa-solid fa-file-invoice"></i></div>
+         <div class="feature-text">
+           <h4>Booking Summary</h4>
+           <p>View complete journey details</p>
+         </div>
+       </div>
+    </div>
   </div>
 
-  <footer>&copy; 2024 Railway Reservation Management System. All rights reserved.</footer>
+  <footer>&copy; 2024 BookMyTrack. All rights reserved.</footer>
 
   <script>
     const pnrForm   = document.getElementById('pnrForm');
     const pnrInput  = document.getElementById('pnrInput');
     const pnrBtn    = document.getElementById('pnrBtn');
     const pnrResult = document.getElementById('pnrResult');
+    const clearPnrBtn = document.getElementById('clearPnrBtn');
 
-    // keep input uppercase while typing
+    // keep input uppercase while typing and manage cross icon
+    function toggleClearBtn() {
+       clearPnrBtn.style.display = pnrInput.value.length > 0 ? 'inline-block' : 'none';
+    }
+
     pnrInput.addEventListener('input', () => {
       pnrInput.value = pnrInput.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);
+      toggleClearBtn();
     });
+
+    clearPnrBtn.addEventListener('click', () => {
+       pnrInput.value = '';
+       toggleClearBtn();
+       pnrResult.innerHTML = '';
+       pnrInput.focus();
+    });
+
+    // Check visibility on load in case the browser pre-fills the input
+    window.addEventListener('load', toggleClearBtn);
 
     // Fallback amount (only if server has no fare fields)
     function fallbackAmount(paxCount) {
@@ -136,6 +213,7 @@
         pnrResult.innerHTML = `
           <div class="pnr-card">
             <h3>PNR: ${data.pnr}</h3>
+            <p><b>Train:</b> <span style="color:#ffb703;">${data.trainNo || 'Unknown'} - ${data.trainName || 'N/A'}</span></p>
             <p><b>From:</b> ${data.from} &nbsp;&nbsp; <b>To:</b> ${data.to}</p>
             <p><b>Date:</b> ${new Date(data.journeyDate).toDateString()}</p>
             <p><b>Status:</b> <span class="status-${String(data.status || '').toLowerCase()}">${data.status}</span></p>
@@ -146,8 +224,14 @@
             </div>
 
             ${passengersHTML}
+            <div style="margin-top:15px;" class="pnr-actions">
+               <button onclick="window.generatePremiumTicket(window.pnrDataCache, this)" style="background:#028090; color:white; padding:8px 16px; border:none; cursor:pointer; border-radius:4px; font-family:'Inter', sans-serif;">
+                  <i class="fa-solid fa-file-pdf"></i> Download PDF
+               </button>
+            </div>
           </div>
         `;
+        window.pnrDataCache = Object.assign({}, data, { fareTotal: totalFare, farePerPax: [totalFare / paxCount] });
       } catch (err) {
         console.error(err);
         pnrResult.innerHTML = `<p style="color:red;">Server error</p>`;
@@ -155,6 +239,8 @@
         pnrBtn.disabled = false;
       }
     });
+
+    // PDF generation is delegated to ticketGenerator.js
   </script>
 
   <script>

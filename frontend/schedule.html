@@ -7,7 +7,9 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="schedule.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="api.js"></script>
   <script src="auth-guard.js"></script>
+  <script src="schedule.js"></script>
 
 </head>
 <body>
@@ -24,7 +26,6 @@
       <a href="mybookings.html">My Bookings</a>
       <a href="feedback.html">Feedback</a>
       <a href="contact.html">Contact</a>
-      <a href="admin.html">Admin</a>
     </div>
     <div class="buttons">
       <a href="login.html"><button>Login</button></a>
@@ -33,159 +34,112 @@
   </nav>
 
   <!-- Schedule Section -->
-  <div class="schedule-container">
-    <h1>Train Schedule</h1>
+  <!-- Schedule Premium Page Redesign -->
+  <div class="schedule-page-wrapper">
+    
+    <!-- Hero / Header -->
+    <div class="sch-header">
+       <div class="sch-titles">
+          <h1>Train <span>Schedule</span></h1>
+          <p>Find and explore trains across India</p>
+       </div>
+       <div class="sch-quote">
+          "Different Destinations<br>A Brighter Tomorrow"
+       </div>
+    </div>
 
-   <div class="filters">
-  <input type="text" id="searchInput" placeholder="Search by train name or number..." onkeyup="filterSchedule()">
+    <!-- Filter / Search Console -->
+    <div class="sch-glass-bar">
+       <div class="input-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search by train name or number" onkeyup="filterSchedule()">
+       </div>
+       <div class="input-wrap select-wrap">
+          <i class="fas fa-map-marker-alt"></i>
+          <select id="fromFilter" onchange="filterSchedule()">
+             <option value="">From Station</option>
+          </select>
+       </div>
+       <div class="input-wrap select-wrap">
+          <i class="fas fa-map-marker-alt"></i>
+          <select id="toFilter" onchange="filterSchedule()">
+             <option value="">To Station</option>
+          </select>
+       </div>
+       <button class="sch-search-btn" onclick="filterSchedule()"><i class="fas fa-search"></i> Search Trains</button>
+    </div>
 
-  <select id="fromFilter" onchange="filterSchedule()">
-    <option value="">From Station</option>
-    <option value="Vijayawada">Vijayawada</option>
-    <option value="Hyderabad">Hyderabad</option>
-    <option value="Secunderabad">Secunderabad</option>
-    <option value="Vizag">Vizag</option>
-    <option value="Guntur">Guntur</option>
-    <option value="Tirupati">Tirupati</option>
-  </select>
+    <!-- Main Table Container -->
+    <div class="sch-table-container">
+       
+       <div class="sch-table-top">
+          <div class="sch-table-title">
+             <div class="sch-train-icon"><i class="fas fa-train"></i></div>
+             <div>
+                <h3>Available Trains</h3>
+                <p>Plan your journey with real-time schedule information</p>
+             </div>
+          </div>
+          <div class="sch-date" id="schDateDisplay">
+             <!-- JS injects exact date format here -->
+          </div>
+       </div>
 
-  <select id="toFilter" onchange="filterSchedule()">
-    <option value="">To Station</option>
-    <option value="Vijayawada">Vijayawada</option>
-    <option value="Hyderabad">Hyderabad</option>
-    <option value="Secunderabad">Secunderabad</option>
-    <option value="Vizag">Vizag</option>
-    <option value="Guntur">Guntur</option>
-    <option value="Tirupati">Tirupati</option>
-  </select>
-</div>
+       <div class="sch-table-wrap">
+       <table id="scheduleTable">
+         <thead>
+           <tr>
+             <th onclick="sortTable(0)">Train No.</th>
+             <th onclick="sortTable(1)">Train Name</th>
+             <th>From</th>
+             <th>To</th>
+             <th>Departure <i class="fas fa-sort"></i></th>
+             <th>Arrival <i class="fas fa-sort"></i></th>
+             <th>Status</th>
+             <th>Action</th>
+           </tr>
+         </thead>
+         <tbody id="scheduleTableBody">
+           <tr><td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">Loading schedules...</td></tr>
+         </tbody>
+       </table>
+       
+       <div id="paginationControls" class="sch-pagination"></div>
+       </div>
+    </div>
 
+    <!-- Bottom Features Ribbon -->
+    <div class="sch-ribbon">
+       <div class="s-feat">
+          <div class="sf-icon blue"><i class="fas fa-train"></i></div>
+          <div class="sf-text">
+             <h4>Wide Network</h4>
+             <p>Trains across India</p>
+          </div>
+       </div>
+       <div class="s-feat">
+          <div class="sf-icon green"><i class="fas fa-shield-alt"></i></div>
+          <div class="sf-text">
+             <h4>Reliable Information</h4>
+             <p>Real-time schedule updates</p>
+          </div>
+       </div>
+       <div class="s-feat">
+          <div class="sf-icon orange"><i class="fas fa-users"></i></div>
+          <div class="sf-text">
+             <h4>Inclusive Travel</h4>
+             <p>Accessible for everyone</p>
+          </div>
+       </div>
+       <div class="s-feat">
+          <div class="sf-icon purple"><i class="far fa-clock"></i></div>
+          <div class="sf-text">
+             <h4>Plan Ahead</h4>
+             <p>A smoother journey</p>
+          </div>
+       </div>
+    </div>
 
-    <!-- Schedule Table -->
-    <table id="scheduleTable">
-      <thead>
-        <tr>
-          <th onclick="sortTable(0)">Train No.</th>
-          <th onclick="sortTable(1)">Train Name</th>
-          <th>From</th>
-          <th>To</th>
-          <th>Departure</th>
-          <th>Arrival</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-  <tr>
-    <td>12345</td>
-    <td>Express A</td>
-    <td>Vijayawada</td>
-    <td>Hyderabad</td>
-    <td>08:00</td>
-    <td>12:00</td>
-    <td>On Time</td>
-  </tr>
-  <tr>
-    <td>54321</td>
-    <td>Express B</td>
-    <td>Hyderabad</td>
-    <td>Vijayawada</td>
-    <td>14:00</td>
-    <td>18:00</td>
-    <td>Delayed</td>
-  </tr>
-  <tr>
-    <td>67890</td>
-    <td>Express C</td>
-    <td>Vijayawada</td>
-    <td>Secunderabad</td>
-    <td>10:00</td>
-    <td>15:00</td>
-    <td>On Time</td>
-  </tr>
-  <tr>
-    <td>98765</td>
-    <td>Express D</td>
-    <td>Hyderabad</td>
-    <td>Secunderabad</td>
-    <td>09:30</td>
-    <td>13:30</td>
-    <td>On Time</td>
-  </tr>
-  <tr>
-    <td>11223</td>
-    <td>Express E</td>
-    <td>Secunderabad</td>
-    <td>Vijayawada</td>
-    <td>07:45</td>
-    <td>11:45</td>
-    <td>Delayed</td>
-  </tr>
-  <tr>
-    <td>44556</td>
-    <td>Express F</td>
-    <td>Vijayawada</td>
-    <td>Hyderabad</td>
-    <td>12:15</td>
-    <td>16:15</td>
-    <td>On Time</td>
-  </tr>
-  <tr>
-    <td>77889</td>
-    <td>Express G</td>
-    <td>Hyderabad</td>
-    <td>Secunderabad</td>
-    <td>15:00</td>
-    <td>19:00</td>
-    <td>Delayed</td>
-  </tr>
-  <tr>
-    <td>99001</td>
-    <td>Express H</td>
-    <td>Secunderabad</td>
-    <td>Vijayawada</td>
-    <td>06:30</td>
-    <td>10:30</td>
-    <td>On Time</td>
-  </tr>
-  <tr>
-    <td>22334</td>
-    <td>Express I</td>
-    <td>Vizag</td>
-    <td>Hyderabad</td>
-    <td>05:30</td>
-    <td>12:00</td>
-    <td>On Time</td>
-  </tr>
-  <tr>
-    <td>55667</td>
-    <td>Express J</td>
-    <td>Guntur</td>
-    <td>Secunderabad</td>
-    <td>09:00</td>
-    <td>13:45</td>
-    <td>Delayed</td>
-  </tr>
-  <tr>
-    <td>88990</td>
-    <td>Express K</td>
-    <td>Tirupati</td>
-    <td>Hyderabad</td>
-    <td>06:15</td>
-    <td>11:30</td>
-    <td>On Time</td>
-  </tr>
-  <tr>
-    <td>33445</td>
-    <td>Express L</td>
-    <td>Vijayawada</td>
-    <td>Vizag</td>
-    <td>14:30</td>
-    <td>19:00</td>
-    <td>Delayed</td>
-  </tr>
-</tbody>
-
-    </table>
   </div>
 
   <script>
@@ -210,9 +164,12 @@
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 Railway Reservation Management System. All rights reserved.
+    &copy; 2024 BookMyTrack. All rights reserved.
   </footer>
 
   <script src="schedule.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", loadTrains);
+  </script>
 </body>
 </html>

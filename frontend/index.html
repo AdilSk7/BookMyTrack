@@ -8,14 +8,8 @@
   <script src="auth-guard.js"></script>
 
   <script>
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    if (user) {
-      // already logged in → go to home
-      window.location.replace('home.html');
-    } else {
-      // not logged in → go to login
-      window.location.replace('login.html');
-    }
+    // Always redirect root domain to the landing page
+    window.location.replace('home.html');
   </script>
   
 </head>

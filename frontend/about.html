@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BookMyTrack - About</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="about.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <script src="auth-guard.js"></script>
 
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
@@ -23,7 +26,6 @@
       <a href="mybookings.html">My Bookings</a>
       <a href="feedback.html">Feedback</a>
       <a href="contact.html">Contact</a>
-      <a href="admin.html">Admin</a>
     </div>
     <div class="buttons">
       <a href="login.html"><button>Login</button></a>
@@ -31,63 +33,214 @@
     </div>
   </nav>
 
-  <!-- About Section -->
-  <div class="about-container">
-    <h1>About Railway Reservation Management System</h1>
-    <p>
-      <strong>BookMyTrack (RRMS)</strong> is a modern Railway Reservation Management System
-      designed to make train travel in India more inclusive, comfortable, and user-friendly.
-      Our platform enhances the traditional IRCTC system by addressing long-standing challenges
-      such as gender inclusivity, seating issues, and accessibility for elderly passengers.
-    </p>
+  <!-- About Page Redesign -->
+  <div class="about-page-wrapper">
+     
+    <!-- HERO SECTION -->
+    <div class="about-hero">
+       <div class="hero-left">
+          <div class="our-story-label">OUR STORY <span class="line-after"></span></div>
+          <h1>About <span>BookMyTrack</span></h1>
+          <h3>Travel Made Inclusive</h3>
+          <p>BookMyTrack is a modern railway reservation platform designed to make train travel in India more inclusive, comfortable, and user-friendly. Our platform enhances the traditional IRCTC system by addressing long-standing challenges such as gender inclusivity, seating issues, and accessibility for elderly passengers.</p>
+          <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+             <a href="#academic-journey" class="hero-btn">Our Journey <i class="fas fa-arrow-right"></i></a>
+             <a href="#what-we-offer" class="hero-btn" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);">What We Offer</a>
+             <a href="#tech-stack" class="hero-btn" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);">Technology used</a>
+          </div>
+       </div>
+       
+       <div class="hero-right">
+          <div class="hero-quote">
+             "A more inclusive<br>journey for everyone"
+             <div class="quote-underline"></div>
+          </div>
+          <div class="glass-pill">
+             <i class="fas fa-users"></i>
+             <span>Inclusive<br>for All</span>
+          </div>
+          <div class="glass-pill">
+             <i class="fas fa-shield"></i>
+             <span>Safe & Secure<br>Travel</span>
+          </div>
+          <div class="glass-pill">
+             <i class="fas fa-leaf"></i>
+             <span>Smarter<br>Reservations</span>
+          </div>
+       </div>
+    </div>
 
-    <h2>Our Purpose</h2>
-    <p>
-      The purpose of RRMS is to provide a railway booking experience that respects and accommodates
-      passengers of all gender identities, while ensuring comfort and convenience for senior citizens
-      through automatic lower berth allocation.
-    </p>
+    <!-- MAIN CONTENT -->
+    <div class="about-content">
+       
+       <!-- WHAT WE OFFER -->
+       <div class="section-head" id="what-we-offer">
+          <h2><span class="line-side"></span> What We Offer <span class="line-side"></span></h2>
+          <p>Smart features designed for a better railway booking experience.</p>
+       </div>
+       
+       <div class="features-five">
+          <div class="f-card">
+             <div class="f-icon f1"><i class="fas fa-users"></i></div>
+             <h4>Inclusive Gender Options</h4>
+             <p>Gender-neutral choices and respectful representation for all passengers.</p>
+          </div>
+          <div class="f-card">
+             <div class="f-icon f2"><i class="fas fa-wheelchair"></i></div>
+             <h4>Lower Berth Allocation</h4>
+             <p>Elderly passengers are automatically assigned lower berths for safety and comfort.</p>
+          </div>
+          <div class="f-card">
+             <div class="f-icon f3"><i class="fas fa-users"></i></div>
+             <h4>Family & Group Bookings</h4>
+             <p>Convenient seat grouping to ensure families and groups travel together.</p>
+          </div>
+          <div class="f-card">
+             <div class="f-icon f4"><i class="fas fa-chair"></i></div>
+             <h4>Accessible Seating</h4>
+             <p>Priority seats and wheelchair-friendly booking options for those in need.</p>
+          </div>
+          <div class="f-card">
+             <div class="f-icon f5"><i class="fas fa-bolt"></i></div>
+             <h4>User-Friendly Design</h4>
+             <p>A clean, intuitive interface that makes reservations faster and easier.</p>
+          </div>
+       </div>
 
-    <h2>Key Features</h2>
-    <ul>
-      <li><strong>Inclusive Gender Options:</strong> Gender-neutral choices and respectful representation for all passengers.</li>
-      <li><strong>Lower Berth Allocation:</strong> Elderly passengers are automatically assigned lower berths for safety and comfort.</li>
-      <li><strong>Family & Group Bookings:</strong> Convenient seat grouping to ensure families and groups travel together.</li>
-      <li><strong>Accessible Seating:</strong> Priority seats and wheelchair-friendly booking options for those in need.</li>
-      <li><strong>User-Friendly Design:</strong> A clean, intuitive interface that makes reservations faster and easier.</li>
-    </ul>
+       <!-- DUAL BLOCKS -->
+       <div class="dual-blocks">
+          <div class="dual-card purpose">
+             <div class="d-icon"><i class="fas fa-bullseye"></i></div>
+             <div>
+                <h3>Our Purpose</h3>
+                <p>The purpose of <strong>BookMyTrack</strong> is to provide a railway booking experience that respects and accommodates passengers of all gender identities, while ensuring comfort and convenience for senior citizens through automatic lower berth allocation.</p>
+             </div>
+          </div>
+          <div class="dual-card mission">
+             <div class="d-icon"><i class="fas fa-eye"></i></div>
+             <div>
+                <h3>Our Mission</h3>
+                <p>Our mission is to build a railway reservation system that not only improves the passenger experience, but also reflects the diversity of India’s travelers. By focusing on inclusivity, accessibility, and user comfort, we aim to set a new benchmark in railway booking services.</p>
+             </div>
+          </div>
+       </div>
 
-    <h2>Our Mission</h2>
-    <p>
-      Our mission is to build a railway reservation system that not only improves the passenger experience,
-      but also reflects the diversity of India’s travelers. By focusing on inclusivity, accessibility,
-      and user comfort, we aim to set a new benchmark in railway booking services.
-    </p>
+       <!-- ACADEMIC JOURNEY -->
+       <div class="section-head" id="academic-journey">
+          <h2><span class="line-side white-line"></span> Our Academic Journey <span class="line-side white-line"></span></h2>
+       </div>
+       <div class="academic-card">
+          <div class="acad-left">
+             <div class="vitap-badge">
+                 <i class="fas fa-university"></i>
+                 <span>VIT-AP<br><small>UNIVERSITY</small></span>
+             </div>
+          </div>
+          <div class="acad-right">
+             <h3>Developed at VIT-AP University</h3>
+             <p>During my academics, as part of the <span>Software Engineering</span> course, we were assigned a team project to develop a web-based application. Our team chose to build a modern, inclusive, and user-friendly <strong>Railway Reservation Management System</strong> aimed at improving accessibility and enhancing the passenger booking experience.</p>
+             
+             <div class="acad-grid">
+                <div class="a-item blue-icon">
+                   <i class="fas fa-graduation-cap"></i>
+                   <div>
+                      <h5>VIT-AP University</h5>
+                      <span>Amaravathi, Andhra Pradesh</span>
+                   </div>
+                </div>
+                <div class="a-item blue-icon">
+                   <i class="fas fa-book-open"></i>
+                   <div>
+                      <h5>Academic Project</h5>
+                      <span>Software Engineering Course</span>
+                   </div>
+                </div>
+                <div class="a-item yellow-icon">
+                   <i class="fas fa-star"></i>
+                   <div>
+                      <h5>Developed by</h5>
+                      <span>A Team of Students</span>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+
+       <!-- TECH STACK -->
+       <div class="section-head" id="tech-stack">
+          <h2><span class="line-side"></span> Technology Used <span class="line-side"></span></h2>
+          <p>Built with modern and reliable technologies</p>
+       </div>
+       <div class="tech-list">
+          <div class="tech-card">
+              <div class="tc-logo" style="background:#e34f26;"><i class="fab fa-html5" style="color:white;"></i></div>
+              <div class="tc-text">HTML5</div>
+          </div>
+          <div class="tech-card">
+              <div class="tc-logo" style="background:#1572B6;"><i class="fab fa-css3-alt" style="color:white;"></i></div>
+              <div class="tc-text">CSS3</div>
+          </div>
+          <div class="tech-card">
+              <div class="tc-logo" style="background:#F7DF1E;"><i class="fab fa-js" style="color:black; font-weight:900;"></i></div>
+              <div class="tc-text">JavaScript</div>
+          </div>
+          <div class="tech-card">
+              <div class="tc-logo" style="background:#1c5c1c;"><i class="fab fa-node" style="color:#539e43; font-size: 22px;"></i></div>
+              <div class="tc-text">Node.js</div>
+          </div>
+          <div class="tech-card">
+              <div class="tc-logo" style="background:#252525;"><i style="color:white; font-style:normal; font-weight:bold; font-size:12px;">ex</i></div>
+              <div class="tc-text">Express.js</div>
+          </div>
+          <div class="tech-card">
+              <div class="tc-logo" style="background:#1a1a1a;"><i class="fas fa-leaf" style="color:#47A248;"></i></div>
+              <div class="tc-text">MongoDB</div>
+          </div>
+          <div class="tech-card">
+              <div class="tc-logo" style="background:white;"><i class="fab fa-github" style="color:black;"></i></div>
+              <div class="tc-text">Git & GitHub</div>
+          </div>
+       </div>
+
+       <!-- INCLUSIVE BANNER -->
+       <div class="inclusive-banner">
+          <div class="ib-left">
+             <div class="ib-icon"><i class="fas fa-train"></i></div>
+             <div class="ib-text">
+                <h3>Let's Build a More Inclusive Tomorrow</h3>
+                <p>Smarter Travel. Safer Journeys. Happier Passengers.</p>
+             </div>
+          </div>
+          <a href="reservation.html" class="hero-btn banner-btn">Book Your Journey <i class="fas fa-arrow-right"></i></a>
+       </div>
+
+    </div>
   </div>
 
   <script>
-  // highlight active link
-  (function(){
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    document.querySelectorAll('nav .links a').forEach(a=>{
-      const href = (a.getAttribute('href')||'').toLowerCase();
-      if (href === path) a.classList.add('active');
-    });
-  })();
+    // highlight active link
+    (function () {
+      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (href === path) a.classList.add('active');
+      });
+    })();
 
-  // shrink nav on scroll
-  (function(){
-    const nav = document.querySelector('nav');
-    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive:true });
-  })();
-</script>
+    // shrink nav on scroll
+    (function () {
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
 
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 Railway Reservation Management System. All rights reserved.
+    &copy; 2026 BookMyTrack. All rights reserved.
   </footer>
 </body>
+
 </html>

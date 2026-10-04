@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BookMyTrack - Registration</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="registration.css">
   <script src="api.js"></script>
@@ -12,29 +13,44 @@
 
   <!-- Registration Form -->
   <div class="registration-container">
-    <h1>Register</h1>
+    <div class="registration-icon">
+      <i class="fa-solid fa-user-plus"></i>
+    </div>
+    <h1>Create <span>Account</span></h1>
+    <p class="subtitle">Join BookMyTrack and start your journey</p>
+
     <form id="registrationForm" autocomplete="off">
-      <label>Full Name:</label>
-      <input type="text" name="name" placeholder="Enter your full name" required autocomplete="off">
+      <div class="input-group">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" name="name" placeholder="Enter your full name" required autocomplete="off">
+      </div>
 
-      <label>Email:</label>
-      <input type="email" name="email" placeholder="Enter your email" required autocomplete="off">
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" name="email" placeholder="Enter your email" required autocomplete="off">
+      </div>
 
-      <label>Password:</label>
-      <input type="password" name="password" placeholder="Enter your password" required autocomplete="new-password">
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" name="password" placeholder="Create a password" required autocomplete="new-password">
+      </div>
 
-      <label>Age:</label>
-      <input type="number" name="age" min="1" required>
+      <div class="input-group">
+        <i class="fa-solid fa-cake-candles"></i>
+        <input type="number" name="age" min="1" placeholder="Enter your age" required>
+      </div>
 
-      <label>Gender:</label>
-      <select name="gender" required>
-        <option value="">Select</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
+      <div class="input-group select-group">
+        <i class="fa-solid fa-venus-mars"></i>
+        <select name="gender" required>
+          <option value="" disabled selected hidden>Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
 
-      <button type="submit">Register</button>
+      <button type="submit">Complete Registration</button>
     </form>
 
     <div id="regMessage"></div>
@@ -44,6 +60,17 @@
   <script>
     const regForm = document.getElementById('registrationForm');
     const regMessage = document.getElementById('regMessage');
+
+    if (regMessage) {
+      const observer = new MutationObserver(() => {
+        if (regMessage.innerText.trim() !== '') {
+          regMessage.style.display = 'block';
+        } else {
+          regMessage.style.display = 'none';
+        }
+      });
+      observer.observe(regMessage, { childList: true, characterData: true, subtree: true });
+    }
 
     regForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -68,19 +95,25 @@
         if (res.ok) {
           regForm.reset();  
 
-          regMessage.style.color = 'green';
+          regMessage.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
+          regMessage.style.borderColor = 'rgba(0, 255, 0, 0.3)';
+          regMessage.style.color = '#33ff33';
           regMessage.innerText = 'Registration successful! Redirecting to login...';
 
           setTimeout(() => {
             window.location.href = 'login.html';
           }, 1500);
         } else {
-          regMessage.style.color = 'red';
+          regMessage.style.backgroundColor = 'rgba(255, 77, 77, 0.15)';
+          regMessage.style.borderColor = 'rgba(255, 77, 77, 0.25)';
+          regMessage.style.color = '#ff4d4d';
           regMessage.innerText = data.error || 'Registration failed';
         }
       } catch (err) {
         console.error(err);
-        regMessage.style.color = 'red';
+        regMessage.style.backgroundColor = 'rgba(255, 77, 77, 0.15)';
+        regMessage.style.borderColor = 'rgba(255, 77, 77, 0.25)';
+        regMessage.style.color = '#ff4d4d';
         regMessage.innerText = 'Server error!';
       }
     });
@@ -108,7 +141,7 @@
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 Railway Reservation Management System. All rights reserved.
+    &copy; 2024 BookMyTrack. All rights reserved.
   </footer>
 </body>
 </html>

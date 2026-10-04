@@ -1,3 +1,8 @@
+window.addEventListener('pageshow', () => {
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+});
+
 document.getElementById("admin-login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 

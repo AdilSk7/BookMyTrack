@@ -33,6 +33,9 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/reservation', require('./routes/reservation'));
 app.use('/api/payment', require('./routes/payment'));
 app.use('/api/profile', require('./routes/profile'));
+app.use('/api/trains', require('./routes/train'));
+app.use('/api/public', require('./routes/public'));
+
 
 // ===============================
 // Admin LOGIN (no token needed)
