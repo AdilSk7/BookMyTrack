@@ -118,28 +118,6 @@ BookMyTrack/
 
 ## 🎯 Features Implemented  
 
-- ✅ Login and Registration System  
-- ✅ Automatic Seat Allocation  
-- ✅ Group & Family Booking  
-- ✅ Elderly Seat Prioritization (Age ≥ 60)  
-- ✅ Profile Management  
-- ✅ PNR & Schedule Simulation  
-- ✅ Payment Workflow (Dummy Integration)  
-- ✅ Feedback Form  
-
----
-
-## 🚀 Future Enhancements
-
-- Integrate real-time train schedules and availability APIs.
-- Integrate a production payment gateway such as Razorpay or Stripe.
-- Implement real-time PNR status tracking.
-- Add email/SMS notifications for booking confirmations and cancellations.
-- Develop a Progressive Web App (PWA) for mobile users.  
-
----
-## 🎯 Features Implemented
-
 - ✅ User Registration & Login
 - ✅ JWT Authentication
 - ✅ Smart Seat Allocation
@@ -158,6 +136,16 @@ BookMyTrack/
 - ✅ Train & Route Management
 - ✅ Booking Status Management
 - ✅ Dashboard Analytics
+
+---
+
+## 🚀 Future Enhancements
+
+- Integrate real-time train schedules and availability APIs.
+- Integrate a production payment gateway such as Razorpay or Stripe.
+- Implement real-time PNR status tracking.
+- Add email/SMS notifications for booking confirmations and cancellations.
+- Develop a Progressive Web App (PWA) for mobile users.  
 
 ---
 
