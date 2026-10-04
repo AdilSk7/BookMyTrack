@@ -3,7 +3,7 @@
    Frontend Script (admin.js)
 ============================= */
 
-const API_BASE = "http://localhost:5000/api/admin";
+const API_BASE = "https://bookmytrack-backend.onrender.com/api/admin";
 Chart.defaults.color = '#8b949e';
 Chart.defaults.font.family = "'Inter', sans-serif";
 
@@ -94,19 +94,19 @@ async function loadDashboard() {
 // Chart.js Aggregations
 function buildChartsFromReservations(reservations) {
     let active = 0, cancelled = 0;
-    
+
     // Top Routes tracker: "From -> To": count
     const routesMap = {};
-    
+
     // Ages
     const ageGroups = { '0-18': 0, '19-30': 0, '31-50': 0, '50+': 0 };
-    
+
     reservations.forEach(r => {
         if (r.status === 'Cancelled') cancelled++; else active++;
-        
+
         const routeKey = `${r.from} -> ${r.to}`;
         routesMap[routeKey] = (routesMap[routeKey] || 0) + 1;
-        
+
         r.passengers.forEach(p => {
             const a = p.age;
             if (a <= 18) ageGroups['0-18']++;
@@ -130,14 +130,14 @@ function buildChartsFromReservations(reservations) {
     });
     // Custom Legend
     document.getElementById('status-legend').innerHTML = `
-        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:#2f81f7"></span>Active</div><div class="legend-val">${active} <span>(${(active/totalStatus*100||0).toFixed(1)}%)</span></div></div>
-        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:#f85149"></span>Cancelled</div><div class="legend-val">${cancelled} <span>(${(cancelled/totalStatus*100||0).toFixed(1)}%)</span></div></div>
+        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:#2f81f7"></span>Active</div><div class="legend-val">${active} <span>(${(active / totalStatus * 100 || 0).toFixed(1)}%)</span></div></div>
+        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:#f85149"></span>Cancelled</div><div class="legend-val">${cancelled} <span>(${(cancelled / totalStatus * 100 || 0).toFixed(1)}%)</span></div></div>
     `;
 
     // 2. Age Donut
     if (ageChartObj) ageChartObj.destroy();
     const agesArr = [ageGroups['0-18'], ageGroups['19-30'], ageGroups['31-50'], ageGroups['50+']];
-    const totalAge = agesArr.reduce((a,b)=>a+b, 0);
+    const totalAge = agesArr.reduce((a, b) => a + b, 0);
     const ageColors = ['#00ffae', '#2f81f7', '#f1c40f', '#a371f7'];
     const ctxAge = document.getElementById('ageChart').getContext('2d');
     ageChartObj = new Chart(ctxAge, {
@@ -150,14 +150,14 @@ function buildChartsFromReservations(reservations) {
     });
     // Age Custom Legend
     document.getElementById('age-legend').innerHTML = `
-        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:${ageColors[0]}"></span>0 - 18</div><div class="legend-val">${agesArr[0]} <span>(${(agesArr[0]/totalAge*100||0).toFixed(1)}%)</span></div></div>
-        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:${ageColors[1]}"></span>19 - 30</div><div class="legend-val">${agesArr[1]} <span>(${(agesArr[1]/totalAge*100||0).toFixed(1)}%)</span></div></div>
-        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:${ageColors[2]}"></span>31 - 50</div><div class="legend-val">${agesArr[2]} <span>(${(agesArr[2]/totalAge*100||0).toFixed(1)}%)</span></div></div>
-        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:${ageColors[3]}"></span>50+</div><div class="legend-val">${agesArr[3]} <span>(${(agesArr[3]/totalAge*100||0).toFixed(1)}%)</span></div></div>
+        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:${ageColors[0]}"></span>0 - 18</div><div class="legend-val">${agesArr[0]} <span>(${(agesArr[0] / totalAge * 100 || 0).toFixed(1)}%)</span></div></div>
+        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:${ageColors[1]}"></span>19 - 30</div><div class="legend-val">${agesArr[1]} <span>(${(agesArr[1] / totalAge * 100 || 0).toFixed(1)}%)</span></div></div>
+        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:${ageColors[2]}"></span>31 - 50</div><div class="legend-val">${agesArr[2]} <span>(${(agesArr[2] / totalAge * 100 || 0).toFixed(1)}%)</span></div></div>
+        <div class="legend-item"><div class="legend-label"><span class="dot" style="background:${ageColors[3]}"></span>50+</div><div class="legend-val">${agesArr[3]} <span>(${(agesArr[3] / totalAge * 100 || 0).toFixed(1)}%)</span></div></div>
     `;
 
     // 3. Top Routes List
-    const sortedRoutes = Object.entries(routesMap).sort((a,b)=>b[1]-a[1]).slice(0, 5);
+    const sortedRoutes = Object.entries(routesMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
     let maxRoute = sortedRoutes.length ? sortedRoutes[0][1] : 1;
     let routesHtml = '';
     sortedRoutes.forEach(([r, count]) => {
@@ -183,14 +183,14 @@ const resRowsPerPage = 15;
 
 function renderReservationsTab(list) {
     currentFilteredRows = [];
-    
+
     // Flatten rows since one reservation can have multiple passengers
     list.forEach(item => {
         item.passengers.forEach((p, pIndex) => {
-             currentFilteredRows.push({ item, p, pIndex });
+            currentFilteredRows.push({ item, p, pIndex });
         });
     });
-    
+
     resCurrentPage = 1;
     drawReservationsPage();
 }
@@ -198,7 +198,7 @@ function renderReservationsTab(list) {
 function drawReservationsPage() {
     const tbody = document.getElementById("reservations-body");
     tbody.innerHTML = "";
-    
+
     const totalRows = currentFilteredRows.length;
     if (!totalRows) {
         document.getElementById("entries-info").textContent = `Showing 0 entries`;
@@ -206,16 +206,16 @@ function drawReservationsPage() {
         document.getElementById("res-pagination").innerHTML = '';
         return;
     }
-    
+
     const totalPages = Math.ceil(totalRows / resRowsPerPage);
     if (resCurrentPage > totalPages) resCurrentPage = totalPages;
     if (resCurrentPage < 1) resCurrentPage = 1;
-    
+
     const start = (resCurrentPage - 1) * resRowsPerPage;
     const end = Math.min(start + resRowsPerPage, totalRows);
-    
+
     document.getElementById("entries-info").textContent = `Showing ${start + 1} to ${end} of ${totalRows} entries`;
-    
+
     const pageRows = currentFilteredRows.slice(start, end);
 
     pageRows.forEach(rowObj => {
@@ -251,8 +251,8 @@ function drawReservationsPage() {
         tbody.innerHTML += row;
     });
 
-    let pagHtml = `<button onclick="changeResPage(${resCurrentPage-1})" ${resCurrentPage === 1 ? 'disabled' : ''}>&lt;</button>`;
-    
+    let pagHtml = `<button onclick="changeResPage(${resCurrentPage - 1})" ${resCurrentPage === 1 ? 'disabled' : ''}>&lt;</button>`;
+
     for (let i = 1; i <= totalPages; i++) {
         // Show first, last, and +/- 2 from current page
         if (i === 1 || i === totalPages || (i >= resCurrentPage - 2 && i <= resCurrentPage + 2)) {
@@ -261,8 +261,8 @@ function drawReservationsPage() {
             pagHtml += `<button disabled>...</button>`;
         }
     }
-    
-    pagHtml += `<button onclick="changeResPage(${resCurrentPage+1})" ${resCurrentPage === totalPages ? 'disabled' : ''}>&gt;</button>`;
+
+    pagHtml += `<button onclick="changeResPage(${resCurrentPage + 1})" ${resCurrentPage === totalPages ? 'disabled' : ''}>&gt;</button>`;
     document.getElementById("res-pagination").innerHTML = pagHtml;
 }
 
@@ -283,7 +283,7 @@ window.deleteReservation = async (id, pnr) => {
         } else {
             alert('Failed to delete reservation');
         }
-    } catch(err) { console.error('Delete res err', err); }
+    } catch (err) { console.error('Delete res err', err); }
 }
 
 /* --------------------------
@@ -295,7 +295,7 @@ async function loadFeedbacks() {
         const tbody = document.getElementById("feedback-body");
         tbody.innerHTML = "";
         if (!data.length) return tbody.innerHTML = `<tr><td colspan="4" class="empty">No feedback yet.</td></tr>`;
-        
+
         data.forEach(fb => {
             tbody.innerHTML += `
                <tr>
@@ -311,7 +311,7 @@ async function loadFeedbacks() {
                </tr>
             `;
         });
-    } catch(err) { console.error('Feedback err', err); }
+    } catch (err) { console.error('Feedback err', err); }
 }
 
 window.deleteFeedback = async (id) => {
@@ -323,7 +323,7 @@ window.deleteFeedback = async (id) => {
         } else {
             alert('Failed to delete feedback');
         }
-    } catch(err) { console.error('Delete feedback err', err); }
+    } catch (err) { console.error('Delete feedback err', err); }
 }
 
 /* --------------------------
@@ -335,7 +335,7 @@ async function loadContacts() {
         const tbody = document.getElementById("contact-body");
         tbody.innerHTML = "";
         if (!data.length) return tbody.innerHTML = `<tr><td colspan="5" class="empty">No contact queries yet.</td></tr>`;
-        
+
         data.forEach(c => {
             tbody.innerHTML += `
                <tr>
@@ -344,15 +344,15 @@ async function loadContacts() {
                  <td>${c.email}</td>
                  <td>${c.query}</td>
                  <td>
-                   ${c.reply 
-                      ? `<span class="status-pill paid" style="font-size:11px"><i class="fa-solid fa-check"></i> Answered</span>`
-                      : `<button class="action-btn" onclick="openReplyModal('${c._id}', \`${c.query.replace(/[`$\\]/g, '\\$&')}\`)" title="Reply Inbox"><i class="fa-solid fa-reply"></i></button>`
-                   }
+                   ${c.reply
+                    ? `<span class="status-pill paid" style="font-size:11px"><i class="fa-solid fa-check"></i> Answered</span>`
+                    : `<button class="action-btn" onclick="openReplyModal('${c._id}', \`${c.query.replace(/[`$\\]/g, '\\$&')}\`)" title="Reply Inbox"><i class="fa-solid fa-reply"></i></button>`
+                }
                  </td>
                </tr>
             `;
         });
-    } catch(err) { console.error('Contact err', err); }
+    } catch (err) { console.error('Contact err', err); }
 }
 
 let answeringContactId = null;
@@ -377,7 +377,7 @@ window.submitContactReply = async () => {
         } else {
             alert("Failed to submit reply");
         }
-    } catch(err) { console.error(err); }
+    } catch (err) { console.error(err); }
 }
 
 /* --------------------------
@@ -389,7 +389,7 @@ async function loadUsers() {
         const tbody = document.getElementById("users-body");
         tbody.innerHTML = "";
         if (!data.length) return tbody.innerHTML = `<tr><td colspan="6" class="empty">No users found.</td></tr>`;
-        
+
         data.forEach(u => {
             tbody.innerHTML += `
                <tr>
@@ -405,7 +405,7 @@ async function loadUsers() {
                </tr>
             `;
         });
-    } catch(err) { console.error('Users err', err); }
+    } catch (err) { console.error('Users err', err); }
 }
 
 async function deleteUser(id) {
@@ -437,7 +437,7 @@ async function loadTrains() {
         const tbody = document.getElementById("trains-body");
         tbody.innerHTML = "";
         if (!data.length) return tbody.innerHTML = `<tr><td colspan="6" class="empty">No trains found.</td></tr>`;
-        
+
         data.forEach(t => {
             let statusBadge = `<span class="status-pill pending">${t.status}</span>`;
             if (t.status === 'On Time') statusBadge = `<span class="status-pill paid">On Time</span>`;
@@ -463,7 +463,7 @@ async function loadTrains() {
                </tr>
             `;
         });
-    } catch(err) { console.error('Trains err', err); }
+    } catch (err) { console.error('Trains err', err); }
 }
 
 async function deleteTrain(id) {
@@ -474,7 +474,7 @@ async function deleteTrain(id) {
             headers: { "Authorization": "Bearer " + token }
         });
         if (res.ok) loadTrains();
-    } catch(err) { console.error('Delete train err', err); }
+    } catch (err) { console.error('Delete train err', err); }
 }
 
 let editingTrainId = null;
@@ -498,12 +498,12 @@ function renderClassFareInputs(faresData = {}) {
     const container = document.getElementById('m-class-fares-container');
     container.innerHTML = '';
     const baseFare = document.getElementById('m-baseFare').value || 0;
-    
+
     document.querySelectorAll('#m-classes input:checked').forEach(cb => {
-       const cl = cb.value;
-       const existingFare = faresData[cl] !== undefined ? faresData[cl] : baseFare;
-       
-       container.innerHTML += `
+        const cl = cb.value;
+        const existingFare = faresData[cl] !== undefined ? faresData[cl] : baseFare;
+
+        container.innerHTML += `
          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); padding:5px 10px; border-radius:5px;">
             <span style="font-size:13px; font-weight:600;">${cl} Fare</span>
             <div class="input-with-icon" style="width:120px;">
@@ -539,11 +539,11 @@ window.openEditTrain = (t) => {
     document.getElementById('m-departure').value = t.departure || '';
     document.getElementById('m-arrival').value = t.arrival || '';
     document.getElementById('m-baseFare').value = t.baseFare;
-    
+
     document.querySelectorAll('#m-classes input').forEach(cb => {
-       cb.checked = (t.classes || []).includes(cb.value);
+        cb.checked = (t.classes || []).includes(cb.value);
     });
-    
+
     renderClassFareInputs(t.classFares || {});
 
     document.getElementById('train-modal').style.display = 'flex';
@@ -557,11 +557,11 @@ async function submitNewTrain() {
     const departure = document.getElementById('m-departure').value;
     const arrival = document.getElementById('m-arrival').value;
     const baseFare = document.getElementById('m-baseFare').value;
-    
+
     const classes = [];
     const classFares = {};
     document.querySelectorAll('#m-classes input:checked').forEach(cb => classes.push(cb.value));
-    
+
     document.querySelectorAll('.class-fare-input').forEach(inp => {
         classFares[inp.getAttribute('data-class')] = Number(inp.value) || 0;
     });
@@ -581,7 +581,7 @@ async function submitNewTrain() {
         } else {
             alert('Error saving train');
         }
-    } catch(err) { console.error('Save train err', err); }
+    } catch (err) { console.error('Save train err', err); }
 }
 
 /* --------------------------
@@ -610,9 +610,9 @@ function buildExtendedAnalytics(reservations) {
         type: 'pie',
         data: {
             labels: ['Male', 'Female', 'Unknown'],
-            datasets: [{ data: [m, f, o], backgroundColor: ['#2f81f7', '#a371f7', '#30363d'], borderWidth:0 }]
+            datasets: [{ data: [m, f, o], backgroundColor: ['#2f81f7', '#a371f7', '#30363d'], borderWidth: 0 }]
         },
-        options: { plugins: { legend: { position: 'bottom', labels: {color:'white'} } } }
+        options: { plugins: { legend: { position: 'bottom', labels: { color: 'white' } } } }
     });
 
     // Rev Chart
@@ -635,16 +635,16 @@ function buildExtendedAnalytics(reservations) {
 document.getElementById('btn-analyze').addEventListener('click', () => {
     const dStr = document.getElementById('analyzer-date').value;
     if (!dStr) return alert("Select a date!");
-    
+
     // Filter reservations strictly matching this exact journeyDate string in YYYY-MM-DD
     const targetReservations = globalReservations.filter(r => new Date(r.journeyDate).toLocaleDateString('en-CA') === dStr && r.status !== 'Cancelled');
-    
+
     // Map: trainNo -> coach -> { count, prio }
     const usage = {};
     targetReservations.forEach(r => {
         const tr = r.trainNo;
         if (!usage[tr]) usage[tr] = {};
-        
+
         r.passengers.forEach(p => {
             const c = p.coach || 'WL';
             if (!usage[tr][c]) usage[tr][c] = { total: 0, prio: 0 };
@@ -656,7 +656,7 @@ document.getElementById('btn-analyze').addEventListener('click', () => {
     const tbody = document.getElementById('seats-body');
     tbody.innerHTML = "";
     if (Object.keys(usage).length === 0) return tbody.innerHTML = `<tr><td colspan="5" class="empty">No active bookings for this date.</td></tr>`;
-    
+
     let html = "";
     Object.keys(usage).forEach(tNo => {
         Object.keys(usage[tNo]).forEach(coach => {
@@ -667,7 +667,7 @@ document.getElementById('btn-analyze').addEventListener('click', () => {
               <td style="font-weight:600">${tNo}</td>
               <td><span class="status-pill pending" style="background:rgba(255,255,255,0.1);color:#fff">${coach}</span></td>
               <td>${u.total} / ${max}</td>
-              <td style="color:${u.prio>0?'var(--accent-green)':'var(--text-secondary)'}">${u.prio} Elderly</td>
+              <td style="color:${u.prio > 0 ? 'var(--accent-green)' : 'var(--text-secondary)'}">${u.prio} Elderly</td>
               <td><div class="route-bar-wrapper" style="margin:0"><div class="route-bar-fill" style="width:${pCent}%"></div></div></td>
             </tr>`;
         });
@@ -710,9 +710,9 @@ function downloadCSV() {
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a'); 
-    a.href = url; 
-    a.download = `Reservations_${new Date().toLocaleDateString()}.csv`; 
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Reservations_${new Date().toLocaleDateString()}.csv`;
     a.click();
 }
 
@@ -774,7 +774,7 @@ window.onload = () => {
 function openResViewModal(id) {
     const res = globalReservations.find(r => r._id === id);
     if (!res) return;
-    
+
     let html = `
         <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
             <div><strong style="color:var(--text-secondary);">PNR:</strong> <span style="font-family:monospace; color:var(--accent-blue); font-size:16px;">${res.pnr}</span></div>
@@ -789,7 +789,7 @@ function openResViewModal(id) {
         <h4 style="margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px; color:var(--text-secondary);">Passengers</h4>
         <ul style="list-style:none; padding:0; margin:0;">
     `;
-    
+
     res.passengers.forEach((p, idx) => {
         html += `<li style="background:rgba(255,255,255,0.05); padding:10px; border-radius:6px; margin-bottom:8px; display:flex; flex-direction:column; gap:4px;">
             <div style="display:flex; justify-content:space-between;">
@@ -799,9 +799,9 @@ function openResViewModal(id) {
             <span style="color:var(--text-secondary); font-size:13px; font-weight:600; color:var(--accent-blue);">Coach: ${p.coach || 'N/A'} &nbsp;&middot;&nbsp; Seat: ${p.seatLabel || 'N/A'} &nbsp;&middot;&nbsp; Berth: ${p.berthAllocated || 'N/A'}</span>
         </li>`;
     });
-    
+
     html += `</ul>`;
-    
+
     document.getElementById('res-view-body').innerHTML = html;
     document.getElementById('res-view-modal').style.display = 'flex';
 }
@@ -809,13 +809,13 @@ function openResViewModal(id) {
 function openResEditModal(id, pIndex) {
     const res = globalReservations.find(r => r._id === id);
     if (!res) return;
-    
+
     document.getElementById('edit-res-id').value = id;
     document.getElementById('edit-pax-index').value = pIndex;
-    
+
     const statusSelect = document.getElementById('edit-res-status');
-    if(statusSelect) statusSelect.value = res.status;
-    
+    if (statusSelect) statusSelect.value = res.status;
+
     if (res.passengers && res.passengers[pIndex]) {
         const p = res.passengers[pIndex];
         document.getElementById('edit-pax-name').value = p.name || '';
@@ -823,7 +823,7 @@ function openResEditModal(id, pIndex) {
         document.getElementById('edit-pax-coach').value = p.coach || '';
         document.getElementById('edit-pax-seat').value = p.seatLabel || '';
     }
-    
+
     document.getElementById('res-edit-modal').style.display = 'flex';
 }
 
@@ -831,38 +831,38 @@ document.getElementById('res-edit-form').addEventListener('submit', async (e) =>
     e.preventDefault();
     const id = document.getElementById('edit-res-id').value;
     const pIndex = document.getElementById('edit-pax-index').value;
-    
+
     const status = document.getElementById('edit-res-status').value;
     const paxName = document.getElementById('edit-pax-name').value;
     const paxAge = document.getElementById('edit-pax-age').value;
     const paxCoach = document.getElementById('edit-pax-coach').value;
     const paxSeat = document.getElementById('edit-pax-seat').value;
-    
+
     try {
         const res = await fetch(`${API_BASE}/reservations/${id}`, {
             method: 'PUT',
-            headers: { 
+            headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
             },
-            body: JSON.stringify({ 
-                status, 
-                paxIndex: parseInt(pIndex), 
-                paxName, 
-                paxAge: paxAge ? parseInt(paxAge) : undefined, 
-                paxCoach, 
-                paxSeat 
+            body: JSON.stringify({
+                status,
+                paxIndex: parseInt(pIndex),
+                paxName,
+                paxAge: paxAge ? parseInt(paxAge) : undefined,
+                paxCoach,
+                paxSeat
             })
         });
-        
+
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Server error');
-        
+
         document.getElementById('res-edit-modal').style.display = 'none';
-        
+
         // Soft reload reservations
         loadDashboard();
-        
+
     } catch (err) {
         alert("Error saving reservation: " + err.message);
     }
@@ -892,32 +892,32 @@ document.getElementById('settings-form').addEventListener('submit', async (e) =>
     e.preventDefault();
     const btn = e.target.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
-    
+
     try {
         btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Saving...`;
-        
+
         const updates = {
             support_email: document.getElementById('set-support-email').value.trim(),
             advance_days: parseInt(document.getElementById('set-advance-days').value) || 0,
             cancel_penalty: parseFloat(document.getElementById('set-cancel-penalty').value) || 0,
             base_fee: parseFloat(document.getElementById('set-fee').value) || 0
         };
-        
+
         const res = await fetch(`${API_BASE}/settings`, {
             method: 'POST',
-            headers: { 
+            headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
             },
             body: JSON.stringify(updates)
         });
-        
+
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Failed to save settings");
-        
+
         btn.innerHTML = `<i class="fa-solid fa-check" style="color:#00ffae; margin-right:8px;"></i> Saved Successfully`;
         setTimeout(() => btn.innerHTML = originalText, 2500);
-        
+
     } catch (err) {
         alert("Error saving settings: " + err.message);
         btn.innerHTML = originalText;
