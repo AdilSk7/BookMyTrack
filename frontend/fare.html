@@ -1,336 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BookMyTrack – Fare Enquiry</title>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>BookMyTrack – Fare Enquiry</title>
 
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="fare.css"/>
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <script src="api.js"></script>
-  <script src="auth-guard.js" defer></script>
+   <link rel="stylesheet" href="style.css" />
+   <link rel="stylesheet" href="fare.css" />
+   <!-- FontAwesome -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+   <script src="api.js"></script>
+   <script src="auth-guard.js" defer></script>
 </head>
+
 <body>
-  <!-- Navbar -->
-  <nav>
-    <div class="logo">BookMyTrack</div>
-    <div class="links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="reservation.html">Reservation</a>
-      <a href="schedule.html">Schedule</a>
-      <a href="fare.html">Fare</a>
-      <a href="pnr.html">PNR</a>
-      <a href="mybookings.html">My Bookings</a>
-      <a href="feedback.html">Feedback</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div class="buttons" id="nav-cta"></div>
-  </nav>
-
-  <!-- Split Panel Layout Wrapper -->
-  <div class="fare-layout-wrapper">
-    
-    <!-- TOP / HERO SECTION -->
-    <div class="fare-hero-section">
-      <div class="fare-hero-left">
-        <h1 class="hero-title">Check Your <span class="hero-highlight">Train Fare</span></h1>
-        <p class="hero-desc">Plan your journey with clear and transparent fare details.</p>
-        
-        <div class="hero-features-bar">
-           <div class="feature-tag bg-blue"><i class="fa-solid fa-shield"></i> Safe & Secure</div>
-           <div class="feature-tag bg-blue"><i class="fa-solid fa-person-cane"></i> Elderly Friendly</div>
-           <div class="feature-tag bg-yellow"><i class="fa-solid fa-wheelchair"></i> Accessible Travel</div>
-           <div class="feature-tag bg-orange"><i class="fa-solid fa-bolt"></i> Smart Booking</div>
-        </div>
+   <!-- Navbar -->
+   <nav>
+      <div class="logo">BookMyTrack</div>
+      <div class="links">
+         <a href="index.html">Home</a>
+         <a href="about.html">About</a>
+         <a href="reservation.html">Reservation</a>
+         <a href="schedule.html">Schedule</a>
+         <a href="fare.html" class="active">Fare</a>
+         <a href="pnr.html">PNR</a>
+         <a href="mybookings.html">My Bookings</a>
+         <a href="feedback.html">Feedback</a>
+         <a href="contact.html">Contact</a>
       </div>
-      
-      <div class="fare-hero-right">
-        <span class="hero-quote">"Different Destinations<br>A Brighter Tomorrow"</span>
-      </div>
-    </div>
+      <div class="buttons" id="nav-cta"></div>
+   </nav>
 
-    <!-- MAIN TWO COLUMN CONTENT -->
-    <div class="fare-main-grid">
-      
-      <!-- LEFT COLUMN: INPUT FORM -->
-      <div class="fare-form-card">
-         <div class="fare-card-header">
-            <div class="fare-icon-wrapper"><i class="fa-solid fa-train"></i></div>
-            <div class="fare-card-title-box">
-               <h2>Fare Enquiry</h2>
-               <p>Get accurate fare details for your journey</p>
+   <!-- Split Panel Layout Wrapper -->
+   <div class="fare-layout-wrapper">
+
+      <!-- TOP / HERO SECTION -->
+      <div class="fare-hero-section">
+         <div class="fare-hero-left">
+            <h1 class="hero-title">Check Your <span class="hero-highlight">Train Fare</span></h1>
+            <p class="hero-desc">Plan your journey with clear and transparent fare details.</p>
+
+            <div class="hero-features-bar">
+               <div class="feature-tag bg-blue"><i class="fa-solid fa-shield"></i> Safe & Secure</div>
+               <div class="feature-tag bg-blue"><i class="fa-solid fa-person-cane"></i> Elderly Friendly</div>
+               <div class="feature-tag bg-yellow"><i class="fa-solid fa-wheelchair"></i> Accessible Travel</div>
+               <div class="feature-tag bg-orange"><i class="fa-solid fa-bolt"></i> Smart Booking</div>
             </div>
          </div>
 
-         <div class="fare-input-grid">
-            
-            <!-- Row 1: Station from & to with swap button inside -->
-            <div class="input-group full-row stations-row">
-               <div class="half-col">
-                 <label><i class="fa-solid fa-location-dot" style="color:#1d9bf0;"></i> From Station</label>
-                 <div class="modern-select">
-                   <select id="from">
-                     <option value="Nellore (NLR)">Nellore (NLR)</option>
-                     <option value="Vijayawada (BZA)">Vijayawada (BZA)</option>
-                     <option value="MUMBAI CST">MUMBAI CST</option>
-                     <option value="PUNE JN">PUNE JN</option>
-                     <option value="DELHI">DELHI</option>
-                     <option value="KANPUR">KANPUR</option>
-                     <option value="HOWRAH">HOWRAH</option>
-                     <option value="CHENNAI CENTRAL">CHENNAI CENTRAL</option>
-                     <option value="BENGALURU CITY">BENGALURU CITY</option>
-                   </select>
-                 </div>
-               </div>
-
-               <div class="swap-btn-container">
-                  <button id="swapBtn" type="button"><i class="fa-solid fa-right-left"></i></button>
-               </div>
-
-               <div class="half-col">
-                 <label><i class="fa-solid fa-location-dot" style="color:#1d9bf0;"></i> To Station</label>
-                 <div class="modern-select">
-                   <select id="to">
-                     <option value="Vijayawada (BZA)" selected>Vijayawada (BZA)</option>
-                     <option value="Nellore (NLR)">Nellore (NLR)</option>
-                     <option value="MUMBAI CST">MUMBAI CST</option>
-                     <option value="PUNE JN">PUNE JN</option>
-                     <option value="DELHI">DELHI</option>
-                     <option value="KANPUR">KANPUR</option>
-                     <option value="HOWRAH">HOWRAH</option>
-                     <option value="CHENNAI CENTRAL">CHENNAI CENTRAL</option>
-                     <option value="BENGALURU CITY">BENGALURU CITY</option>
-                   </select>
-                 </div>
-               </div>
-            </div>
-
-            <!-- Row 2: Train + Date -->
-            <div class="input-group">
-               <label><i class="fa-solid fa-train" style="color:#1d9bf0;"></i> Select Train / Route</label>
-               <div class="modern-select">
-                 <select id="trainSelect">
-                   <option value="">-- Select Train --</option>
-                 </select>
-               </div>
-            </div>
-            <div class="input-group">
-               <label><i class="fa-regular fa-calendar" style="color:#1d9bf0;"></i> Journey Date</label>
-               <input type="date" id="journeyDate" value="2026-10-07" />
-            </div>
-
-            <!-- Row 3: Class + Quota -->
-            <div class="input-group">
-               <label><i class="fa-solid fa-couch" style="color:#1d9bf0;"></i> Travel Class</label>
-               <div class="modern-select">
-                 <select id="cls">
-                   <option value="2S">2S (Second Seating)</option>
-                   <option value="SL" selected>Sleeper (SL)</option>
-                   <option value="3A">3A (AC 3 Tier)</option>
-                   <option value="2A">2A (AC 2 Tier)</option>
-                   <option value="1A">1A (First AC)</option>
-                   <option value="CC">CC (AC Chair Car)</option>
-                 </select>
-               </div>
-            </div>
-            <div class="input-group">
-               <label><i class="fa-solid fa-users" style="color:#1d9bf0;"></i> Quota</label>
-               <div class="modern-select">
-                 <select id="quota">
-                   <option value="GEN" selected>General</option>
-                   <option value="SENIOR">Senior Citizen</option>
-                   <option value="CHILD">Child (&lt; 12 yrs)</option>
-                   <option value="DIVYANG">Divyang (PwD)</option>
-                 </select>
-               </div>
-            </div>
-
-            <!-- Row 4: Distance + Passengers -->
-            <div class="input-group">
-               <label><i class="fa-solid fa-route" style="color:#1d9bf0;"></i> Distance (km)</label>
-               <input type="number" id="distance" min="1" placeholder="Auto-calculated" />
-            </div>
-            <div class="input-group">
-               <label><i class="fa-solid fa-user" style="color:#1d9bf0;"></i> Passengers</label>
-               <input type="number" id="pax" min="1" value="1" />
-            </div>
-
-         </div> <!-- End fare-input-grid -->
-
-         <button class="adv-btn mt-16" id="addPax">
-            <span><i class="fa-solid fa-circle-plus"></i> Add Passenger Details (Optional)</span>
-            <i class="fa-solid fa-chevron-down"></i>
-         </button>
-         
-         <div id="paxBox" class="pax-box margin-top" style="display:none;">
-            <div id="paxList" class="passenger-list"></div>
+         <div class="fare-hero-right">
+            <span class="hero-quote">"Different Destinations<br>A Brighter Tomorrow"</span>
          </div>
-
-         <button type="button" class="btn-calculate margin-top-large" id="calc">
-            <i class="fa-solid fa-calculator"></i> Calculate Fare <i class="fa-solid fa-arrow-right"></i>
-         </button>
       </div>
 
+      <!-- MAIN TWO COLUMN CONTENT -->
+      <div class="fare-main-grid">
 
-      <!-- RIGHT COLUMN: RESULTS CARD -->
-      <div class="fare-result-wrapper" id="resultBlock" style="visibility:hidden">
-         <div class="fare-result-card">
-            
-            <!-- Top Hero Banner of Result -->
-            <div class="result-banner">
-               <h3 id="resTrainName">Bhavnagar Terminus Exp</h3>
-               <span id="resTrainNo">#17208</span>
+         <!-- LEFT COLUMN: INPUT FORM -->
+         <div class="fare-form-card">
+            <div class="fare-card-header">
+               <div class="fare-icon-wrapper"><i class="fa-solid fa-train"></i></div>
+               <div class="fare-card-title-box">
+                  <h2>Fare Enquiry</h2>
+                  <p>Get accurate fare details for your journey</p>
+               </div>
             </div>
 
-            <!-- Timeline -->
-            <div class="result-timeline">
-               <div class="timeline-point">
-                  <div class="dot"></div>
-                  <div class="details">
-                     <h4 id="resFrom">Nellore (NLR)</h4>
-                     <p id="resFromTime">16:50 | Wed, 07 Oct 2026</p>
+            <div class="fare-input-grid">
+
+               <!-- Row 1: Station from & to with swap button inside -->
+               <div class="input-group full-row stations-row">
+                  <div class="half-col">
+                     <label><i class="fa-solid fa-location-dot" style="color:#1d9bf0;"></i> From Station</label>
+                     <div class="modern-select">
+                        <select id="from">
+                           <option value="Nellore (NLR)">Nellore (NLR)</option>
+                           <option value="Vijayawada (BZA)">Vijayawada (BZA)</option>
+                           <option value="MUMBAI CST">MUMBAI CST</option>
+                           <option value="PUNE JN">PUNE JN</option>
+                           <option value="DELHI">DELHI</option>
+                           <option value="KANPUR">KANPUR</option>
+                           <option value="HOWRAH">HOWRAH</option>
+                           <option value="CHENNAI CENTRAL">CHENNAI CENTRAL</option>
+                           <option value="BENGALURU CITY">BENGALURU CITY</option>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="swap-btn-container">
+                     <button id="swapBtn" type="button"><i class="fa-solid fa-right-left"></i></button>
+                  </div>
+
+                  <div class="half-col">
+                     <label><i class="fa-solid fa-location-dot" style="color:#1d9bf0;"></i> To Station</label>
+                     <div class="modern-select">
+                        <select id="to">
+                           <option value="Vijayawada (BZA)" selected>Vijayawada (BZA)</option>
+                           <option value="Nellore (NLR)">Nellore (NLR)</option>
+                           <option value="MUMBAI CST">MUMBAI CST</option>
+                           <option value="PUNE JN">PUNE JN</option>
+                           <option value="DELHI">DELHI</option>
+                           <option value="KANPUR">KANPUR</option>
+                           <option value="HOWRAH">HOWRAH</option>
+                           <option value="CHENNAI CENTRAL">CHENNAI CENTRAL</option>
+                           <option value="BENGALURU CITY">BENGALURU CITY</option>
+                        </select>
+                     </div>
                   </div>
                </div>
-               <div class="timeline-line"></div>
-               <div class="timeline-point">
-                  <div class="dot"></div>
-                  <div class="details">
-                     <h4 id="resTo">Vijayawada (BZA)</h4>
-                     <p id="resToTime">21:35 | Wed, 07 Oct 2026</p>
+
+               <!-- Row 2: Train + Date -->
+               <div class="input-group">
+                  <label><i class="fa-solid fa-train" style="color:#1d9bf0;"></i> Select Train / Route</label>
+                  <div class="modern-select">
+                     <select id="trainSelect">
+                        <option value="">-- Select Train --</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="input-group">
+                  <label><i class="fa-regular fa-calendar" style="color:#1d9bf0;"></i> Journey Date</label>
+                  <input type="date" id="journeyDate" value="2026-10-07" />
+               </div>
+
+               <!-- Row 3: Class + Quota -->
+               <div class="input-group">
+                  <label><i class="fa-solid fa-couch" style="color:#1d9bf0;"></i> Travel Class</label>
+                  <div class="modern-select">
+                     <select id="cls">
+                        <option value="2S">2S (Second Seating)</option>
+                        <option value="SL" selected>Sleeper (SL)</option>
+                        <option value="3A">3A (AC 3 Tier)</option>
+                        <option value="2A">2A (AC 2 Tier)</option>
+                        <option value="1A">1A (First AC)</option>
+                        <option value="CC">CC (AC Chair Car)</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="input-group">
+                  <label><i class="fa-solid fa-users" style="color:#1d9bf0;"></i> Quota</label>
+                  <div class="modern-select">
+                     <select id="quota">
+                        <option value="GEN" selected>General</option>
+                        <option value="SENIOR">Senior Citizen</option>
+                        <option value="CHILD">Child (&lt; 12 yrs)</option>
+                        <option value="DIVYANG">Divyang (PwD)</option>
+                     </select>
+                  </div>
+               </div>
+
+               <!-- Row 4: Distance + Passengers -->
+               <div class="input-group">
+                  <label><i class="fa-solid fa-route" style="color:#1d9bf0;"></i> Distance (km)</label>
+                  <input type="number" id="distance" min="1" placeholder="Auto-calculated" />
+               </div>
+               <div class="input-group">
+                  <label><i class="fa-solid fa-user" style="color:#1d9bf0;"></i> Passengers</label>
+                  <input type="number" id="pax" min="1" value="1" />
+               </div>
+
+            </div> <!-- End fare-input-grid -->
+
+            <button class="adv-btn mt-16" id="addPax">
+               <span><i class="fa-solid fa-circle-plus"></i> Add Passenger Details (Optional)</span>
+               <i class="fa-solid fa-chevron-down"></i>
+            </button>
+
+            <div id="paxBox" class="pax-box margin-top" style="display:none;">
+               <div id="paxList" class="passenger-list"></div>
+            </div>
+
+            <button type="button" class="btn-calculate margin-top-large" id="calc">
+               <i class="fa-solid fa-calculator"></i> Calculate Fare <i class="fa-solid fa-arrow-right"></i>
+            </button>
+         </div>
+
+
+         <!-- RIGHT COLUMN: RESULTS CARD -->
+         <div class="fare-result-wrapper" id="resultBlock" style="visibility:hidden">
+            <div class="fare-result-card">
+
+               <!-- Top Hero Banner of Result -->
+               <div class="result-banner">
+                  <h3 id="resTrainName">Bhavnagar Terminus Exp</h3>
+                  <span id="resTrainNo">#17208</span>
+               </div>
+
+               <!-- Timeline -->
+               <div class="result-timeline">
+                  <div class="timeline-point">
+                     <div class="dot"></div>
+                     <div class="details">
+                        <h4 id="resFrom">Nellore (NLR)</h4>
+                        <p id="resFromTime">16:50 | Wed, 07 Oct 2026</p>
+                     </div>
+                  </div>
+                  <div class="timeline-line"></div>
+                  <div class="timeline-point">
+                     <div class="dot"></div>
+                     <div class="details">
+                        <h4 id="resTo">Vijayawada (BZA)</h4>
+                        <p id="resToTime">21:35 | Wed, 07 Oct 2026</p>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Stats Bar -->
+               <div class="result-stats-bar">
+                  <div class="stat"><i class="fa-regular fa-clock" style="color:orange;"></i>
+                     <div><strong id="resDur">04h 45m</strong><br>Duration</div>
+                  </div>
+                  <div class="stat"><i class="fa-solid fa-train-subway" style="color:orange;"></i>
+                     <div><strong id="resClass">SL</strong><br>Class Selected</div>
+                  </div>
+                  <div class="stat"><i class="fa-solid fa-route" style="color:orange;"></i>
+                     <div><strong id="resDist">289 km</strong><br>Distance</div>
+                  </div>
+               </div>
+
+               <!-- Breakdown -->
+               <div class="result-breakdown-box">
+                  <div class="box-header">
+                     <span><i class="fa-solid fa-indian-rupee-sign" style="color:#1d9bf0;"></i> Fare Summary</span>
+                     <span id="resPaxCount">1 Passenger</span>
+                  </div>
+                  <div class="breakdown-lines">
+                     <div class="line"><span>Base Fare <span id="resBaseCls">(SL)</span></span> <span
+                           id="resBaseFare">₹180</span></div>
+                     <div class="line"><span>Reservation Fee</span> <span id="resResv">₹20</span></div>
+                     <div class="line" id="gstLine" style="display:none;"><span>GST (5%)</span> <span
+                           id="resGst">₹0</span></div>
+                     <div class="line"><span>Other Charges</span> <span>₹9</span></div>
+                     <div class="line"><span>Convenience Fee</span> <span>₹0</span></div>
+                  </div>
+                  <div class="box-total">
+                     <span>Total Fare <small>(Estimated)</small></span>
+                     <span class="total-amt" id="resTotal">₹209</span>
+                  </div>
+                  <div class="box-footer">
+                     <i class="fa-solid fa-circle-info" style="color:#1d9bf0;"></i> Fare shown is an estimated amount.
+                     Final fare may vary based on availability and current railway rules.
                   </div>
                </div>
             </div>
-
-            <!-- Stats Bar -->
-            <div class="result-stats-bar">
-               <div class="stat"><i class="fa-regular fa-clock" style="color:orange;"></i> 
-                  <div><strong id="resDur">04h 45m</strong><br>Duration</div>
-               </div>
-               <div class="stat"><i class="fa-solid fa-train-subway" style="color:orange;"></i> 
-                  <div><strong id="resClass">SL</strong><br>Class Selected</div>
-               </div>
-               <div class="stat"><i class="fa-solid fa-route" style="color:orange;"></i> 
-                  <div><strong id="resDist">289 km</strong><br>Distance</div>
-               </div>
-            </div>
-
-            <!-- Breakdown -->
-            <div class="result-breakdown-box">
-               <div class="box-header">
-                  <span><i class="fa-solid fa-indian-rupee-sign" style="color:#1d9bf0;"></i> Fare Summary</span>
-                  <span id="resPaxCount">1 Passenger</span>
-               </div>
-               <div class="breakdown-lines">
-                  <div class="line"><span>Base Fare <span id="resBaseCls">(SL)</span></span> <span id="resBaseFare">₹180</span></div>
-                  <div class="line"><span>Reservation Fee</span> <span id="resResv">₹20</span></div>
-                  <div class="line" id="gstLine" style="display:none;"><span>GST (5%)</span> <span id="resGst">₹0</span></div>
-                  <div class="line"><span>Other Charges</span> <span>₹9</span></div>
-                  <div class="line"><span>Convenience Fee</span> <span>₹0</span></div>
-               </div>
-               <div class="box-total">
-                  <span>Total Fare <small>(Estimated)</small></span>
-                  <span class="total-amt" id="resTotal">₹209</span>
-               </div>
-               <div class="box-footer">
-                  <i class="fa-solid fa-circle-info" style="color:#1d9bf0;"></i> Fare shown is an estimated amount. Final fare may vary based on availability and current railway rules.
-               </div>
-            </div>
          </div>
-      </div>
-      
-    </div> <!-- end fare-main-grid -->
-  </div>
 
-  <footer>&copy; 2026 BookMyTrack. All rights reserved.</footer>
+      </div> <!-- end fare-main-grid -->
+   </div>
 
-  <script>
-    // A tiny "distance atlas" for popular pairs; otherwise user can type distance
-    const KM = {
-      'NELLORE (NLR)|VIJAYAWADA (BZA)': 289,
-      'MUMBAI CST|PUNE JN': 192,
-      'MUMBAI CST|AHMEDABAD': 493,
-      'DELHI|KANPUR': 440,
-      'DELHI|LUCKNOW': 512,
-      'HOWRAH|SEALDAH': 8,
-      'CHENNAI CENTRAL|BENGALURU CITY': 362,
-      'DELHI|JAIPUR': 280,
-      'DELHI|VARANASI': 760,
-      'SECUNDERABAD|HYDERABAD': 10
-    };
+   <footer>&copy; 2026 BookMyTrack. All rights reserved.</footer>
 
-    // Simple class multipliers (illustrative, not official)
-    const CLASS_MULT = {
-      '2S': 0.45,
-      'SL': 0.60,
-      '3A': 1.0,
-      '2A': 1.35,
-      '1A': 2.2,
-      'CC': 0.95
-    };
+   <script>
+      // A tiny "distance atlas" for popular pairs; otherwise user can type distance
+      const KM = {
+         'NELLORE (NLR)|VIJAYAWADA (BZA)': 289,
+         'MUMBAI CST|PUNE JN': 192,
+         'MUMBAI CST|AHMEDABAD': 493,
+         'DELHI|KANPUR': 440,
+         'DELHI|LUCKNOW': 512,
+         'HOWRAH|SEALDAH': 8,
+         'CHENNAI CENTRAL|BENGALURU CITY': 362,
+         'DELHI|JAIPUR': 280,
+         'DELHI|VARANASI': 760,
+         'SECUNDERABAD|HYDERABAD': 10
+      };
 
-    const CONCESSION = {
-      'GEN': 0.0,
-      'SENIOR': 0.40,   
-      'CHILD': 0.50,    
-      'DIVYANG': 0.50   
-    };
+      // Simple class multipliers (illustrative, not official)
+      const CLASS_MULT = {
+         '2S': 0.45,
+         'SL': 0.60,
+         '3A': 1.0,
+         '2A': 1.35,
+         '1A': 2.2,
+         'CC': 0.95
+      };
 
-    const GST_RATE = 0.05; 
-    const MIN_FARE = 50;   
-    const RESV_FEE = 20;
+      const CONCESSION = {
+         'GEN': 0.0,
+         'SENIOR': 0.40,
+         'CHILD': 0.50,
+         'DIVYANG': 0.50
+      };
 
-    // Elements
-    const fromEl = document.getElementById('from');
-    const toEl   = document.getElementById('to');
-    const swapBtn= document.getElementById('swapBtn');
-    const classEl = document.getElementById('cls');
-    const quotaEl= document.getElementById('quota');
-    const distEl = document.getElementById('distance');
-    const paxEl  = document.getElementById('pax');
-    const trainSelect = document.getElementById('trainSelect');
-    
-    const calcBtn= document.getElementById('calc');
-    const resultBlock = document.getElementById('resultBlock');
+      const GST_RATE = 0.05;
+      const MIN_FARE = 50;
+      const RESV_FEE = 20;
 
-    // Advanced pax rows elements
-    const addPaxBtn = document.getElementById('addPax');
-    const paxBox = document.getElementById('paxBox');
-    const paxList= document.getElementById('paxList');
+      // Elements
+      const fromEl = document.getElementById('from');
+      const toEl = document.getElementById('to');
+      const swapBtn = document.getElementById('swapBtn');
+      const classEl = document.getElementById('cls');
+      const quotaEl = document.getElementById('quota');
+      const distEl = document.getElementById('distance');
+      const paxEl = document.getElementById('pax');
+      const trainSelect = document.getElementById('trainSelect');
 
-    // Station swapping
-    swapBtn.addEventListener('click', () => {
-       const temp = fromEl.value;
-       fromEl.value = toEl.value;
-       toEl.value = temp;
-       tryAutoDistance();
-    });
+      const calcBtn = document.getElementById('calc');
+      const resultBlock = document.getElementById('resultBlock');
 
-    function tryAutoDistance(){
-      const key = `${fromEl.value.trim().toUpperCase()}|${toEl.value.trim().toUpperCase()}`;
-      const rev = `${toEl.value.trim().toUpperCase()}|${fromEl.value.trim().toUpperCase()}`;
-      if(KM[key]) distEl.value = KM[key];
-      else if(KM[rev]) distEl.value = KM[rev];
-    }
-    fromEl.addEventListener('change', tryAutoDistance);
-    toEl.addEventListener('change', tryAutoDistance);
-    
-    // Optional passenger granularity functionality
-    addPaxBtn.addEventListener('click', () => {
-      paxBox.style.display = paxBox.style.display === 'none' ? 'block' : 'none';
-      if(paxBox.style.display === 'block') {
-         const n = Number(paxEl.value || 1);
-         if (paxList.children.length >= n) return;
-         while (paxList.children.length < n) addPassengerRow();
+      // Advanced pax rows elements
+      const addPaxBtn = document.getElementById('addPax');
+      const paxBox = document.getElementById('paxBox');
+      const paxList = document.getElementById('paxList');
+
+      // Station swapping
+      swapBtn.addEventListener('click', () => {
+         const temp = fromEl.value;
+         fromEl.value = toEl.value;
+         toEl.value = temp;
+         tryAutoDistance();
+      });
+
+      function tryAutoDistance() {
+         const key = `${fromEl.value.trim().toUpperCase()}|${toEl.value.trim().toUpperCase()}`;
+         const rev = `${toEl.value.trim().toUpperCase()}|${fromEl.value.trim().toUpperCase()}`;
+         if (KM[key]) distEl.value = KM[key];
+         else if (KM[rev]) distEl.value = KM[rev];
       }
-    });
+      fromEl.addEventListener('change', tryAutoDistance);
+      toEl.addEventListener('change', tryAutoDistance);
 
-    function addPassengerRow(){
-      const row = document.createElement('div');
-      row.className = 'pass-row margin-top';
-      row.innerHTML = `
+      // Optional passenger granularity functionality
+      addPaxBtn.addEventListener('click', () => {
+         paxBox.style.display = paxBox.style.display === 'none' ? 'block' : 'none';
+         if (paxBox.style.display === 'block') {
+            const n = Number(paxEl.value || 1);
+            if (paxList.children.length >= n) return;
+            while (paxList.children.length < n) addPassengerRow();
+         }
+      });
+
+      function addPassengerRow() {
+         const row = document.createElement('div');
+         row.className = 'pass-row margin-top';
+         row.innerHTML = `
         <input placeholder="Name" class="pax-input">
         <select class="pax-quota pax-input">
           <option value="GEN">General</option>
@@ -343,128 +348,129 @@
         </select>
         <button class="remove-pax" type="button"><i class="fa-solid fa-xmark"></i></button>
       `;
-      row.querySelector('.remove-pax').onclick = () => row.remove();
-      paxList.appendChild(row);
-    }
-
-    // Core calc logic
-    function calculate(){
-      const from = fromEl.value.trim();
-      const to   = toEl.value.trim();
-      const cls  = classEl.value;
-      const quota= quotaEl.value;
-      const n    = Math.max(1, Number(paxEl.value || 1));
-      
-      if(!distEl.value) tryAutoDistance();
-      const dist = Math.max(1, Number(distEl.value || 0));
-
-      if(!from || !to){ alert('Please select From and To stations.'); return; }
-      if(!dist){ alert('Please enter distance (km).'); return; }
-
-      // Calculation core
-      const basePerKm = 1.0; 
-      const classMult = CLASS_MULT[cls] ?? 1.0;
-      let totalBase = 0;
-      let totalGst = 0;
-      let totalResv = 0;
-
-      const acClasses = new Set(['3A','2A','1A','CC']);
-      const isAc = acClasses.has(cls);
-
-      for(let i=0; i<n; i++){
-          let rawBase = Math.max(MIN_FARE, dist * basePerKm) * classMult;
-          let offRate = CONCESSION[quota] ?? 0;
-          let baseAfterConc = rawBase * (1 - offRate);
-          
-          totalBase += baseAfterConc;
-          totalResv += RESV_FEE;
-          if(isAc) totalGst += (baseAfterConc * GST_RATE);
-      }
-      
-      const otherCharges = 9;
-      const finalGrand = Math.round(totalBase + totalResv + totalGst + otherCharges);
-
-      // Render into DOM
-      const selectedTrainOpt = trainSelect.options[trainSelect.selectedIndex] || {};
-      const trainText = selectedTrainOpt.text || '- Select Train -';
-      const tNameParts = trainText.includes(' - ') ? trainText.split(' - ')[1] : 'Express Train';
-      const tNo = trainSelect.value ? '#' + trainSelect.value : '#XXXXX';
-
-      document.getElementById('resTrainName').innerText = tNameParts;
-      document.getElementById('resTrainNo').innerText = tNo;
-      
-      document.getElementById('resFrom').innerText = from;
-      document.getElementById('resTo').innerText = to;
-      
-      document.getElementById('resClass').innerText = cls;
-      document.getElementById('resDist').innerText = dist + " km";
-      document.getElementById('resPaxCount').innerText = n + (n===1 ? " Passenger" : " Passengers");
-      
-      document.getElementById('resBaseCls').innerText = `(${cls})`;
-      document.getElementById('resBaseFare').innerText = "₹" + Math.round(totalBase);
-      document.getElementById('resResv').innerText = "₹" + totalResv;
-      
-      if(isAc) {
-         document.getElementById('gstLine').style.display = 'flex';
-         document.getElementById('resGst').innerText = "₹" + Math.round(totalGst);
-      } else {
-         document.getElementById('gstLine').style.display = 'none';
+         row.querySelector('.remove-pax').onclick = () => row.remove();
+         paxList.appendChild(row);
       }
 
-      document.getElementById('resTotal').innerText = "₹" + finalGrand;
+      // Core calc logic
+      function calculate() {
+         const from = fromEl.value.trim();
+         const to = toEl.value.trim();
+         const cls = classEl.value;
+         const quota = quotaEl.value;
+         const n = Math.max(1, Number(paxEl.value || 1));
 
-      resultBlock.style.visibility = 'visible';
-    }
+         if (!distEl.value) tryAutoDistance();
+         const dist = Math.max(1, Number(distEl.value || 0));
 
-    calcBtn.addEventListener('click', calculate);
-    
-    // API logic for fetching trains and syncing dropdowns
-    async function fetchTrainsAndSync() {
-       try {
-          const res = await fetch((window.API_BASE || 'http://localhost:5000') + '/api/trains');
-          if(!res.ok) throw new Error('API error');
-          const trains = await res.json();
-          
-          trainSelect.innerHTML = '<option value="">-- Select Train --</option>';
-          trains.forEach(t => {
-             const opt = document.createElement('option');
-             opt.value = t.trainNo;
-             opt.text = `${t.trainNo} - ${t.trainName}`;
-             opt.dataset.from = t.from;
-             opt.dataset.to = t.to;
-             trainSelect.appendChild(opt);
-          });
-       } catch (err) {
-          console.error('Failed to load trains', err);
-       }
-    }
+         if (!from || !to) { alert('Please select From and To stations.'); return; }
+         if (!dist) { alert('Please enter distance (km).'); return; }
 
-    trainSelect.addEventListener('change', () => {
-       const opt = trainSelect.options[trainSelect.selectedIndex];
-       if(opt && opt.dataset.from && opt.dataset.to) {
-          // If option exists, select it. If not, forcefully change the display value or add it
-          let fromExists = Array.from(fromEl.options).some(o => o.value.toUpperCase() === opt.dataset.from.toUpperCase());
-          let toExists = Array.from(toEl.options).some(o => o.value.toUpperCase() === opt.dataset.to.toUpperCase());
-          
-          if(!fromExists) {
-             const newOpt = new Option(opt.dataset.from, opt.dataset.from);
-             fromEl.add(newOpt);
-          }
-          if(!toExists) {
-             const newOpt = new Option(opt.dataset.to, opt.dataset.to);
-             toEl.add(newOpt);
-          }
-          
-          fromEl.value = Array.from(fromEl.options).find(o => o.value.toUpperCase() === opt.dataset.from.toUpperCase()).value;
-          toEl.value = Array.from(toEl.options).find(o => o.value.toUpperCase() === opt.dataset.to.toUpperCase()).value;
-          tryAutoDistance();
-       }
-    });
+         // Calculation core
+         const basePerKm = 1.0;
+         const classMult = CLASS_MULT[cls] ?? 1.0;
+         let totalBase = 0;
+         let totalGst = 0;
+         let totalResv = 0;
 
-    window.addEventListener('load', () => {
-       tryAutoDistance();
-       fetchTrainsAndSync();
-    }); 
-  </script>
+         const acClasses = new Set(['3A', '2A', '1A', 'CC']);
+         const isAc = acClasses.has(cls);
+
+         for (let i = 0; i < n; i++) {
+            let rawBase = Math.max(MIN_FARE, dist * basePerKm) * classMult;
+            let offRate = CONCESSION[quota] ?? 0;
+            let baseAfterConc = rawBase * (1 - offRate);
+
+            totalBase += baseAfterConc;
+            totalResv += RESV_FEE;
+            if (isAc) totalGst += (baseAfterConc * GST_RATE);
+         }
+
+         const otherCharges = 9;
+         const finalGrand = Math.round(totalBase + totalResv + totalGst + otherCharges);
+
+         // Render into DOM
+         const selectedTrainOpt = trainSelect.options[trainSelect.selectedIndex] || {};
+         const trainText = selectedTrainOpt.text || '- Select Train -';
+         const tNameParts = trainText.includes(' - ') ? trainText.split(' - ')[1] : 'Express Train';
+         const tNo = trainSelect.value ? '#' + trainSelect.value : '#XXXXX';
+
+         document.getElementById('resTrainName').innerText = tNameParts;
+         document.getElementById('resTrainNo').innerText = tNo;
+
+         document.getElementById('resFrom').innerText = from;
+         document.getElementById('resTo').innerText = to;
+
+         document.getElementById('resClass').innerText = cls;
+         document.getElementById('resDist').innerText = dist + " km";
+         document.getElementById('resPaxCount').innerText = n + (n === 1 ? " Passenger" : " Passengers");
+
+         document.getElementById('resBaseCls').innerText = `(${cls})`;
+         document.getElementById('resBaseFare').innerText = "₹" + Math.round(totalBase);
+         document.getElementById('resResv').innerText = "₹" + totalResv;
+
+         if (isAc) {
+            document.getElementById('gstLine').style.display = 'flex';
+            document.getElementById('resGst').innerText = "₹" + Math.round(totalGst);
+         } else {
+            document.getElementById('gstLine').style.display = 'none';
+         }
+
+         document.getElementById('resTotal').innerText = "₹" + finalGrand;
+
+         resultBlock.style.visibility = 'visible';
+      }
+
+      calcBtn.addEventListener('click', calculate);
+
+      // API logic for fetching trains and syncing dropdowns
+      async function fetchTrainsAndSync() {
+         try {
+            const res = await fetch((window.API_BASE || 'http://localhost:5000') + '/api/trains');
+            if (!res.ok) throw new Error('API error');
+            const trains = await res.json();
+
+            trainSelect.innerHTML = '<option value="">-- Select Train --</option>';
+            trains.forEach(t => {
+               const opt = document.createElement('option');
+               opt.value = t.trainNo;
+               opt.text = `${t.trainNo} - ${t.trainName}`;
+               opt.dataset.from = t.from;
+               opt.dataset.to = t.to;
+               trainSelect.appendChild(opt);
+            });
+         } catch (err) {
+            console.error('Failed to load trains', err);
+         }
+      }
+
+      trainSelect.addEventListener('change', () => {
+         const opt = trainSelect.options[trainSelect.selectedIndex];
+         if (opt && opt.dataset.from && opt.dataset.to) {
+            // If option exists, select it. If not, forcefully change the display value or add it
+            let fromExists = Array.from(fromEl.options).some(o => o.value.toUpperCase() === opt.dataset.from.toUpperCase());
+            let toExists = Array.from(toEl.options).some(o => o.value.toUpperCase() === opt.dataset.to.toUpperCase());
+
+            if (!fromExists) {
+               const newOpt = new Option(opt.dataset.from, opt.dataset.from);
+               fromEl.add(newOpt);
+            }
+            if (!toExists) {
+               const newOpt = new Option(opt.dataset.to, opt.dataset.to);
+               toEl.add(newOpt);
+            }
+
+            fromEl.value = Array.from(fromEl.options).find(o => o.value.toUpperCase() === opt.dataset.from.toUpperCase()).value;
+            toEl.value = Array.from(toEl.options).find(o => o.value.toUpperCase() === opt.dataset.to.toUpperCase()).value;
+            tryAutoDistance();
+         }
+      });
+
+      window.addEventListener('load', () => {
+         tryAutoDistance();
+         fetchTrainsAndSync();
+      }); 
+   </script>
 </body>
+
 </html>
