@@ -137,7 +137,12 @@
       btn.innerText = "Submitting...";
 
       try {
-        const HOST = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'https://bookmytrack-backend.onrender.com' : '';
+        const HOST =
+          window.location.hostname === '127.0.0.1' ||
+            window.location.hostname === 'localhost'
+            ? 'http://localhost:5000'
+            : 'https://bookmytrack-backend.onrender.com';
+
         const res = await fetch(`${HOST}/api/public/feedback`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
