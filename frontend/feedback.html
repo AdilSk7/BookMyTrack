@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +11,12 @@
   <script src="auth-guard.js"></script>
 
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
     <div class="logo">BookMyTrack</div>
-     <div class="links">
+    <div class="links">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="reservation.html">Reservation</a>
@@ -40,7 +42,8 @@
       </div>
       <h1>Your Feedback<br>Drives a <span class="text-highlight">Better<br>Journey</span></h1>
       <p class="hero-desc">
-        Please share your thoughts, suggestions or concerns to help us improve our services and make train travel more inclusive and comfortable for everyone.
+        Please share your thoughts, suggestions or concerns to help us improve our services and make train travel more
+        inclusive and comfortable for everyone.
       </p>
 
       <div class="feedback-features">
@@ -100,7 +103,8 @@
 
         <div class="input-wrap textarea-wrap">
           <i class="fa-solid fa-message input-icon textarea-icon"></i>
-          <textarea name="message" id="feedMsg" rows="5" placeholder="Your Feedback" required maxlength="500"></textarea>
+          <textarea name="message" id="feedMsg" rows="5" placeholder="Your Feedback" required
+            maxlength="500"></textarea>
           <div class="char-counter"><span id="charCount">0</span>/500</div>
         </div>
 
@@ -119,7 +123,7 @@
   <script>
     async function submitFeedback(event) {
       if (event) event.preventDefault();
-      
+
       const form = document.getElementById("feedbackForm");
       const name = form.name.value.trim();
       const email = form.email.value.trim();
@@ -133,22 +137,22 @@
       btn.innerText = "Submitting...";
 
       try {
-        const HOST = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
+        const HOST = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'https://bookmytrack-backend.onrender.com' : '';
         const res = await fetch(`${HOST}/api/public/feedback`, {
-           method: 'POST',
-           headers: { 'Content-Type': 'application/json' },
-           body: JSON.stringify({ name, email, message })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message })
         });
-        
+
         if (res.ok) {
-           feedbackBox.style.display = "block";
-           feedbackBox.style.backgroundColor = "rgba(0,128,0,0.8)";
-           feedbackBox.innerText = "Thank you for your valuable feedback!";
-           form.reset();
+          feedbackBox.style.display = "block";
+          feedbackBox.style.backgroundColor = "rgba(0,128,0,0.8)";
+          feedbackBox.innerText = "Thank you for your valuable feedback!";
+          form.reset();
         } else {
-           feedbackBox.style.display = "block";
-           feedbackBox.style.backgroundColor = "rgba(255,0,0,0.8)";
-           feedbackBox.innerText = "Failed to submit feedback. Please try again.";
+          feedbackBox.style.display = "block";
+          feedbackBox.style.backgroundColor = "rgba(255,0,0,0.8)";
+          feedbackBox.innerText = "Failed to submit feedback. Please try again.";
         }
       } catch (err) {
         feedbackBox.style.display = "block";
@@ -158,12 +162,12 @@
         btn.disabled = false;
         btn.innerText = "Submit Feedback";
       }
-      return false; 
+      return false;
     }
-    
+
     // Character Counter
-    document.getElementById("feedMsg").addEventListener('input', function() {
-       document.getElementById("charCount").innerText = this.value.length;
+    document.getElementById("feedMsg").addEventListener('input', function () {
+      document.getElementById("charCount").innerText = this.value.length;
     });
 
     // Bind listener
@@ -171,23 +175,24 @@
   </script>
 
   <script>
-  // highlight active link
-  (function(){
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    document.querySelectorAll('nav .links a').forEach(a=>{
-      const href = (a.getAttribute('href')||'').toLowerCase();
-      if (href === path) a.classList.add('active');
-    });
-  })();
+    // highlight active link
+    (function () {
+      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (href === path) a.classList.add('active');
+      });
+    })();
 
-  // shrink nav on scroll
-  (function(){
-    const nav = document.querySelector('nav');
-    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive:true });
-  })();
-</script>
+    // shrink nav on scroll
+    (function () {
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
 
 </body>
+
 </html>
