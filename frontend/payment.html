@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,18 +16,23 @@
       margin: 12px 0 18px;
       padding: 12px;
       border-radius: 8px;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.06);
       color: #fff;
       line-height: 1.4;
     }
+
     .fare-summary h2 {
       margin: 0 0 6px 0;
       font-size: 18px;
       color: #ffd166;
     }
-    .fare-summary .line { margin: 2px 0; }
+
+    .fare-summary .line {
+      margin: 2px 0;
+    }
   </style>
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
@@ -50,121 +56,129 @@
 
   <!-- Payment Section -->
   <div class="res-main-wrapper" style="max-width: 600px;">
-    
+
     <div class="res-card" style="padding: 30px;">
-        <!-- Header -->
-        <div style="text-align: center; margin-bottom: 25px;">
-            <h2 style="margin:0; font-size:28px; color:white; font-weight:800;">Complete Your Payment</h2>
-            <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:8px; color:#94a3b8; font-size:14px;">
-                <i class="fa-solid fa-lock" style="color:#0ea5e9;"></i>
-                <span><strong>Secure Payment</strong> 100% Safe & Encrypted</span>
-            </div>
+      <!-- Header -->
+      <div style="text-align: center; margin-bottom: 25px;">
+        <h2 style="margin:0; font-size:28px; color:white; font-weight:800;">Complete Your Payment</h2>
+        <div
+          style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:8px; color:#94a3b8; font-size:14px;">
+          <i class="fa-solid fa-lock" style="color:#0ea5e9;"></i>
+          <span><strong>Secure Payment</strong> 100% Safe & Encrypted</span>
+        </div>
+      </div>
+
+      <!-- Fare Summary -->
+      <div class="summary-card"
+        style="padding: 20px; text-align:center; border:1px dashed rgba(11,132,243,0.3); background:rgba(0,0,0,0.3); margin-bottom:25px;">
+        <p style="margin:0 0 10px 0; color:#cbd5e1; font-weight:600; font-size:14px;">
+          Fare Summary (PNR: <span id="sumPNR" style="color:white; font-weight:700;">—</span>)
+        </p>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px; color:#cbd5e1;">
+          <span>Base Fare</span>
+          <span>₹<span id="sumBase">0</span></span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px; color:#cbd5e1;">
+          <span>Convenience Fee</span>
+          <span>₹<span id="sumConvFee">29</span></span>
+        </div>
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:10px 0;">
+        <div style="display:flex; justify-content:space-between; font-size:18px; color:white; font-weight:700;">
+          <span>Total Payable</span>
+          <span style="color:#0b84f3;">₹<span id="sumAmount">0</span></span>
+        </div>
+      </div>
+
+      <!-- Payment Engine Form -->
+      <form id="paymentForm" autocomplete="off">
+
+        <div style="margin-bottom: 20px; font-weight: 600; color: white;">Choose Payment Method</div>
+
+        <!-- Tabs -->
+        <div class="tabs"
+          style="display:flex; gap:10px; margin-bottom:20px; background:rgba(0,0,0,0.3); padding:4px; border-radius:8px;">
+          <div class="tab payment-tab active" data-target="cardSection"
+            style="flex:1; text-align:center; padding:12px; cursor:pointer; color:#a4b0be; font-weight:600; border-radius:6px; transition:0.3s;">
+            <i class="fa-solid fa-credit-card"></i> Credit / Debit Card</div>
+          <div class="tab payment-tab" data-target="upiSection"
+            style="flex:1; text-align:center; padding:12px; cursor:pointer; color:#a4b0be; font-weight:600; border-radius:6px; transition:0.3s;">
+            UPI</div>
         </div>
 
-        <!-- Fare Summary -->
-        <div class="summary-card" style="padding: 20px; text-align:center; border:1px dashed rgba(11,132,243,0.3); background:rgba(0,0,0,0.3); margin-bottom:25px;">
-            <p style="margin:0 0 10px 0; color:#cbd5e1; font-weight:600; font-size:14px;">
-               Fare Summary (PNR: <span id="sumPNR" style="color:white; font-weight:700;">—</span>)
-            </p>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px; color:#cbd5e1;">
-               <span>Base Fare</span>
-               <span>₹<span id="sumBase">0</span></span>
+        <!-- CARD SECTION -->
+        <div id="cardSection" class="form-section active">
+          <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+            <div>
+              <h4 style="margin:0; font-size:18px; color:white;">Pay with Card</h4>
+              <span style="font-size:12px; color:#a4b0be;">Enter your card details securely</span>
             </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px; color:#cbd5e1;">
-               <span>Convenience Fee</span>
-               <span>₹<span id="sumConvFee">29</span></span>
-            </div>
-            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:10px 0;">
-            <div style="display:flex; justify-content:space-between; font-size:18px; color:white; font-weight:700;">
-               <span>Total Payable</span>
-               <span style="color:#0b84f3;">₹<span id="sumAmount">0</span></span>
-            </div>
-        </div>
-
-        <!-- Payment Engine Form -->
-        <form id="paymentForm" autocomplete="off">
-          
-          <div style="margin-bottom: 20px; font-weight: 600; color: white;">Choose Payment Method</div>
-          
-          <!-- Tabs -->
-          <div class="tabs" style="display:flex; gap:10px; margin-bottom:20px; background:rgba(0,0,0,0.3); padding:4px; border-radius:8px;">
-            <div class="tab payment-tab active" data-target="cardSection" style="flex:1; text-align:center; padding:12px; cursor:pointer; color:#a4b0be; font-weight:600; border-radius:6px; transition:0.3s;"><i class="fa-solid fa-credit-card"></i> Credit / Debit Card</div>
-            <div class="tab payment-tab" data-target="upiSection" style="flex:1; text-align:center; padding:12px; cursor:pointer; color:#a4b0be; font-weight:600; border-radius:6px; transition:0.3s;">UPI</div>
-          </div>
-
-          <!-- CARD SECTION -->
-          <div id="cardSection" class="form-section active">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
-               <div>
-                 <h4 style="margin:0; font-size:18px; color:white;">Pay with Card</h4>
-                 <span style="font-size:12px; color:#a4b0be;">Enter your card details securely</span>
-               </div>
-               <div style="display:flex; gap:8px;">
-                 <i class="fa-brands fa-cc-visa" style="font-size:24px; color:#1a1f71;"></i>
-                 <i class="fa-brands fa-cc-mastercard" style="font-size:24px; color:#eb001b;"></i>
-                 <i class="fa-brands fa-cc-amex" style="font-size:24px; color:#002663;"></i>
-               </div>
-            </div>
-            
-            <div class="form-row">
-              <div class="res-input-wrap">
-                <label>Cardholder Name <span style="color:#ef4444;">*</span></label>
-                <input type="text" id="cardname" name="cardname" placeholder="Name on card">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="res-input-wrap">
-                <label>Card Number <span style="color:#ef4444;">*</span></label>
-                <input type="text" id="cardnumber" name="cardnumber" placeholder="16-digit card number" maxlength="16">
-              </div>
-            </div>
-            <div class="form-row grid-2">
-              <div class="res-input-wrap">
-                <label>Expiry Date <span style="color:#ef4444;">*</span></label>
-                <input type="month" id="expiry" name="expiry">
-              </div>
-              <div class="res-input-wrap">
-                <label>CVV <span style="color:#ef4444;">*</span></label>
-                <input type="password" id="cvv" name="cvv" placeholder="XXX" maxlength="3">
-              </div>
+            <div style="display:flex; gap:8px;">
+              <i class="fa-brands fa-cc-visa" style="font-size:24px; color:#1a1f71;"></i>
+              <i class="fa-brands fa-cc-mastercard" style="font-size:24px; color:#eb001b;"></i>
+              <i class="fa-brands fa-cc-amex" style="font-size:24px; color:#002663;"></i>
             </div>
           </div>
 
-          <!-- UPI SECTION -->
-          <div id="upiSection" class="form-section" style="display:none;">
-            <div style="margin-bottom:20px;">
-               <h4 style="margin:0; font-size:18px; color:white;">Pay with UPI</h4>
-               <span style="font-size:12px; color:#a4b0be;">Enter your VPA to securely process the transfer</span>
-            </div>
-            
+          <div class="form-row">
             <div class="res-input-wrap">
-              <label>UPI ID <span style="color:#ef4444;">*</span></label>
-              <input type="text" id="upi" name="upi" placeholder="example@upi">
+              <label>Cardholder Name <span style="color:#ef4444;">*</span></label>
+              <input type="text" id="cardname" name="cardname" placeholder="Name on card">
             </div>
           </div>
-
-          <div style="margin-top:25px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px; display:flex;">
-              <button type="submit" id="payBtn" class="proceed-btn" style="flex:2;">Pay Now <i class="fas fa-lock"></i></button>
+          <div class="form-row">
+            <div class="res-input-wrap">
+              <label>Card Number <span style="color:#ef4444;">*</span></label>
+              <input type="text" id="cardnumber" name="cardnumber" placeholder="16-digit card number" maxlength="16">
+            </div>
           </div>
-          <div id="message" style="margin-top:15px; font-weight:600; text-align:center;"></div>
-        </form>
+          <div class="form-row grid-2">
+            <div class="res-input-wrap">
+              <label>Expiry Date <span style="color:#ef4444;">*</span></label>
+              <input type="month" id="expiry" name="expiry">
+            </div>
+            <div class="res-input-wrap">
+              <label>CVV <span style="color:#ef4444;">*</span></label>
+              <input type="password" id="cvv" name="cvv" placeholder="XXX" maxlength="3">
+            </div>
+          </div>
+        </div>
+
+        <!-- UPI SECTION -->
+        <div id="upiSection" class="form-section" style="display:none;">
+          <div style="margin-bottom:20px;">
+            <h4 style="margin:0; font-size:18px; color:white;">Pay with UPI</h4>
+            <span style="font-size:12px; color:#a4b0be;">Enter your VPA to securely process the transfer</span>
+          </div>
+
+          <div class="res-input-wrap">
+            <label>UPI ID <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="upi" name="upi" placeholder="example@upi">
+          </div>
+        </div>
+
+        <div style="margin-top:25px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px; display:flex;">
+          <button type="submit" id="payBtn" class="proceed-btn" style="flex:2;">Pay Now <i
+              class="fas fa-lock"></i></button>
+        </div>
+        <div id="message" style="margin-top:15px; font-weight:600; text-align:center;"></div>
+      </form>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 BookMyTrack. All rights reserved.
+    &copy; 2026 BookMyTrack. All rights reserved.
   </footer>
 
   <!-- JS -->
   <script>
     const paymentForm = document.getElementById('paymentForm');
-    const messageDiv  = document.getElementById('message');
-    const payBtn      = document.getElementById('payBtn');
+    const messageDiv = document.getElementById('message');
+    const payBtn = document.getElementById('payBtn');
 
     const fareSummary = document.getElementById('fareSummary');
-    const sumPNR      = document.getElementById('sumPNR');
-    const sumAmount   = document.getElementById('sumAmount');
+    const sumPNR = document.getElementById('sumPNR');
+    const sumAmount = document.getElementById('sumAmount');
 
     function setMsg(text, color) {
       messageDiv.style.color = color || '#ddd';
@@ -183,9 +197,9 @@
 
       // Card path
       const cardname = (document.getElementById('cardname') || paymentForm.cardname).value.trim();
-      const cardNum  = paymentForm.cardnumber.value.trim();
-      const cvv      = paymentForm.cvv.value.trim();
-      const expiry   = paymentForm.expiry.value.trim();
+      const cardNum = paymentForm.cardnumber.value.trim();
+      const cvv = paymentForm.cvv.value.trim();
+      const expiry = paymentForm.expiry.value.trim();
 
       if (!cardname) return 'Cardholder name is required.';
       if (!/^\d{16}$/.test(cardNum)) return 'Card number must be 16 digits.';
@@ -194,7 +208,7 @@
 
       const [year, month] = expiry.split('-').map(Number);
       const now = new Date();
-      const currentYear  = now.getFullYear();
+      const currentYear = now.getFullYear();
       const currentMonth = now.getMonth() + 1;
       if (year < currentYear || (year === currentYear && month < currentMonth)) {
         return 'Card expired.';
@@ -236,14 +250,14 @@
 
       sumPNR.textContent = pnrLocal;
       sumAmount.textContent = amountLocal.toString();
-      
+
       let convFeeLocal = Number(localStorage.getItem('lastConvenienceFee') || 29);
-      
+
       const sumBase = document.getElementById('sumBase');
-      if(sumBase) sumBase.textContent = Math.max(0, amountLocal - convFeeLocal).toString();
-      
+      if (sumBase) sumBase.textContent = Math.max(0, amountLocal - convFeeLocal).toString();
+
       const sumConvFee = document.getElementById('sumConvFee');
-      if(sumConvFee) sumConvFee.textContent = convFeeLocal.toString();
+      if (sumConvFee) sumConvFee.textContent = convFeeLocal.toString();
 
     }
 
@@ -251,16 +265,16 @@
       tab.addEventListener('click', () => {
         document.querySelectorAll('.payment-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-        
+
         tab.classList.add('active');
-        
+
         const target = tab.getAttribute('data-target');
         if (target === 'cardSection') {
-            document.getElementById('cardSection').style.display = 'block';
-            document.getElementById('upiSection').style.display = 'none';
+          document.getElementById('cardSection').style.display = 'block';
+          document.getElementById('upiSection').style.display = 'none';
         } else {
-            document.getElementById('upiSection').style.display = 'block';
-            document.getElementById('cardSection').style.display = 'none';
+          document.getElementById('upiSection').style.display = 'block';
+          document.getElementById('cardSection').style.display = 'none';
         }
       });
     });
@@ -277,8 +291,8 @@
       const user = JSON.parse(localStorage.getItem('user') || 'null');
       if (!user) return (location.href = 'login.html');
 
-      const pnr           = localStorage.getItem('lastPNR');
-      let amount          = Number(localStorage.getItem('lastAmount') || 0);
+      const pnr = localStorage.getItem('lastPNR');
+      let amount = Number(localStorage.getItem('lastAmount') || 0);
       const reservationId = localStorage.getItem('lastReservationId') || '';
 
       if (!pnr) {
@@ -366,23 +380,24 @@
   </script>
 
   <script>
-  // highlight active link
-  (function(){
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    document.querySelectorAll('nav .links a').forEach(a=>{
-      const href = (a.getAttribute('href')||'').toLowerCase();
-      if (href === path) a.classList.add('active');
-    });
-  })();
+    // highlight active link
+    (function () {
+      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (href === path) a.classList.add('active');
+      });
+    })();
 
-  // shrink nav on scroll
-  (function(){
-    const nav = document.querySelector('nav');
-    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive:true });
-  })();
-</script>
+    // shrink nav on scroll
+    (function () {
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
 
 </body>
+
 </html>

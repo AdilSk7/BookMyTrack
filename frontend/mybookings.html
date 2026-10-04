@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BookMyTrack - My Bookings</title>
 
   <link rel="stylesheet" href="style.css" />
-   <link rel="stylesheet" href="mybookings.css" />
+  <link rel="stylesheet" href="mybookings.css" />
   <link rel="stylesheet" href="reservation.css" /> <!-- reuse styling -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -14,6 +15,7 @@
   <script src="api.js"></script>
   <script src="auth-guard.js" defer></script>
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
@@ -38,7 +40,7 @@
     <div id="bookingsList">Loading your bookings...</div>
   </div>
 
-  <footer>&copy; 2024 BookMyTrack. All rights reserved.</footer>
+  <footer>&copy; 6 BookMyTrack. All rights reserved.</footer>
 
   <script>
     const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -136,9 +138,9 @@
           }
 
           const statusClass = (b.status || '').toLowerCase(); // safe class
-          const paxCount    = Array.isArray(b.passengers) ? b.passengers.length : 1;
-          const totalFare   = resolveTotalFare(b);
-          const currency    = b.currency || 'INR';
+          const paxCount = Array.isArray(b.passengers) ? b.passengers.length : 1;
+          const totalFare = resolveTotalFare(b);
+          const currency = b.currency || 'INR';
 
           // actions: Pay Now for Pending; Cancel for anything not cancelled
           let actions = '';
@@ -149,10 +151,10 @@
             actions += `<button class="btn-cancel" onclick="cancelBooking('${b._id}')">Cancel</button>`;
           }
           if (statusClass === 'paid' || statusClass === 'confirmed') {
-             // Cache booking safely to avoid injected HTML quote escaping issues
-             window.bookingCache = window.bookingCache || {};
-             window.bookingCache[b.pnr] = Object.assign({}, b, { fareTotal: totalFare, farePerPax: [totalFare / paxCount] });
-             actions += `<button class="btn-cancel" style="background:#028090; margin-left:8px;" onclick="generatePremiumTicket(window.bookingCache['${b.pnr}'], this)"><i class="fa-solid fa-file-pdf"></i> Ticket</button>`;
+            // Cache booking safely to avoid injected HTML quote escaping issues
+            window.bookingCache = window.bookingCache || {};
+            window.bookingCache[b.pnr] = Object.assign({}, b, { fareTotal: totalFare, farePerPax: [totalFare / paxCount] });
+            actions += `<button class="btn-cancel" style="background:#028090; margin-left:8px;" onclick="generatePremiumTicket(window.bookingCache['${b.pnr}'], this)"><i class="fa-solid fa-file-pdf"></i> Ticket</button>`;
           }
 
           div.innerHTML = `
@@ -204,23 +206,24 @@
   </script>
 
   <script>
-  // highlight active link
-  (function(){
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    document.querySelectorAll('nav .links a').forEach(a=>{
-      const href = (a.getAttribute('href')||'').toLowerCase();
-      if (href === path) a.classList.add('active');
-    });
-  })();
+    // highlight active link
+    (function () {
+      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (href === path) a.classList.add('active');
+      });
+    })();
 
-  // shrink nav on scroll
-  (function(){
-    const nav = document.querySelector('nav');
-    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive:true });
-  })();
-</script>
+    // shrink nav on scroll
+    (function () {
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
 
 </body>
+
 </html>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BookMyTrack - PNR Status</title>
 
   <link rel="stylesheet" href="style.css" />
@@ -15,6 +16,7 @@
   <script src="api.js"></script>
 
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
@@ -41,92 +43,96 @@
       <div class="pnr-hero-left">
         <h4 class="hero-subtitle">TRAVEL UPDATES</h4>
         <h1 class="hero-title">Check Your <br><span class="hero-highlight">PNR Status</span></h1>
-        <p class="hero-desc">Get real-time updates on your booking status, coach position, and journey details instantly.</p>
+        <p class="hero-desc">Get real-time updates on your booking status, coach position, and journey details
+          instantly.</p>
       </div>
 
       <!-- Right Column: Main Card -->
       <div class="pnr-hero-right">
         <div class="pnr-main-card">
-           <div class="pnr-card-header">
-              <div class="pnr-icon-wrapper"><i class="fa-solid fa-ticket-simple"></i></div>
-              <div class="pnr-card-title-box">
-                 <h2>Check PNR Status</h2>
-                 <p>Enter your 6-digit PNR number to get the latest status</p>
-              </div>
-           </div>
-           
-           <form id="pnrForm" class="pnr-modern-form">
-         <div class="form-input-container">
-           <i class="fa-solid fa-ticket-simple" style="color:var(--text-secondary); margin-left:20px; font-size:16px;"></i>
-           <input type="text" id="pnrInput" placeholder="Enter 6-digit PNR number" maxlength="6" required />
-           <span id="clearPnrBtn" style="display:none; color:#888; cursor:pointer; margin-right:15px; font-size:16px; padding:5px;" title="Clear input">
-              <i class="fa-solid fa-xmark"></i>
-           </span>
-           <button type="submit" id="pnrBtn"><i class="fa-solid fa-magnifying-glass"></i> Check Status</button>
-         </div>
-       </form>
+          <div class="pnr-card-header">
+            <div class="pnr-icon-wrapper"><i class="fa-solid fa-ticket-simple"></i></div>
+            <div class="pnr-card-title-box">
+              <h2>Check PNR Status</h2>
+              <p>Enter your 6-digit PNR number to get the latest status</p>
+            </div>
+          </div>
 
-           <div id="pnrResult" class="pnr-result"></div>
+          <form id="pnrForm" class="pnr-modern-form">
+            <div class="form-input-container">
+              <i class="fa-solid fa-ticket-simple"
+                style="color:var(--text-secondary); margin-left:20px; font-size:16px;"></i>
+              <input type="text" id="pnrInput" placeholder="Enter 6-digit PNR number" maxlength="6" required />
+              <span id="clearPnrBtn"
+                style="display:none; color:#888; cursor:pointer; margin-right:15px; font-size:16px; padding:5px;"
+                title="Clear input">
+                <i class="fa-solid fa-xmark"></i>
+              </span>
+              <button type="submit" id="pnrBtn"><i class="fa-solid fa-magnifying-glass"></i> Check Status</button>
+            </div>
+          </form>
+
+          <div id="pnrResult" class="pnr-result"></div>
         </div>
       </div>
     </div>
 
     <div class="pnr-features-grid">
-       <div class="feature-card">
-         <div class="feature-icon bg-green"><i class="fa-regular fa-clock"></i></div>
-         <div class="feature-text">
-           <h4>Live Status</h4>
-           <p>Get real-time booking updates</p>
-         </div>
-       </div>
-       <div class="feature-card">
-         <div class="feature-icon bg-purple"><i class="fa-solid fa-train-subway"></i></div>
-         <div class="feature-text">
-           <h4>Coach Position</h4>
-           <p>Know your coach and berth details</p>
-         </div>
-       </div>
-       <div class="feature-card">
-         <div class="feature-icon bg-orange"><i class="fa-solid fa-bell"></i></div>
-         <div class="feature-text">
-           <h4>Journey Alerts</h4>
-           <p>Stay updated with important notifications</p>
-         </div>
-       </div>
-       <div class="feature-card">
-         <div class="feature-icon bg-blue"><i class="fa-solid fa-file-invoice"></i></div>
-         <div class="feature-text">
-           <h4>Booking Summary</h4>
-           <p>View complete journey details</p>
-         </div>
-       </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-green"><i class="fa-regular fa-clock"></i></div>
+        <div class="feature-text">
+          <h4>Live Status</h4>
+          <p>Get real-time booking updates</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-purple"><i class="fa-solid fa-train-subway"></i></div>
+        <div class="feature-text">
+          <h4>Coach Position</h4>
+          <p>Know your coach and berth details</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-orange"><i class="fa-solid fa-bell"></i></div>
+        <div class="feature-text">
+          <h4>Journey Alerts</h4>
+          <p>Stay updated with important notifications</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-blue"><i class="fa-solid fa-file-invoice"></i></div>
+        <div class="feature-text">
+          <h4>Booking Summary</h4>
+          <p>View complete journey details</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <footer>&copy; 2024 BookMyTrack. All rights reserved.</footer>
+  <footer>&copy; 2026 BookMyTrack. All rights reserved.</footer>
 
   <script>
-    const pnrForm   = document.getElementById('pnrForm');
-    const pnrInput  = document.getElementById('pnrInput');
-    const pnrBtn    = document.getElementById('pnrBtn');
+    const pnrForm = document.getElementById('pnrForm');
+    const pnrInput = document.getElementById('pnrInput');
+    const pnrBtn = document.getElementById('pnrBtn');
     const pnrResult = document.getElementById('pnrResult');
     const clearPnrBtn = document.getElementById('clearPnrBtn');
 
     // keep input uppercase while typing and manage cross icon
     function toggleClearBtn() {
-       clearPnrBtn.style.display = pnrInput.value.length > 0 ? 'inline-block' : 'none';
+      clearPnrBtn.style.display = pnrInput.value.length > 0 ? 'inline-block' : 'none';
     }
 
     pnrInput.addEventListener('input', () => {
-      pnrInput.value = pnrInput.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);
+      pnrInput.value = pnrInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
       toggleClearBtn();
     });
 
     clearPnrBtn.addEventListener('click', () => {
-       pnrInput.value = '';
-       toggleClearBtn();
-       pnrResult.innerHTML = '';
-       pnrInput.focus();
+      pnrInput.value = '';
+      toggleClearBtn();
+      pnrResult.innerHTML = '';
+      pnrInput.focus();
     });
 
     // Check visibility on load in case the browser pre-fills the input
@@ -140,7 +146,7 @@
     pnrForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const raw = pnrInput.value.trim().toUpperCase();
-      const pnr = raw.replace(/[^A-Z0-9]/g,'').slice(0,6);
+      const pnr = raw.replace(/[^A-Z0-9]/g, '').slice(0, 6);
 
       if (!pnr || pnr.length !== 6) {
         pnrResult.innerHTML = `<p style="color:red;">Enter a valid 6-character PNR.</p>`;
@@ -151,7 +157,7 @@
         pnrBtn.disabled = true;
         pnrResult.innerHTML = `<p style="color:gray;">Fetching status...</p>`;
 
-        const res  = await fetch(`${API_BASE}/api/reservation/pnr/${pnr}`);
+        const res = await fetch(`${API_BASE}/api/reservation/pnr/${pnr}`);
         const data = await res.json();
 
         if (!res.ok) {
@@ -175,9 +181,9 @@
               <i>Per passenger:</i>
               <ul>
                 ${paxArray.map((p, i) => {
-                  const f = data.farePerPax[i];
-                  return `<li>${p.name || 'Passenger'} — ₹${f}</li>`;
-                }).join('')}
+            const f = data.farePerPax[i];
+            return `<li>${p.name || 'Passenger'} — ₹${f}</li>`;
+          }).join('')}
               </ul>
             </div>
           `;
@@ -244,23 +250,24 @@
   </script>
 
   <script>
-  // highlight active link
-  (function(){
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    document.querySelectorAll('nav .links a').forEach(a=>{
-      const href = (a.getAttribute('href')||'').toLowerCase();
-      if (href === path) a.classList.add('active');
-    });
-  })();
+    // highlight active link
+    (function () {
+      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (href === path) a.classList.add('active');
+      });
+    })();
 
-  // shrink nav on scroll
-  (function(){
-    const nav = document.querySelector('nav');
-    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive:true });
-  })();
-</script>
+    // shrink nav on scroll
+    (function () {
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
 
 </body>
+
 </html>

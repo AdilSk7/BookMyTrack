@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
   <link rel="stylesheet" href="login.css">
   <script src="api.js"></script>
 </head>
+
 <body>
 
   <!-- Login Form -->
@@ -32,7 +34,7 @@
 
       <button type="submit">Log in to your account</button>
     </form>
-    
+
     <div id="loginMessage"></div>
     <p>Don’t have an account? <a href="registration.html">Sign up here</a></p>
   </div>
@@ -40,7 +42,7 @@
   <script>
     const loginForm = document.getElementById('loginForm');
     const loginMessage = document.getElementById('loginMessage');
-    
+
     if (loginMessage) {
       const observer = new MutationObserver(() => {
         if (loginMessage.innerText.trim() !== '') {
@@ -76,13 +78,13 @@
               body: JSON.stringify({ email, password })
             });
             let adminData = await adminRes.json();
-            
+
             if (adminRes.ok) {
               res = adminRes;
               data = adminData;
               isAdmin = true;
             }
-          } catch(e) {
+          } catch (e) {
             // fail silently, proceed to the negative user auth feedback
           }
         }
@@ -123,7 +125,8 @@
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 BookMyTrack. All rights reserved.
+    &copy; 2026 BookMyTrack. All rights reserved.
   </footer>
 </body>
+
 </html>

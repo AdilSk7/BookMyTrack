@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
   <link rel="stylesheet" href="registration.css">
   <script src="api.js"></script>
 </head>
+
 <body>
 
   <!-- Registration Form -->
@@ -93,7 +95,7 @@
         const data = await res.json();
 
         if (res.ok) {
-          regForm.reset();  
+          regForm.reset();
 
           regMessage.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
           regMessage.style.borderColor = 'rgba(0, 255, 0, 0.3)';
@@ -120,28 +122,29 @@
   </script>
 
   <script>
-  // highlight active link
-  (function(){
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    document.querySelectorAll('nav .links a').forEach(a=>{
-      const href = (a.getAttribute('href')||'').toLowerCase();
-      if (href === path) a.classList.add('active');
-    });
-  })();
+    // highlight active link
+    (function () {
+      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (href === path) a.classList.add('active');
+      });
+    })();
 
-  // shrink nav on scroll
-  (function(){
-    const nav = document.querySelector('nav');
-    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive:true });
-  })();
-</script>
+    // shrink nav on scroll
+    (function () {
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
 
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 BookMyTrack. All rights reserved.
+    &copy; 2026 BookMyTrack. All rights reserved.
   </footer>
 </body>
+
 </html>

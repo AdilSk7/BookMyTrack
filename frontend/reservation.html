@@ -39,288 +39,315 @@
 
   <!-- Reservation Form Layout -->
   <div class="res-main-wrapper">
-    
+
     <!-- Top Header & Pills -->
     <div class="res-header">
-       <h1>Book Your <span>Train Ticket</span></h1>
-       <p>Plan your journey with ease, comfort and inclusivity.</p>
-       <div class="res-quote">"Different Destinations<br>A Brighter Tomorrow"</div>
+      <h1>Book Your <span>Train Ticket</span></h1>
+      <p>Plan your journey with ease, comfort and inclusivity.</p>
+      <div class="res-quote">"Different Destinations<br>A Brighter Tomorrow"</div>
     </div>
 
     <div class="res-features">
-       <div class="res-feat"><i class="fas fa-shield-alt blue"></i> Safe & Secure</div>
-       <div class="res-feat"><i class="fas fa-user-nurse cyan"></i> Elderly Friendly</div>
-       <div class="res-feat"><i class="fas fa-wheelchair yellow"></i> Accessible Travel</div>
-       <div class="res-feat"><i class="fas fa-bolt orange"></i> Smart Booking</div>
+      <div class="res-feat"><i class="fas fa-shield-alt blue"></i> Safe & Secure</div>
+      <div class="res-feat"><i class="fas fa-user-nurse cyan"></i> Elderly Friendly</div>
+      <div class="res-feat"><i class="fas fa-wheelchair yellow"></i> Accessible Travel</div>
+      <div class="res-feat"><i class="fas fa-bolt orange"></i> Smart Booking</div>
     </div>
 
     <!-- BOOKING FLOW WRAPPER -->
     <div class="res-two-col">
-        <!-- LEFT COLUMN -->
-        <div class="res-left">
-                  <!-- Stepper -->
-                  <div class="res-stepper">
-                      <div class="step active" id="step1"><div class="step-num">1</div> Journey Details</div>
-                      <div class="step-line active" id="line1"></div>
-                      <div class="step" id="step2"><div class="step-num">2</div> Passenger Details</div>
-                      <div class="step-line" id="line2"></div>
-                      <div class="step" id="step3"><div class="step-num">3</div> Review & Pay</div>
+      <!-- LEFT COLUMN -->
+      <div class="res-left">
+        <!-- Stepper -->
+        <div class="res-stepper">
+          <div class="step active" id="step1">
+            <div class="step-num">1</div> Journey Details
+          </div>
+          <div class="step-line active" id="line1"></div>
+          <div class="step" id="step2">
+            <div class="step-num">2</div> Passenger Details
+          </div>
+          <div class="step-line" id="line2"></div>
+          <div class="step" id="step3">
+            <div class="step-num">3</div> Review & Pay
+          </div>
+        </div>
+
+        <!-- INNER BOOKING CARDS -->
+        <div id="booking-cards-wrapper">
+          <form id="reservationForm" autocomplete="off">
+
+            <!-- STEP 1 VIEW -->
+            <div id="step1-card">
+              <div class="res-card">
+                <div class="res-card-title">
+                  <div class="icon"><i class="fas fa-train"></i></div>
+                  <div>
+                    <h3>Journey Details</h3>
+                    <p>Select your travel route and date</p>
                   </div>
+                </div>
 
-                  <!-- INNER BOOKING CARDS -->
-                  <div id="booking-cards-wrapper">
-                    <form id="reservationForm" autocomplete="off">
-                        
-                        <!-- STEP 1 VIEW -->
-                        <div id="step1-card">
-                          <div class="res-card">
-                      <div class="res-card-title">
-                          <div class="icon"><i class="fas fa-train"></i></div>
-                          <div>
-                              <h3>Journey Details</h3>
-                              <p>Select your travel route and date</p>
-                          </div>
-                      </div>
-
-                      <div class="form-row" style="display: flex; gap: 15px;">
-                          <div class="res-input-wrap" style="flex: 1;">
-                              <label><i class="fas fa-map-marker-alt"></i> From Station</label>
-                              <select name="from" id="fromInput" required>
-                                  <option value="" disabled selected>Loading stations...</option>
-                              </select>
-                          </div>
-                          <button type="button" class="swap-btn" id="swapRouteBtn" title="Swap Route"><i class="fas fa-exchange-alt"></i></button>
-                          <div class="res-input-wrap" style="flex: 1;">
-                              <label><i class="fas fa-map-marker-alt"></i> To Station</label>
-                              <select name="to" id="toInput" required>
-                                  <option value="" disabled selected>Loading stations...</option>
-                              </select>
-                          </div>
-                      </div>
-
-                      <div style="display:flex; gap:15px; margin-bottom: 20px;">
-                          <div class="res-input-wrap" style="flex:2;">
-                              <label style="color:#a4b0be; font-size:12px; font-weight:600; margin-bottom:6px; display:block;"><i class="fa-solid fa-train text-blue"></i> Select Train / Route <span style="float:right; cursor:pointer; color:crimson; font-size:11px;" id="clearRouteBtn">Clear</span></label>
-                              <select class="res-input" id="trainSelect" name="trainNo" required>
-                                  <option value="" data-basefare="0">Select Route First...</option>
-                                  <!-- Options populated dynamically -->
-                              </select>
-                          </div>
-                          <div class="res-input-wrap" style="flex:1;">
-                              <label style="color:#a4b0be; font-size:12px; font-weight:600; margin-bottom:6px; display:block;"><i class="far fa-calendar-alt text-blue"></i> Journey Date</label>
-                              <input type="date" class="res-input" name="jdate" id="journeyDate" required>
-                          </div>
-                      </div>
-                      
-                      <div class="res-input-wrap" style="margin-bottom: 25px;">
-                          <label style="color:#a4b0be; font-size:12px; font-weight:600; margin-bottom:6px; display:block;"><i class="fa-solid fa-couch text-blue"></i> Travel Class</label>
-                          <select class="res-input" id="classSelect" name="travelClass" required disabled>
-                              <option value="">Select a train first...</option>
-                          </select>
-                      </div>
-                      <script>
-                          const today = new Date().toISOString().split('T')[0];
-                          document.getElementById('journeyDate').setAttribute('min', today);
-                      </script>
-                      
-                      <div style="margin-top:15px; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
-                          <button type="button" class="proceed-btn" id="btnToStep2" style="width:100%;">Continue to Passenger Details <i class="fas fa-arrow-right"></i></button>
-                          <div id="msgStep1" style="margin-top: 10px; font-weight: bold; text-align: center;"></div>
-                      </div>
+                <div class="form-row" style="display: flex; gap: 15px;">
+                  <div class="res-input-wrap" style="flex: 1;">
+                    <label><i class="fas fa-map-marker-alt"></i> From Station</label>
+                    <select name="from" id="fromInput" required>
+                      <option value="" disabled selected>Loading stations...</option>
+                    </select>
                   </div>
-                 </div> <!-- end step1-card -->
-
-                 <!-- STEP 2 VIEW -->
-                 <div id="step2-card" style="display:none;">
-                  <!-- Passenger Details -->
-                  <div class="res-card" style="padding-bottom: 20px;">
-                      <div class="res-card-title">
-                          <div class="icon"><i class="fas fa-user-friends"></i></div>
-                          <div>
-                              <h3>Passenger Details</h3>
-                              <p>Enter passenger information</p>
-                          </div>
-                      </div>
-
-                      <div id="passengers" class="pax-list"></div>
-                      <button class="add-pax-btn" type="button" id="addPassenger"><i class="fas fa-plus-circle"></i> Add Another Passenger</button>
-                      
-                      <div style="display:flex; gap:10px; margin-top:15px; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
-                          <button type="button" class="proceed-btn" id="btnBackToStep1" style="flex:1; background:rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1);"><i class="fas fa-arrow-left"></i> Back</button>
-                          <button class="proceed-btn" type="submit" style="flex:2;">Proceed to Payment <i class="fas fa-arrow-right"></i></button>
-                      </div>
-                      <div id="message" style="margin-top:10px; font-weight:bold; text-align:center;"></div>
+                  <button type="button" class="swap-btn" id="swapRouteBtn" title="Swap Route"><i
+                      class="fas fa-exchange-alt"></i></button>
+                  <div class="res-input-wrap" style="flex: 1;">
+                    <label><i class="fas fa-map-marker-alt"></i> To Station</label>
+                    <select name="to" id="toInput" required>
+                      <option value="" disabled selected>Loading stations...</option>
+                    </select>
                   </div>
-                 </div> <!-- end step2-card -->
-                    </form>
-                  </div> <!-- /booking-cards-wrapper -->
+                </div>
 
-                  <!-- PAYMENT FLOW (Inside Left Column) -->
-                  <div id="payment-container-wrapper" style="display: none; margin-top: 20px;">
-                    <!-- Adapted from payment.html to use res-card glass styling natively -->
-                    <div class="res-card" style="padding: 30px; max-width: 550px; margin: 0 auto;">
-                      
-                      <!-- Header -->
-                      <div class="payment-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-                        <h2 style="margin:0; font-size:22px; color:white;">Complete Your Payment</h2>
-                        <div class="secure-badge" style="display:flex; gap:8px; align-items:center; font-size:12px; color:#a4b0be;">
-                          <i class="fa-solid fa-lock"></i>
-                          <div><strong style="color:white; display:block;">Secure Payment</strong> 100% Safe</div>
-                        </div>
-                      </div>
-
-                      <!-- Tabs -->
-                      <div class="tabs" style="display:flex; gap:10px; margin-bottom:20px; background:rgba(0,0,0,0.3); padding:4px; border-radius:8px;">
-                        <div class="tab payment-tab active" data-target="cardSection" style="flex:1; text-align:center; padding:12px; cursor:pointer; color:#a4b0be; font-weight:600; border-radius:6px; transition:0.3s;"><i class="fa-solid fa-credit-card"></i> Credit / Debit Card</div>
-                        <div class="tab payment-tab" data-target="upiSection" style="flex:1; text-align:center; padding:12px; cursor:pointer; color:#a4b0be; font-weight:600; border-radius:6px; transition:0.3s;">UPI</div>
-                      </div>
-
-                      <!-- Payment Engine Form -->
-                      <form id="embeddedPaymentForm" autocomplete="off">
-                        <!-- CARD SECTION -->
-                        <div id="cardSection" class="form-section active" style="animation: fadeIn 0.3s;">
-                          <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center;">
-                             <div>
-                               <h4 style="margin:0; font-size:16px; color:white;">Pay with Card</h4>
-                               <span style="font-size:12px; color:#a4b0be;">Enter your card details</span>
-                             </div>
-                             <div style="display:flex; gap:6px;">
-                                <i class="fa-brands fa-cc-visa" style="font-size:24px; color:#1d4ed8;"></i>
-                                <i class="fa-brands fa-cc-mastercard" style="font-size:24px; color:#dc2626;"></i>
-                             </div>
-                          </div>
-                          
-                          <div class="form-row grid-2">
-                              <div class="res-input-wrap" style="grid-column: span 2;">
-                                  <label>Cardholder Name</label>
-                                  <input type="text" id="cardname" placeholder="Name on card">
-                              </div>
-                              <div class="res-input-wrap" style="grid-column: span 2;">
-                                  <label>Card Number</label>
-                                  <input type="text" id="cardnumber" placeholder="16-digit card number" maxlength="16">
-                              </div>
-                              <div class="res-input-wrap">
-                                  <label>Expiry Date</label>
-                                  <input type="month" id="expiry">
-                              </div>
-                              <div class="res-input-wrap">
-                                  <label>CVV</label>
-                                  <input type="password" id="cvv" placeholder="XXX" maxlength="3">
-                              </div>
-                          </div>
-                        </div>
-
-                        <!-- UPI SECTION -->
-                        <div id="upiSection" class="form-section" style="display:none;">
-                          <div style="margin-bottom:15px;">
-                             <h4 style="margin:0; font-size:16px; color:white;">Pay with UPI</h4>
-                             <span style="font-size:12px; color:#a4b0be;">Enter your VPA to securely process the transfer</span>
-                          </div>
-                          <div class="res-input-wrap">
-                            <label>UPI ID</label>
-                            <input type="text" id="upi" placeholder="example@upi">
-                          </div>
-                        </div>
-
-                        <div class="form-row" style="margin-top:20px; align-items:center;">
-                            <div style="flex:1;">
-                                <span style="display:block; color:#a4b0be; font-size:12px;">Total Payable</span>
-                                <span style="display:block; color:#0b84f3; font-size:24px; font-weight:700;">₹<span id="sumAmount">0</span></span>
-                            </div>
-                            <button type="submit" id="payBtn" class="proceed-btn" style="flex:2;">Pay Now <i class="fas fa-lock"></i></button>
-                        </div>
-                        <div id="payMessage" style="margin-top:15px; font-weight:600; text-align:center;"></div>
-                      </form>
-                    </div>
+                <div style="display:flex; gap:15px; margin-bottom: 20px;">
+                  <div class="res-input-wrap" style="flex:2;">
+                    <label style="color:#a4b0be; font-size:12px; font-weight:600; margin-bottom:6px; display:block;"><i
+                        class="fa-solid fa-train text-blue"></i> Select Train / Route <span
+                        style="float:right; cursor:pointer; color:crimson; font-size:11px;"
+                        id="clearRouteBtn">Clear</span></label>
+                    <select class="res-input" id="trainSelect" name="trainNo" required>
+                      <option value="" data-basefare="0">Select Route First...</option>
+                      <!-- Options populated dynamically -->
+                    </select>
                   </div>
+                  <div class="res-input-wrap" style="flex:1;">
+                    <label style="color:#a4b0be; font-size:12px; font-weight:600; margin-bottom:6px; display:block;"><i
+                        class="far fa-calendar-alt text-blue"></i> Journey Date</label>
+                    <input type="date" class="res-input" name="jdate" id="journeyDate" required>
+                  </div>
+                </div>
+
+                <div class="res-input-wrap" style="margin-bottom: 25px;">
+                  <label style="color:#a4b0be; font-size:12px; font-weight:600; margin-bottom:6px; display:block;"><i
+                      class="fa-solid fa-couch text-blue"></i> Travel Class</label>
+                  <select class="res-input" id="classSelect" name="travelClass" required disabled>
+                    <option value="">Select a train first...</option>
+                  </select>
+                </div>
+                <script>
+                  const today = new Date().toISOString().split('T')[0];
+                  document.getElementById('journeyDate').setAttribute('min', today);
+                </script>
+
+                <div style="margin-top:15px; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
+                  <button type="button" class="proceed-btn" id="btnToStep2" style="width:100%;">Continue to Passenger
+                    Details <i class="fas fa-arrow-right"></i></button>
+                  <div id="msgStep1" style="margin-top: 10px; font-weight: bold; text-align: center;"></div>
+                </div>
+              </div>
+            </div> <!-- end step1-card -->
+
+            <!-- STEP 2 VIEW -->
+            <div id="step2-card" style="display:none;">
+              <!-- Passenger Details -->
+              <div class="res-card" style="padding-bottom: 20px;">
+                <div class="res-card-title">
+                  <div class="icon"><i class="fas fa-user-friends"></i></div>
+                  <div>
+                    <h3>Passenger Details</h3>
+                    <p>Enter passenger information</p>
+                  </div>
+                </div>
+
+                <div id="passengers" class="pax-list"></div>
+                <button class="add-pax-btn" type="button" id="addPassenger"><i class="fas fa-plus-circle"></i> Add
+                  Another Passenger</button>
+
+                <div
+                  style="display:flex; gap:10px; margin-top:15px; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
+                  <button type="button" class="proceed-btn" id="btnBackToStep1"
+                    style="flex:1; background:rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1);"><i
+                      class="fas fa-arrow-left"></i> Back</button>
+                  <button class="proceed-btn" type="submit" style="flex:2;">Proceed to Payment <i
+                      class="fas fa-arrow-right"></i></button>
+                </div>
+                <div id="message" style="margin-top:10px; font-weight:bold; text-align:center;"></div>
+              </div>
+            </div> <!-- end step2-card -->
+          </form>
+        </div> <!-- /booking-cards-wrapper -->
+
+        <!-- PAYMENT FLOW (Inside Left Column) -->
+        <div id="payment-container-wrapper" style="display: none; margin-top: 20px;">
+          <!-- Adapted from payment.html to use res-card glass styling natively -->
+          <div class="res-card" style="padding: 30px; max-width: 550px; margin: 0 auto;">
+
+            <!-- Header -->
+            <div class="payment-header"
+              style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+              <h2 style="margin:0; font-size:22px; color:white;">Complete Your Payment</h2>
+              <div class="secure-badge"
+                style="display:flex; gap:8px; align-items:center; font-size:12px; color:#a4b0be;">
+                <i class="fa-solid fa-lock"></i>
+                <div><strong style="color:white; display:block;">Secure Payment</strong> 100% Safe</div>
+              </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs"
+              style="display:flex; gap:10px; margin-bottom:20px; background:rgba(0,0,0,0.3); padding:4px; border-radius:8px;">
+              <div class="tab payment-tab active" data-target="cardSection"
+                style="flex:1; text-align:center; padding:12px; cursor:pointer; color:#a4b0be; font-weight:600; border-radius:6px; transition:0.3s;">
+                <i class="fa-solid fa-credit-card"></i> Credit / Debit Card</div>
+              <div class="tab payment-tab" data-target="upiSection"
+                style="flex:1; text-align:center; padding:12px; cursor:pointer; color:#a4b0be; font-weight:600; border-radius:6px; transition:0.3s;">
+                UPI</div>
+            </div>
+
+            <!-- Payment Engine Form -->
+            <form id="embeddedPaymentForm" autocomplete="off">
+              <!-- CARD SECTION -->
+              <div id="cardSection" class="form-section active" style="animation: fadeIn 0.3s;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center;">
+                  <div>
+                    <h4 style="margin:0; font-size:16px; color:white;">Pay with Card</h4>
+                    <span style="font-size:12px; color:#a4b0be;">Enter your card details</span>
+                  </div>
+                  <div style="display:flex; gap:6px;">
+                    <i class="fa-brands fa-cc-visa" style="font-size:24px; color:#1d4ed8;"></i>
+                    <i class="fa-brands fa-cc-mastercard" style="font-size:24px; color:#dc2626;"></i>
+                  </div>
+                </div>
+
+                <div class="form-row grid-2">
+                  <div class="res-input-wrap" style="grid-column: span 2;">
+                    <label>Cardholder Name</label>
+                    <input type="text" id="cardname" placeholder="Name on card">
+                  </div>
+                  <div class="res-input-wrap" style="grid-column: span 2;">
+                    <label>Card Number</label>
+                    <input type="text" id="cardnumber" placeholder="16-digit card number" maxlength="16">
+                  </div>
+                  <div class="res-input-wrap">
+                    <label>Expiry Date</label>
+                    <input type="month" id="expiry">
+                  </div>
+                  <div class="res-input-wrap">
+                    <label>CVV</label>
+                    <input type="password" id="cvv" placeholder="XXX" maxlength="3">
+                  </div>
+                </div>
               </div>
 
-              <!-- RIGHT COLUMN -->
-              <div class="res-right">
-                  <!-- Train Summary -->
-                  <div class="summary-card" id="trainSummaryCard">
-                      <!-- Default Empty State -->
-                      <div class="summary-empty">
-                          <i class="fas fa-train"></i>
-                          <p>Select a train to view journey details</p>
-                      </div>
-                  </div>
-
-                  <!-- Support Card -->
-                  <div class="support-card">
-                      <div class="sup-header">
-                          <i class="fas fa-headset"></i>
-                          <div>
-                              <h4>Need Help?</h4>
-                              <p>Our support team is always here for you.</p>
-                          </div>
-                      </div>
-                      <button type="button" class="contact-btn">Contact Support</button>
-                      <div class="trust-badges">
-                          <div class="badge"><i class="fas fa-phone-alt"></i> 24/7 Support</div>
-                          <div class="badge"><i class="fas fa-shield-alt"></i> Secure Payments</div>
-                          <div class="badge"><i class="fas fa-users"></i> Trusted by Millions</div>
-                      </div>
-                  </div>
+              <!-- UPI SECTION -->
+              <div id="upiSection" class="form-section" style="display:none;">
+                <div style="margin-bottom:15px;">
+                  <h4 style="margin:0; font-size:16px; color:white;">Pay with UPI</h4>
+                  <span style="font-size:12px; color:#a4b0be;">Enter your VPA to securely process the transfer</span>
+                </div>
+                <div class="res-input-wrap">
+                  <label>UPI ID</label>
+                  <input type="text" id="upi" placeholder="example@upi">
+                </div>
               </div>
+
+              <div class="form-row" style="margin-top:20px; align-items:center;">
+                <div style="flex:1;">
+                  <span style="display:block; color:#a4b0be; font-size:12px;">Total Payable</span>
+                  <span style="display:block; color:#0b84f3; font-size:24px; font-weight:700;">₹<span
+                      id="sumAmount">0</span></span>
+                </div>
+                <button type="submit" id="payBtn" class="proceed-btn" style="flex:2;">Pay Now <i
+                    class="fas fa-lock"></i></button>
+              </div>
+              <div id="payMessage" style="margin-top:15px; font-weight:600; text-align:center;"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="res-right">
+        <!-- Train Summary -->
+        <div class="summary-card" id="trainSummaryCard">
+          <!-- Default Empty State -->
+          <div class="summary-empty">
+            <i class="fas fa-train"></i>
+            <p>Select a train to view journey details</p>
+          </div>
+        </div>
+
+        <!-- Support Card -->
+        <div class="support-card">
+          <div class="sup-header">
+            <i class="fas fa-headset"></i>
+            <div>
+              <h4>Need Help?</h4>
+              <p>Our support team is always here for you.</p>
+            </div>
+          </div>
+          <button type="button" class="contact-btn">Contact Support</button>
+          <div class="trust-badges">
+            <div class="badge"><i class="fas fa-phone-alt"></i> 24/7 Support</div>
+            <div class="badge"><i class="fas fa-shield-alt"></i> Secure Payments</div>
+            <div class="badge"><i class="fas fa-users"></i> Trusted by Millions</div>
+          </div>
+        </div>
+      </div>
       </form>
-  </div>
+    </div>
 
-  <footer>
-    &copy; 2024 BookMyTrack. All rights reserved.
-  </footer>
+    <footer>
+      &copy; 2026 BookMyTrack. All rights reserved.
+    </footer>
 
-  <script>
-    /* =========================================================
-       RESERVATION LOGIC
-       ========================================================= */
-    const resForm = document.getElementById('reservationForm');
-    const paxList = document.getElementById('passengers');
-    const addBtn = document.getElementById('addPassenger');
-    const msg = document.getElementById('message');
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    <script>
+      /* =========================================================
+         RESERVATION LOGIC
+         ========================================================= */
+      const resForm = document.getElementById('reservationForm');
+      const paxList = document.getElementById('passengers');
+      const addBtn = document.getElementById('addPassenger');
+      const msg = document.getElementById('message');
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
 
-    // Swap Btn
-    document.getElementById('swapRouteBtn').addEventListener('click', () => {
+      // Swap Btn
+      document.getElementById('swapRouteBtn').addEventListener('click', () => {
         let temp = fromInp.value;
         fromInp.value = toInp.value;
         toInp.value = temp;
         loadAvailableTrains();
-    });
+      });
 
-    // --------------------------
-    // Add passenger row
-    // --------------------------
-    function addPassengerRow() {
-      const row = document.createElement('div');
-      row.className = 'pax-card';
-      const paxIndex = document.querySelectorAll('.pax-card').length + 1;
-      const isPrimary = paxIndex === 1;
+      // --------------------------
+      // Add passenger row
+      // --------------------------
+      function addPassengerRow() {
+        const row = document.createElement('div');
+        row.className = 'pax-card';
+        const paxIndex = document.querySelectorAll('.pax-card').length + 1;
+        const isPrimary = paxIndex === 1;
 
-      let autofillHTML = '';
-      if (window.savedPassengersData && window.savedPassengersData.length > 0) {
-        autofillHTML = `<select class="pax-autofill" style="position:absolute; right:75px; top:10px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); color:white; font-size:11px; padding:2px 8px; border-radius:4px; outline:none;">
+        let autofillHTML = '';
+        if (window.savedPassengersData && window.savedPassengersData.length > 0) {
+          autofillHTML = `<select class="pax-autofill" style="position:absolute; right:75px; top:10px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); color:white; font-size:11px; padding:2px 8px; border-radius:4px; outline:none;">
               <option value="">Autofill primary</option>
               ${window.savedPassengersData.map((p, i) => `<option value="${i}">${p.name} (${p.age})</option>`).join('')}
           </select>`;
-      }
+        }
 
-      row.innerHTML = `
+        row.innerHTML = `
         <div class="pax-tab">Passenger ${paxIndex}</div>
         ${isPrimary ? autofillHTML : ''}
         ${paxIndex > 1 ? '<button type="button" class="pax-remove remove"><i class="fas fa-trash-alt"></i> Remove</button>' : ''}
         
         <div class="form-row grid-3">
           <div class="res-input-wrap">
-              <label>Full Name ${isPrimary? '*' : ''}</label>
+              <label>Full Name ${isPrimary ? '*' : ''}</label>
               <input placeholder="e.g. John Doe" class="pax-name" required>
           </div>
           <div class="res-input-wrap">
-              <label>Age ${isPrimary? '*' : ''}</label>
+              <label>Age ${isPrimary ? '*' : ''}</label>
               <input type="number" placeholder="25" class="pax-age" min="1" required>
           </div>
           <div class="res-input-wrap">
-              <label>Gender ${isPrimary? '*' : ''}</label>
+              <label>Gender ${isPrimary ? '*' : ''}</label>
               <select class="pax-gender" required>
                 <option value="" disabled selected>Select Gender</option>
                 <option value="male">Male</option>
@@ -353,53 +380,53 @@
           <label><input type="checkbox" class="pax-priority"> <i class="fas fa-heart" style="color:pink;"></i> Priority Quota (Elderly/Medical)</label>
         </div>
       `;
-      paxList.appendChild(row);
+        paxList.appendChild(row);
 
-      // Trigger dynamic setup for this new row's berth preference
-      const currentClass = document.getElementById('classSelect').value;
-      if (typeof populateBerthDropdowns === 'function') {
-        populateBerthDropdowns(currentClass);
-      }
+        // Trigger dynamic setup for this new row's berth preference
+        const currentClass = document.getElementById('classSelect').value;
+        if (typeof populateBerthDropdowns === 'function') {
+          populateBerthDropdowns(currentClass);
+        }
 
-      const selectFill = row.querySelector('.pax-autofill');
-      if (selectFill) {
-        selectFill.onchange = (e) => {
-          const idx = e.target.value;
-          if (idx === '') return;
-          const dat = window.savedPassengersData[idx];
-          row.querySelector('.pax-name').value = dat.name;
-          row.querySelector('.pax-age').value = dat.age;
-          row.querySelector('.pax-gender').value = dat.gender || 'other';
-        };
-      }
+        const selectFill = row.querySelector('.pax-autofill');
+        if (selectFill) {
+          selectFill.onchange = (e) => {
+            const idx = e.target.value;
+            if (idx === '') return;
+            const dat = window.savedPassengersData[idx];
+            row.querySelector('.pax-name').value = dat.name;
+            row.querySelector('.pax-age').value = dat.age;
+            row.querySelector('.pax-gender').value = dat.gender || 'other';
+          };
+        }
 
-      const removeBtn = row.querySelector('.remove');
-      if (removeBtn) {
-        removeBtn.onclick = () => {
+        const removeBtn = row.querySelector('.remove');
+        if (removeBtn) {
+          removeBtn.onclick = () => {
             row.remove();
             renumberPassengers();
-        };
+          };
+        }
       }
-    }
 
-    function renumberPassengers() {
+      function renumberPassengers() {
         const tabs = document.querySelectorAll('.pax-tab');
         tabs.forEach((tab, i) => {
-            tab.innerText = `Passenger ${i + 1}`;
+          tab.innerText = `Passenger ${i + 1}`;
         });
-    }
+      }
 
-    // Start with one passenger row
-    addPassengerRow();
-    addBtn.onclick = addPassengerRow;
+      // Start with one passenger row
+      addPassengerRow();
+      addBtn.onclick = addPassengerRow;
 
-    // --------------------------
-    // Wizard Flow Toggles
-    // --------------------------
-    const btnToStep2 = document.getElementById('btnToStep2');
-    const btnBackToStep1 = document.getElementById('btnBackToStep1');
-    
-    btnToStep2.addEventListener('click', () => {
+      // --------------------------
+      // Wizard Flow Toggles
+      // --------------------------
+      const btnToStep2 = document.getElementById('btnToStep2');
+      const btnBackToStep1 = document.getElementById('btnBackToStep1');
+
+      btnToStep2.addEventListener('click', () => {
         const from = fromInp.value;
         const to = toInp.value;
         const trainNo = trainSelect.value;
@@ -407,278 +434,278 @@
         const msgStep1 = document.getElementById('msgStep1');
 
         if (!from || !to || !trainNo || !date) {
-            msgStep1.style.color = '#ef4444';
-            msgStep1.textContent = 'Please complete your journey selection first.';
-            return;
-        }
-
-        msgStep1.textContent = '';
-        
-        // Hide Step 1, Show Step 2
-        document.getElementById('step1-card').style.display = 'none';
-        document.getElementById('step2-card').style.display = 'block';
-        
-        // Progress Stepper Visually
-        document.getElementById('step2').classList.add('active');
-        document.getElementById('line1').classList.add('active');
-    });
-
-    btnBackToStep1.addEventListener('click', () => {
-        // Hide Step 2, Show Step 1
-        document.getElementById('step2-card').style.display = 'none';
-        document.getElementById('step1-card').style.display = 'block';
-        
-        // Recede Stepper
-        document.getElementById('step2').classList.remove('active');
-        document.getElementById('line1').classList.remove('active');
-    });
-
-
-    // --------------------------
-    // Process Reservation to SPA
-    // --------------------------
-    resForm.onsubmit = async (e) => {
-      e.preventDefault();
-      if (!user) return (location.href = 'login.html');
-
-      const paxCards = [...document.querySelectorAll('.pax-card')];
-      if (paxCards.length === 0) {
-        msg.style.color = 'crimson';
-        msg.textContent = 'Please add at least one passenger.';
-        return;
-      }
-
-      const passengers = paxCards.map((r, i) => ({
-        name: (r.querySelector('.pax-name')?.value || '').trim(),
-        age: parseInt(r.querySelector('.pax-age')?.value || '0', 10),
-        gender: r.querySelector('.pax-gender')?.value || 'other',
-        berthPreference: r.querySelector('.pax-berth')?.value || undefined,
-        needsWheelchair: !!r.querySelector('.pax-wheel')?.checked,
-        needsPrioritySeat: !!r.querySelector('.pax-priority')?.checked,
-        groupId: (r.querySelector('.pax-group')?.value || '') || null,
-        companionOf: (() => {
-          const v = r.querySelector('.pax-comp')?.value.trim();
-          return v === '' ? null : Number(v);
-        })()
-      })).filter(p => p.name && p.age > 0);
-
-      const reservationData = {
-        userId: user._id,
-        from: resForm.from.value.trim(),
-        to: resForm.to.value.trim(),
-        trainNo: resForm.trainNo.value.trim(),
-        travelClass: document.getElementById('classSelect').value.trim() || 'SL',
-        journeyDate: resForm.jdate.value,
-        accessible: false, 
-        passengers
-      };
-
-      if (!reservationData.from || !reservationData.to || !reservationData.journeyDate || !reservationData.trainNo) {
-        msg.style.color = 'crimson';
-        msg.textContent = 'Please fill all required journey fields.';
-        return;
-      }
-
-      try {
-        msg.style.color = '#60a5fa'; /* blue status */
-        msg.textContent = 'Validating and locking seats...';
-
-        const res = await fetch(`${API_BASE}/api/reservation/book`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(reservationData)
-        });
-
-        const data = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-          msg.style.color = '#ef4444';
-          msg.textContent = data?.error || 'Booking failed. Please try again.';
+          msgStep1.style.color = '#ef4444';
+          msgStep1.textContent = 'Please complete your journey selection first.';
           return;
         }
 
-        // Store IDs and cache for payment
-        localStorage.setItem('lastPNR', data.pnr || '');
-        localStorage.setItem('lastReservationId', data._id || '');
-        localStorage.setItem('lastAmount', String(data.fareTotal || 0));
-        localStorage.setItem('lastConvenienceFee', String(data.convenienceFee || 29));
-        
-        msg.textContent = ''; // Clear message
+        msgStep1.textContent = '';
 
-        // ----------------------------------------------------
-        // SPA TRANSITION to Payment Step
-        // ----------------------------------------------------
-        // 1. Hide Inner Booking Cards
-        document.getElementById('booking-cards-wrapper').style.display = 'none';
-        
-        // 2. Adjust Stepper in the main wrapper to hit Step 3 (Stepper stays visible)
-        document.getElementById('step3').classList.add('active');
-        document.getElementById('line2').classList.add('active');
-        
-        // 3. Render Fare inside Payment Component
-        await renderFareSummary();
+        // Hide Step 1, Show Step 2
+        document.getElementById('step1-card').style.display = 'none';
+        document.getElementById('step2-card').style.display = 'block';
 
-        // 4. Show Payment Container inside Left Column
-        document.getElementById('payment-container-wrapper').style.display = 'block';
+        // Progress Stepper Visually
+        document.getElementById('step2').classList.add('active');
+        document.getElementById('line1').classList.add('active');
+      });
 
-      } catch (err) {
-        console.error(err);
-        msg.style.color = '#ef4444';
-        msg.textContent = 'Server error. Please try again.';
-      }
-    };
+      btnBackToStep1.addEventListener('click', () => {
+        // Hide Step 2, Show Step 1
+        document.getElementById('step2-card').style.display = 'none';
+        document.getElementById('step1-card').style.display = 'block';
 
-    // Auto load trains
-    const fromInp = document.getElementById('fromInput');
-    const toInp = document.getElementById('toInput');
-    const trainSelect = document.getElementById('trainSelect');
-    const dateInp = document.getElementById('journeyDate');
+        // Recede Stepper
+        document.getElementById('step2').classList.remove('active');
+        document.getElementById('line1').classList.remove('active');
+      });
 
-    let allTrainsCache = [];
 
-    async function initReservationData() {
-      if (user && user._id) {
+      // --------------------------
+      // Process Reservation to SPA
+      // --------------------------
+      resForm.onsubmit = async (e) => {
+        e.preventDefault();
+        if (!user) return (location.href = 'login.html');
+
+        const paxCards = [...document.querySelectorAll('.pax-card')];
+        if (paxCards.length === 0) {
+          msg.style.color = 'crimson';
+          msg.textContent = 'Please add at least one passenger.';
+          return;
+        }
+
+        const passengers = paxCards.map((r, i) => ({
+          name: (r.querySelector('.pax-name')?.value || '').trim(),
+          age: parseInt(r.querySelector('.pax-age')?.value || '0', 10),
+          gender: r.querySelector('.pax-gender')?.value || 'other',
+          berthPreference: r.querySelector('.pax-berth')?.value || undefined,
+          needsWheelchair: !!r.querySelector('.pax-wheel')?.checked,
+          needsPrioritySeat: !!r.querySelector('.pax-priority')?.checked,
+          groupId: (r.querySelector('.pax-group')?.value || '') || null,
+          companionOf: (() => {
+            const v = r.querySelector('.pax-comp')?.value.trim();
+            return v === '' ? null : Number(v);
+          })()
+        })).filter(p => p.name && p.age > 0);
+
+        const reservationData = {
+          userId: user._id,
+          from: resForm.from.value.trim(),
+          to: resForm.to.value.trim(),
+          trainNo: resForm.trainNo.value.trim(),
+          travelClass: document.getElementById('classSelect').value.trim() || 'SL',
+          journeyDate: resForm.jdate.value,
+          accessible: false,
+          passengers
+        };
+
+        if (!reservationData.from || !reservationData.to || !reservationData.journeyDate || !reservationData.trainNo) {
+          msg.style.color = 'crimson';
+          msg.textContent = 'Please fill all required journey fields.';
+          return;
+        }
+
         try {
-          const paxRes = await fetch(`${API_BASE}/api/profile/${user._id}`);
-          if (paxRes.ok) {
-            const dat = await paxRes.json();
-            window.savedPassengersData = dat.savedPassengers || [];
-            const existingPill = document.querySelector('.pax-autofill');
-            if (!existingPill && window.savedPassengersData.length > 0) {
-              paxList.innerHTML = '';
-              addPassengerRow();
-            }
+          msg.style.color = '#60a5fa'; /* blue status */
+          msg.textContent = 'Validating and locking seats...';
+
+          const res = await fetch(`${API_BASE}/api/reservation/book`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reservationData)
+          });
+
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok) {
+            msg.style.color = '#ef4444';
+            msg.textContent = data?.error || 'Booking failed. Please try again.';
+            return;
           }
-        } catch (e) { }
+
+          // Store IDs and cache for payment
+          localStorage.setItem('lastPNR', data.pnr || '');
+          localStorage.setItem('lastReservationId', data._id || '');
+          localStorage.setItem('lastAmount', String(data.fareTotal || 0));
+          localStorage.setItem('lastConvenienceFee', String(data.convenienceFee || 29));
+
+          msg.textContent = ''; // Clear message
+
+          // ----------------------------------------------------
+          // SPA TRANSITION to Payment Step
+          // ----------------------------------------------------
+          // 1. Hide Inner Booking Cards
+          document.getElementById('booking-cards-wrapper').style.display = 'none';
+
+          // 2. Adjust Stepper in the main wrapper to hit Step 3 (Stepper stays visible)
+          document.getElementById('step3').classList.add('active');
+          document.getElementById('line2').classList.add('active');
+
+          // 3. Render Fare inside Payment Component
+          await renderFareSummary();
+
+          // 4. Show Payment Container inside Left Column
+          document.getElementById('payment-container-wrapper').style.display = 'block';
+
+        } catch (err) {
+          console.error(err);
+          msg.style.color = '#ef4444';
+          msg.textContent = 'Server error. Please try again.';
+        }
+      };
+
+      // Auto load trains
+      const fromInp = document.getElementById('fromInput');
+      const toInp = document.getElementById('toInput');
+      const trainSelect = document.getElementById('trainSelect');
+      const dateInp = document.getElementById('journeyDate');
+
+      let allTrainsCache = [];
+
+      async function initReservationData() {
+        if (user && user._id) {
+          try {
+            const paxRes = await fetch(`${API_BASE}/api/profile/${user._id}`);
+            if (paxRes.ok) {
+              const dat = await paxRes.json();
+              window.savedPassengersData = dat.savedPassengers || [];
+              const existingPill = document.querySelector('.pax-autofill');
+              if (!existingPill && window.savedPassengersData.length > 0) {
+                paxList.innerHTML = '';
+                addPassengerRow();
+              }
+            }
+          } catch (e) { }
+        }
+
+        try {
+          const res = await fetch(`${API_BASE}/api/trains`);
+          allTrainsCache = await res.json();
+
+          const fromSet = new Set();
+          const toSet = new Set();
+          allTrainsCache.forEach(t => {
+            fromSet.add(t.from);
+            toSet.add(t.to);
+          });
+
+          fromInp.innerHTML = '<option value="" disabled selected>Select From Station...</option>';
+          toInp.innerHTML = '<option value="" disabled selected>Select To Station...</option>';
+          Array.from(fromSet).sort().forEach(st => fromInp.innerHTML += `<option value="${st.toUpperCase()}">${st}</option>`);
+          Array.from(toSet).sort().forEach(st => toInp.innerHTML += `<option value="${st.toUpperCase()}">${st}</option>`);
+
+          const params = new URLSearchParams(window.location.search);
+          let fromParam = params.get('from');
+          let toParam = params.get('to');
+          if (fromParam) { fromInp.value = fromParam.toUpperCase(); }
+          if (toParam) { toInp.value = toParam.toUpperCase(); }
+          if (fromParam || toParam) loadAvailableTrains();
+
+        } catch (err) {
+          fromInp.innerHTML = '<option value="" disabled selected>Server Error</option>';
+          toInp.innerHTML = '<option value="" disabled selected>Server Error</option>';
+        }
+      };
+
+      const classSelect = document.getElementById('classSelect');
+
+      function populateBerthDropdowns(classStr) {
+        classStr = classStr || 'SL';
+        const selects = document.querySelectorAll('.pax-berth');
+        let optionsHTML = '<option value="">Auto-assign</option>';
+        if (['CC', '2S'].includes(classStr)) {
+          optionsHTML += '<option value="window">Window</option><option value="middle">Middle</option><option value="aisle">Aisle</option>';
+        } else if (classStr === '2A') {
+          optionsHTML += '<option value="lower">Lower</option><option value="upper">Upper</option><option value="side_lower">Side Lower</option><option value="side_upper">Side Upper</option>';
+        } else if (classStr === '1A') {
+          optionsHTML += '<option value="lower">Lower</option><option value="upper">Upper</option><option value="cabin">Cabin</option><option value="coupe">Coupe</option>';
+        } else { // SL, 3A, 3E
+          optionsHTML += '<option value="lower">Lower</option><option value="middle">Middle</option><option value="upper">Upper</option><option value="side_lower">Side Lower</option><option value="side_upper">Side Upper</option>';
+        }
+        selects.forEach(sel => {
+          const prevVal = sel.value;
+          sel.innerHTML = optionsHTML;
+          if ([...sel.options].some(o => o.value === prevVal)) {
+            sel.value = prevVal;
+          } else {
+            sel.value = "";
+          }
+        });
       }
 
-      try {
-        const res = await fetch(`${API_BASE}/api/trains`);
-        allTrainsCache = await res.json();
-        
-        const fromSet = new Set();
-        const toSet = new Set();
-        allTrainsCache.forEach(t => {
-          fromSet.add(t.from);
-          toSet.add(t.to);
+      classSelect.addEventListener('change', (e) => {
+        populateBerthDropdowns(e.target.value);
+      });
+
+      async function loadAvailableTrains() {
+        const from = fromInp.value.trim().toUpperCase();
+        const to = toInp.value.trim().toUpperCase();
+        const filtered = allTrainsCache.filter(t => {
+          const mtFrom = !from || t.from.toUpperCase() === from;
+          const mtTo = !to || t.to.toUpperCase() === to;
+          return mtFrom && mtTo;
         });
 
-        fromInp.innerHTML = '<option value="" disabled selected>Select From Station...</option>';
-        toInp.innerHTML = '<option value="" disabled selected>Select To Station...</option>';
-        Array.from(fromSet).sort().forEach(st => fromInp.innerHTML += `<option value="${st.toUpperCase()}">${st}</option>`);
-        Array.from(toSet).sort().forEach(st => toInp.innerHTML += `<option value="${st.toUpperCase()}">${st}</option>`);
+        if (filtered.length === 0) {
+          trainSelect.innerHTML = '<option value="" data-basefare="0">No trains available for this route</option>';
+          updateSummaryCard(null);
+          return;
+        }
 
-        const params = new URLSearchParams(window.location.search);
-        let fromParam = params.get('from');
-        let toParam = params.get('to');
-        if (fromParam) { fromInp.value = fromParam.toUpperCase(); }
-        if (toParam) { toInp.value = toParam.toUpperCase(); }
-        if (fromParam || toParam) loadAvailableTrains();
-
-      } catch (err) {
-        fromInp.innerHTML = '<option value="" disabled selected>Server Error</option>';
-        toInp.innerHTML = '<option value="" disabled selected>Server Error</option>';
-      }
-    };
-
-    const classSelect = document.getElementById('classSelect');
-
-    function populateBerthDropdowns(classStr) {
-      classStr = classStr || 'SL';
-      const selects = document.querySelectorAll('.pax-berth');
-      let optionsHTML = '<option value="">Auto-assign</option>';
-      if (['CC', '2S'].includes(classStr)) {
-        optionsHTML += '<option value="window">Window</option><option value="middle">Middle</option><option value="aisle">Aisle</option>';
-      } else if (classStr === '2A') {
-        optionsHTML += '<option value="lower">Lower</option><option value="upper">Upper</option><option value="side_lower">Side Lower</option><option value="side_upper">Side Upper</option>';
-      } else if (classStr === '1A') {
-        optionsHTML += '<option value="lower">Lower</option><option value="upper">Upper</option><option value="cabin">Cabin</option><option value="coupe">Coupe</option>';
-      } else { // SL, 3A, 3E
-        optionsHTML += '<option value="lower">Lower</option><option value="middle">Middle</option><option value="upper">Upper</option><option value="side_lower">Side Lower</option><option value="side_upper">Side Upper</option>';
-      }
-      selects.forEach(sel => {
-         const prevVal = sel.value;
-         sel.innerHTML = optionsHTML;
-         if([...sel.options].some(o => o.value === prevVal)) {
-            sel.value = prevVal;
-         } else {
-            sel.value = "";
-         }
-      });
-    }
-
-    classSelect.addEventListener('change', (e) => {
-      populateBerthDropdowns(e.target.value);
-    });
-
-    async function loadAvailableTrains() {
-      const from = fromInp.value.trim().toUpperCase();
-      const to = toInp.value.trim().toUpperCase();
-      const filtered = allTrainsCache.filter(t => {
-        const mtFrom = !from || t.from.toUpperCase() === from;
-        const mtTo = !to || t.to.toUpperCase() === to;
-        return mtFrom && mtTo;
-      });
-
-      if (filtered.length === 0) {
-        trainSelect.innerHTML = '<option value="" data-basefare="0">No trains available for this route</option>';
+        trainSelect.innerHTML = '<option value="" data-basefare="0">-- Select Train --</option>';
+        filtered.forEach(t => {
+          trainSelect.innerHTML += `<option value="${t.trainNo}" data-basefare="${t.baseFare || 0}">${t.trainNo} - ${t.trainName}</option>`;
+        });
         updateSummaryCard(null);
-        return;
       }
 
-      trainSelect.innerHTML = '<option value="" data-basefare="0">-- Select Train --</option>';
-      filtered.forEach(t => {
-        trainSelect.innerHTML += `<option value="${t.trainNo}" data-basefare="${t.baseFare || 0}">${t.trainNo} - ${t.trainName}</option>`;
-      });
-      updateSummaryCard(null); 
-    }
+      fromInp.addEventListener('change', loadAvailableTrains);
+      toInp.addEventListener('change', loadAvailableTrains);
 
-    fromInp.addEventListener('change', loadAvailableTrains);
-    toInp.addEventListener('change', loadAvailableTrains);
-
-    trainSelect.addEventListener('change', () => {
-      const trNo = trainSelect.value;
-      if (!trNo) {
+      trainSelect.addEventListener('change', () => {
+        const trNo = trainSelect.value;
+        if (!trNo) {
           updateSummaryCard(null);
           classSelect.innerHTML = '<option value="">Select a train first...</option>';
           classSelect.disabled = true;
           return;
-      }
-      const trData = allTrainsCache.find(t => t.trainNo === trNo);
-      if (trData) {
-        if (!fromInp.value) fromInp.value = trData.from.toUpperCase();
-        if (!toInp.value) toInp.value = trData.to.toUpperCase();
-        
-        const classes = trData.classes && trData.classes.length > 0 ? trData.classes : ['SL', '3A', '2A'];
-        classSelect.innerHTML = classes.map(c => `<option value="${c}">${c}</option>`).join('');
-        classSelect.disabled = false;
-        populateBerthDropdowns(classSelect.value);
-
-        updateSummaryCard(trData);
-      }
-    });
-
-    dateInp.addEventListener('change', () => {
-        if(trainSelect.value) {
-            const trData = allTrainsCache.find(t => t.trainNo === trainSelect.value);
-            if(trData) updateSummaryCard(trData);
         }
-    });
+        const trData = allTrainsCache.find(t => t.trainNo === trNo);
+        if (trData) {
+          if (!fromInp.value) fromInp.value = trData.from.toUpperCase();
+          if (!toInp.value) toInp.value = trData.to.toUpperCase();
 
-    function updateSummaryCard(tData) {
+          const classes = trData.classes && trData.classes.length > 0 ? trData.classes : ['SL', '3A', '2A'];
+          classSelect.innerHTML = classes.map(c => `<option value="${c}">${c}</option>`).join('');
+          classSelect.disabled = false;
+          populateBerthDropdowns(classSelect.value);
+
+          updateSummaryCard(trData);
+        }
+      });
+
+      dateInp.addEventListener('change', () => {
+        if (trainSelect.value) {
+          const trData = allTrainsCache.find(t => t.trainNo === trainSelect.value);
+          if (trData) updateSummaryCard(trData);
+        }
+      });
+
+      function updateSummaryCard(tData) {
         const card = document.getElementById('trainSummaryCard');
         if (!tData) {
-            card.innerHTML = `
+          card.innerHTML = `
                 <div class="summary-empty">
                     <i class="fas fa-train"></i>
                     <p>Select a train to view journey details</p>
                 </div>
             `;
-            return;
+          return;
         }
 
-        const dateVal = dateInp.value ? new Date(dateInp.value).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year:'numeric' }) : 'Date not selected';
-        const depTime = tData.departure || "14:00"; 
+        const dateVal = dateInp.value ? new Date(dateInp.value).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) : 'Date not selected';
+        const depTime = tData.departure || "14:00";
         const arrTime = tData.arrival || "23:15";
 
         card.innerHTML = `
@@ -732,197 +759,197 @@
                 </div>
             </div>
         `;
-    }
+      }
 
-    document.getElementById('clearRouteBtn').addEventListener('click', () => {
-      fromInp.value = '';
-      toInp.value = '';
-      dateInp.value = '';
-      trainSelect.innerHTML = '<option value="" data-basefare="0">Select Route First...</option>';
-      classSelect.innerHTML = '<option value="">Select a train first...</option>';
-      classSelect.disabled = true;
-      updateSummaryCard(null);
-      loadAvailableTrains();
-    });
+      document.getElementById('clearRouteBtn').addEventListener('click', () => {
+        fromInp.value = '';
+        toInp.value = '';
+        dateInp.value = '';
+        trainSelect.innerHTML = '<option value="" data-basefare="0">Select Route First...</option>';
+        classSelect.innerHTML = '<option value="">Select a train first...</option>';
+        classSelect.disabled = true;
+        updateSummaryCard(null);
+        loadAvailableTrains();
+      });
 
-    document.addEventListener("DOMContentLoaded", initReservationData);
+      document.addEventListener("DOMContentLoaded", initReservationData);
 
 
-    /* =========================================================
-       PAYMENT ENGINE LOGIC (Migrated from payment.html)
-       ========================================================= */
-       
-    // The main ID that handles payment clicks internally
-    const payMessageDiv  = document.getElementById('payMessage');
-    const payBtn      = document.getElementById('payBtn');
-    const sumAmount   = document.getElementById('sumAmount');
-    const sumPNR      = document.getElementById('sumPNR');
-    const sumBase     = document.getElementById('sumBase');
+      /* =========================================================
+         PAYMENT ENGINE LOGIC (Migrated from payment.html)
+         ========================================================= */
 
-    function setPayMsg(text, color) {
-      payMessageDiv.style.color = color || '#ddd';
-      payMessageDiv.textContent = text;
-    }
+      // The main ID that handles payment clicks internally
+      const payMessageDiv = document.getElementById('payMessage');
+      const payBtn = document.getElementById('payBtn');
+      const sumAmount = document.getElementById('sumAmount');
+      const sumPNR = document.getElementById('sumPNR');
+      const sumBase = document.getElementById('sumBase');
 
-    // Validate either card OR UPI path based on the active tab
-    function validatePaymentInputs() {
-      const activeTab = document.querySelector('.payment-tab.active').getAttribute('data-target');
+      function setPayMsg(text, color) {
+        payMessageDiv.style.color = color || '#ddd';
+        payMessageDiv.textContent = text;
+      }
 
-      if (activeTab === 'upiSection') {
-        const upi = document.getElementById('upi').value.trim();
-        if (!upi || !/^[0-9]{10}@[a-zA-Z]{3,64}$/.test(upi)) return 'UPI ID must be a 10 digit phone number (e.g. 9876543210@paytm).';
+      // Validate either card OR UPI path based on the active tab
+      function validatePaymentInputs() {
+        const activeTab = document.querySelector('.payment-tab.active').getAttribute('data-target');
+
+        if (activeTab === 'upiSection') {
+          const upi = document.getElementById('upi').value.trim();
+          if (!upi || !/^[0-9]{10}@[a-zA-Z]{3,64}$/.test(upi)) return 'UPI ID must be a 10 digit phone number (e.g. 9876543210@paytm).';
+          return null;
+        }
+
+        // Card path
+        const cardname = document.getElementById('cardname').value.trim();
+        const cardNum = document.getElementById('cardnumber').value.trim();
+        const cvv = document.getElementById('cvv').value.trim();
+        const expiry = document.getElementById('expiry').value.trim();
+
+        if (!cardname) return 'Cardholder name is required.';
+        if (!/^\d{16}$/.test(cardNum)) return 'Card number must be 16 digits.';
+        if (!/^\d{3}$/.test(cvv)) return 'CVV must be 3 digits.';
+        if (!/^\d{4}-\d{2}$/.test(expiry)) return 'Expiry must be YYYY-MM format.';
+
+        const [year, month] = expiry.split('-').map(Number);
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth() + 1;
+        if (year < currentYear || (year === currentYear && month < currentMonth)) {
+          return 'Card expired.';
+        }
+
         return null;
       }
 
-      // Card path
-      const cardname = document.getElementById('cardname').value.trim();
-      const cardNum  = document.getElementById('cardnumber').value.trim();
-      const cvv      = document.getElementById('cvv').value.trim();
-      const expiry   = document.getElementById('expiry').value.trim();
+      async function renderFareSummary() {
+        const pnrLocal = localStorage.getItem('lastPNR') || '';
+        let amountLocal = Number(localStorage.getItem('lastAmount') || 0);
+        let convFee = Number(localStorage.getItem('lastConvenienceFee') || 29);
 
-      if (!cardname) return 'Cardholder name is required.';
-      if (!/^\d{16}$/.test(cardNum)) return 'Card number must be 16 digits.';
-      if (!/^\d{3}$/.test(cvv)) return 'CVV must be 3 digits.';
-      if (!/^\d{4}-\d{2}$/.test(expiry)) return 'Expiry must be YYYY-MM format.';
-
-      const [year, month] = expiry.split('-').map(Number);
-      const now = new Date();
-      const currentYear  = now.getFullYear();
-      const currentMonth = now.getMonth() + 1;
-      if (year < currentYear || (year === currentYear && month < currentMonth)) {
-        return 'Card expired.';
+        sumAmount.textContent = amountLocal.toString();
+        if (sumPNR) sumPNR.textContent = pnrLocal;
+        if (sumBase) sumBase.textContent = Math.max(0, amountLocal - convFee).toString();
       }
 
-      return null;
-    }
+      // Tab switching logic for Payment specific tabs
+      document.querySelectorAll('.payment-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.payment-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
 
-    async function renderFareSummary() {
-      const pnrLocal = localStorage.getItem('lastPNR') || '';
-      let amountLocal = Number(localStorage.getItem('lastAmount') || 0);
-      let convFee = Number(localStorage.getItem('lastConvenienceFee') || 29);
-      
-      sumAmount.textContent = amountLocal.toString();
-      if(sumPNR) sumPNR.textContent = pnrLocal;
-      if(sumBase) sumBase.textContent = Math.max(0, amountLocal - convFee).toString();
-    }
+          tab.classList.add('active');
 
-    // Tab switching logic for Payment specific tabs
-    document.querySelectorAll('.payment-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.payment-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-        
-        tab.classList.add('active');
-        
-        const target = tab.getAttribute('data-target');
-        if (target === 'cardSection') {
+          const target = tab.getAttribute('data-target');
+          if (target === 'cardSection') {
             document.getElementById('cardSection').style.display = 'block';
             document.getElementById('upiSection').style.display = 'none';
-        } else {
+          } else {
             document.getElementById('upiSection').style.display = 'block';
             document.getElementById('cardSection').style.display = 'none';
-        }
-      });
-    });
-
-    // ----- On submit: pay + confirm + assign seats -----
-    const pForm = document.getElementById('embeddedPaymentForm');
-    pForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      if (!user) return (location.href = 'login.html');
-
-      const pnr           = localStorage.getItem('lastPNR');
-      let amount          = Number(localStorage.getItem('lastAmount') || 0);
-      const reservationId = localStorage.getItem('lastReservationId') || '';
-
-      if (!pnr || !reservationId) {
-        return setPayMsg('Session expired. Please restart booking.', 'red');
-      }
-
-      const error = validatePaymentInputs();
-      if (error) return setPayMsg(error, 'orange');
-
-      const activeTab = document.querySelector('.payment-tab.active').getAttribute('data-target');
-
-      const paymentData = {
-        userId: user._id,
-        reservationId,
-        pnr,
-        amount,
-        method: activeTab === 'upiSection' ? 'upi' : 'card',
-        cardNumber: document.getElementById('cardnumber').value,
-        upi: document.getElementById('upi').value
-      };
-
-      payBtn.disabled = true;
-
-      try {
-        setPayMsg('Processing payment…', '#60a5fa');
-
-        // 1) Charge/payment record
-        const payRes = await fetch(`${API_BASE}/api/payment/pay`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(paymentData)
+          }
         });
+      });
 
-        const payData = await payRes.json().catch(() => ({}));
-        if (!payRes.ok) {
-          setPayMsg(payData?.error || `Payment failed (HTTP ${payRes.status}).`, '#ef4444');
+      // ----- On submit: pay + confirm + assign seats -----
+      const pForm = document.getElementById('embeddedPaymentForm');
+      pForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (!user) return (location.href = 'login.html');
+
+        const pnr = localStorage.getItem('lastPNR');
+        let amount = Number(localStorage.getItem('lastAmount') || 0);
+        const reservationId = localStorage.getItem('lastReservationId') || '';
+
+        if (!pnr || !reservationId) {
+          return setPayMsg('Session expired. Please restart booking.', 'red');
+        }
+
+        const error = validatePaymentInputs();
+        if (error) return setPayMsg(error, 'orange');
+
+        const activeTab = document.querySelector('.payment-tab.active').getAttribute('data-target');
+
+        const paymentData = {
+          userId: user._id,
+          reservationId,
+          pnr,
+          amount,
+          method: activeTab === 'upiSection' ? 'upi' : 'card',
+          cardNumber: document.getElementById('cardnumber').value,
+          upi: document.getElementById('upi').value
+        };
+
+        payBtn.disabled = true;
+
+        try {
+          setPayMsg('Processing payment…', '#60a5fa');
+
+          // 1) Charge/payment record
+          const payRes = await fetch(`${API_BASE}/api/payment/pay`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(paymentData)
+          });
+
+          const payData = await payRes.json().catch(() => ({}));
+          if (!payRes.ok) {
+            setPayMsg(payData?.error || `Payment failed (HTTP ${payRes.status}).`, '#ef4444');
+            payBtn.disabled = false;
+            return;
+          }
+
+          // 2) Confirm reservation + assign seats at payment time
+          setPayMsg('Payment success. Assigning seats…', '#60a5fa');
+
+          const confRes = await fetch(`${API_BASE}/api/reservation/confirm-pay/${reservationId}`, {
+            method: 'POST'
+          });
+          const confData = await confRes.json().catch(() => ({}));
+
+          if (!confRes.ok) {
+            setPayMsg(confData?.error || `Seat assignment delayed. Check My Bookings later.`, '#fbbf24');
+          } else {
+            setPayMsg('Payment complete! Redirecting to My Bookings…', '#10b981');
+          }
+
+          document.getElementById('cardname').value = '';
+          document.getElementById('cardnumber').value = '';
+          document.getElementById('upi').value = '';
+          localStorage.removeItem('lastPNR');
+          localStorage.removeItem('lastReservationId');
+          localStorage.removeItem('lastAmount');
+
+          setTimeout(() => window.location.href = 'mybookings.html', 1500);
+        } catch (err) {
+          console.error(err);
+          setPayMsg(err?.message || 'Server error', '#ef4444');
           payBtn.disabled = false;
-          return;
         }
-
-        // 2) Confirm reservation + assign seats at payment time
-        setPayMsg('Payment success. Assigning seats…', '#60a5fa');
-
-        const confRes = await fetch(`${API_BASE}/api/reservation/confirm-pay/${reservationId}`, {
-          method: 'POST'
-        });
-        const confData = await confRes.json().catch(() => ({}));
-
-        if (!confRes.ok) {
-          setPayMsg(confData?.error || `Seat assignment delayed. Check My Bookings later.`, '#fbbf24');
-        } else {
-          setPayMsg('Payment complete! Redirecting to My Bookings…', '#10b981');
-        }
-
-        document.getElementById('cardname').value = '';
-        document.getElementById('cardnumber').value = '';
-        document.getElementById('upi').value = '';
-        localStorage.removeItem('lastPNR');
-        localStorage.removeItem('lastReservationId');
-        localStorage.removeItem('lastAmount');
-
-        setTimeout(() => window.location.href = 'mybookings.html', 1500);
-      } catch (err) {
-        console.error(err);
-        setPayMsg(err?.message || 'Server error', '#ef4444');
-        payBtn.disabled = false;
-      }
-    });
-
-  </script>
-
-  <script>
-    // highlight active link
-    (function () {
-      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-      document.querySelectorAll('nav .links a').forEach(a => {
-        const href = (a.getAttribute('href') || '').toLowerCase();
-        if (href === path) a.classList.add('active');
       });
-    })();
 
-    // shrink nav on scroll
-    (function () {
-      const nav = document.querySelector('nav');
-      const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
-      onScroll();
-      window.addEventListener('scroll', onScroll, { passive: true });
-    })();
-  </script>
+    </script>
+
+    <script>
+      // highlight active link
+      (function () {
+        const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+        document.querySelectorAll('nav .links a').forEach(a => {
+          const href = (a.getAttribute('href') || '').toLowerCase();
+          if (href === path) a.classList.add('active');
+        });
+      })();
+
+      // shrink nav on scroll
+      (function () {
+        const nav = document.querySelector('nav');
+        const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
 
 </body>
 

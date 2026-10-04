@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,7 @@
   <script>
     function validateForm() {
       const emailField = document.getElementById("email");
-      const emailPattern = /^[^ ]+@[^ ]+\.(com)$/; 
+      const emailPattern = /^[^ ]+@[^ ]+\.(com)$/;
       const email = emailField.value;
 
       if (!email.match(emailPattern)) {
@@ -21,15 +22,16 @@
 
       document.getElementById("confirmationMessage").style.display = "block";
       document.getElementById("contactForm").reset();
-      return false; 
+      return false;
     }
   </script>
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
     <div class="logo">BookMyTrack</div>
-     <div class="links">
+    <div class="links">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="reservation.html">Reservation</a>
@@ -48,93 +50,95 @@
 
   <!-- Contact Section -->
   <div class="container">
-    
+
     <div class="page-header">
-       <h1>Contact <span>Us</span></h1>
-       <p>If you have any questions, feedback, or need assistance regarding our railway reservation system, please reach out using the details below.</p>
+      <h1>Contact <span>Us</span></h1>
+      <p>If you have any questions, feedback, or need assistance regarding our railway reservation system, please reach
+        out using the details below.</p>
     </div>
 
     <!-- TOP CARDS -->
     <div class="top-cards">
-       <div class="info-card">
-           <div class="icon-circle phone"><i class="fas fa-phone-alt"></i></div>
-           <div>
-               <h4>Phone</h4>
-               <p>0124-39021212<br>+91 6400287685</p>
-           </div>
-       </div>
-       <div class="info-card">
-           <div class="icon-circle email"><i class="fas fa-envelope"></i></div>
-           <div>
-               <h4>Email</h4>
-               <p>support@bookmytrack.com</p>
-           </div>
-       </div>
-       <div class="info-card">
-           <div class="icon-circle clock"><i class="far fa-clock"></i></div>
-           <div>
-               <h4>Office Hours</h4>
-               <p>Monday - Saturday<br>9:00 AM - 6:00 PM</p>
-           </div>
-       </div>
-       <div class="info-card">
-           <div class="icon-circle location"><i class="fas fa-map-marker-alt"></i></div>
-           <div>
-               <h4>Our University</h4>
-               <p>VIT-AP University<br>Amaravathi, Andhra Pradesh</p>
-           </div>
-       </div>
+      <div class="info-card">
+        <div class="icon-circle phone"><i class="fas fa-phone-alt"></i></div>
+        <div>
+          <h4>Phone</h4>
+          <p>0124-39021212<br>+91 6400287685</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="icon-circle email"><i class="fas fa-envelope"></i></div>
+        <div>
+          <h4>Email</h4>
+          <p>support@bookmytrack.com</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="icon-circle clock"><i class="far fa-clock"></i></div>
+        <div>
+          <h4>Office Hours</h4>
+          <p>Monday - Saturday<br>9:00 AM - 6:00 PM</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="icon-circle location"><i class="fas fa-map-marker-alt"></i></div>
+        <div>
+          <h4>Our University</h4>
+          <p>VIT-AP University<br>Amaravathi, Andhra Pradesh</p>
+        </div>
+      </div>
     </div>
 
     <!-- MAIN PANELS -->
     <div class="contact-split">
-       <div class="glass-panel">
-         <h2><i class="fas fa-paper-plane" style="color:#1d9bf0;"></i> Get in Touch</h2>
-         <p>Send us your questions, feedback, or suggestions. We'll get back to you as soon as possible.</p>
-         
-         <div id="confirmationMessage">Thank you for your query!</div>
-         
-         <form id="contactForm">
-           <div class="input-row">
-             <div class="input-group">
-               <i class="fas fa-user"></i>
-               <input type="text" id="cName" placeholder="Your Name" required>
-             </div>
-             <div class="input-group">
-               <i class="fas fa-envelope"></i>
-               <input type="email" id="cEmail" placeholder="Your Email" required>
-             </div>
-           </div>
-           
-           <div class="input-group">
-             <i class="fas fa-list-ul"></i>
-             <select id="cSubject" required>
-                <option value="" disabled selected>Select a subject</option>
-                <option value="booking">Booking Issue</option>
-                <option value="payment">Payment/Refund</option>
-                <option value="technical">Technical Support</option>
-                <option value="other">Other</option>
-             </select>
-           </div>
-           
-           <div class="input-group">
-             <i class="far fa-comment-dots"></i>
-             <textarea id="cQuery" placeholder="Your Query" required></textarea>
-           </div>
-           
-           <button type="submit" id="cBtn" class="submit-btn"><i class="fas fa-paper-plane"></i> Submit Message</button>
-         </form>
-       </div>
+      <div class="glass-panel">
+        <h2><i class="fas fa-paper-plane" style="color:#1d9bf0;"></i> Get in Touch</h2>
+        <p>Send us your questions, feedback, or suggestions. We'll get back to you as soon as possible.</p>
 
-       <div class="glass-panel">
-         <h2><i class="fas fa-comment-dots" style="color:#007bff;"></i> Support Inbox</h2>
-         <p>Recent queries and our responses. Track the status of your submitted messages here.</p>
-         
-         <div id="inboxList">
-            <p style="color:#8b949e; font-size:14px; text-align:center; padding: 20px;">Please <a href="login.html" style="color:#1d9bf0;">login</a> to view your support inbox.</p>
-         </div>
-         <a href="#" class="view-all-link">View All Queries &rarr;</a>
-       </div>
+        <div id="confirmationMessage">Thank you for your query!</div>
+
+        <form id="contactForm">
+          <div class="input-row">
+            <div class="input-group">
+              <i class="fas fa-user"></i>
+              <input type="text" id="cName" placeholder="Your Name" required>
+            </div>
+            <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="cEmail" placeholder="Your Email" required>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-list-ul"></i>
+            <select id="cSubject" required>
+              <option value="" disabled selected>Select a subject</option>
+              <option value="booking">Booking Issue</option>
+              <option value="payment">Payment/Refund</option>
+              <option value="technical">Technical Support</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <i class="far fa-comment-dots"></i>
+            <textarea id="cQuery" placeholder="Your Query" required></textarea>
+          </div>
+
+          <button type="submit" id="cBtn" class="submit-btn"><i class="fas fa-paper-plane"></i> Submit Message</button>
+        </form>
+      </div>
+
+      <div class="glass-panel">
+        <h2><i class="fas fa-comment-dots" style="color:#007bff;"></i> Support Inbox</h2>
+        <p>Recent queries and our responses. Track the status of your submitted messages here.</p>
+
+        <div id="inboxList">
+          <p style="color:#8b949e; font-size:14px; text-align:center; padding: 20px;">Please <a href="login.html"
+              style="color:#1d9bf0;">login</a> to view your support inbox.</p>
+        </div>
+        <a href="#" class="view-all-link">View All Queries &rarr;</a>
+      </div>
     </div>
 
     <!-- CONNECT WITH US -->
@@ -142,50 +146,50 @@
       <h3>Connect with Us</h3>
       <p>Follow us on social media for updates and announcements.</p>
       <div class="social-icons-row">
-         <a href="#" class="social-btn fb"><i class="fab fa-facebook-f"></i></a>
-         <a href="#" class="social-btn tw"><i class="fab fa-twitter"></i></a>
-         <a href="#" class="social-btn li"><i class="fab fa-linkedin-in"></i></a>
-         <a href="#" class="social-btn ig"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-btn tw"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-btn li"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-btn ig"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
 
     <!-- BOTTOM RIBBON -->
     <div class="features-ribbon">
-       <div class="feature-item">
-          <i class="fas fa-train"></i>
-          <div class="feature-text">
-             <h4>Safe Travel</h4>
-             <p>Our Priority</p>
-          </div>
-       </div>
-       <div class="feature-item">
-          <i class="fas fa-users"></i>
-          <div class="feature-text">
-             <h4>Accessible for Everyone</h4>
-             <p>Travel Without Barriers</p>
-          </div>
-       </div>
-       <div class="feature-item">
-          <i class="fas fa-shield-alt"></i>
-          <div class="feature-text">
-             <h4>Trusted Platform</h4>
-             <p>Your Data is Safe</p>
-          </div>
-       </div>
-       <div class="feature-item">
-          <i class="far fa-heart"></i>
-          <div class="feature-text">
-             <h4>A Better Tomorrow</h4>
-             <p>Through Inclusive Travel</p>
-          </div>
-       </div>
+      <div class="feature-item">
+        <i class="fas fa-train"></i>
+        <div class="feature-text">
+          <h4>Safe Travel</h4>
+          <p>Our Priority</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-users"></i>
+        <div class="feature-text">
+          <h4>Accessible for Everyone</h4>
+          <p>Travel Without Barriers</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-shield-alt"></i>
+        <div class="feature-text">
+          <h4>Trusted Platform</h4>
+          <p>Your Data is Safe</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="far fa-heart"></i>
+        <div class="feature-text">
+          <h4>A Better Tomorrow</h4>
+          <p>Through Inclusive Travel</p>
+        </div>
+      </div>
     </div>
 
   </div>
 
   <!-- Footer -->
   <footer>
-    &copy; 2024 BookMyTrack. All rights reserved.
+    &copy; 2026 BookMyTrack. All rights reserved.
   </footer>
 
   <script src="api.js"></script>
@@ -198,7 +202,7 @@
       e.preventDefault();
       cBtn.disabled = true;
       const activeUser = JSON.parse(localStorage.getItem('user') || 'null');
-      
+
       const payload = {
         name: document.getElementById('cName').value.trim(),
         email: document.getElementById('cEmail').value.trim(),
@@ -236,40 +240,40 @@
 
     const activeUser = JSON.parse(localStorage.getItem('user') || 'null');
     if (activeUser && activeUser._id) {
-       loadInbox(activeUser._id);
+      loadInbox(activeUser._id);
     }
-    
+
     async function loadInbox(userId) {
       const inboxList = document.getElementById('inboxList');
       if (typeof API_BASE === 'undefined') return;
-      
+
       try {
         const res = await fetch(`${API_BASE}/api/public/contact/user/${userId}`);
         if (!res.ok) {
-           inboxList.innerHTML = `<p class="muted">Failed to load support inbox.</p>`;
-           return;
+          inboxList.innerHTML = `<p class="muted">Failed to load support inbox.</p>`;
+          return;
         }
         const data = await res.json();
-        
+
         if (!Array.isArray(data) || data.length === 0) {
           inboxList.innerHTML = `<p class="muted">No support queries found.</p>`;
           return;
         }
-        
+
         inboxList.innerHTML = '';
         data.forEach(q => {
           const div = document.createElement('div');
           div.className = "inbox-item";
-          
-          let replyHtml = q.reply 
-             ? `<div class="admin-reply-box">
+
+          let replyHtml = q.reply
+            ? `<div class="admin-reply-box">
                   <div class="admin-reply-label"><i class="fa-solid fa-headset"></i> Admin Reply:</div>
                   <div class="admin-reply-body">${q.reply}</div>
                 </div>`
-             : `<div style="margin-top: 10px; color: #8b949e; font-style: italic; font-size:13px;">
+            : `<div style="margin-top: 10px; color: #8b949e; font-style: italic; font-size:13px;">
                   <i class="fa-regular fa-clock"></i> Awaiting response from admin...
                 </div>`;
-                
+
           div.innerHTML = `
             <div class="date">Query sent ${new Date(q.createdAt).toLocaleDateString()}</div>
             <div class="msg-label">Your Message:</div>
@@ -278,47 +282,48 @@
           `;
           inboxList.appendChild(div);
         });
-      } catch(err) {
+      } catch (err) {
         console.error('[Support Inbox load error]', err);
         inboxList.innerHTML = `<p class="muted">Error loading inbox.</p>`;
       }
     }
-    
+
     // Toggle View All Queries
     const viewAllBtn = document.querySelector('.view-all-link');
     if (viewAllBtn) {
-       viewAllBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const inbox = document.getElementById('inboxList');
-          if (!inbox.style.maxHeight || inbox.style.maxHeight !== 'none') {
-              inbox.style.maxHeight = 'none';
-              e.target.innerHTML = 'Collapse &uarr;';
-          } else {
-              inbox.style.maxHeight = '';
-              e.target.innerHTML = 'View All Queries &rarr;';
-          }
-       });
+      viewAllBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const inbox = document.getElementById('inboxList');
+        if (!inbox.style.maxHeight || inbox.style.maxHeight !== 'none') {
+          inbox.style.maxHeight = 'none';
+          e.target.innerHTML = 'Collapse &uarr;';
+        } else {
+          inbox.style.maxHeight = '';
+          e.target.innerHTML = 'View All Queries &rarr;';
+        }
+      });
     }
   </script>
 
   <script>
-  // highlight active link
-  (function(){
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    document.querySelectorAll('nav .links a').forEach(a=>{
-      const href = (a.getAttribute('href')||'').toLowerCase();
-      if (href === path) a.classList.add('active');
-    });
-  })();
+    // highlight active link
+    (function () {
+      const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      document.querySelectorAll('nav .links a').forEach(a => {
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (href === path) a.classList.add('active');
+      });
+    })();
 
-  // shrink nav on scroll
-  (function(){
-    const nav = document.querySelector('nav');
-    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive:true });
-  })();
-</script>
+    // shrink nav on scroll
+    (function () {
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
 
 </body>
+
 </html>
